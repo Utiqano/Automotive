@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=" Automotive homepage with performance audit results, resource links, and contact sections.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title> Automotive Hub</title>
+    <style>
+        :root {
+            --primary-red: #b22222;
+            --secondary-gray: #333333;
+            --light-gray: #d3d3d3;
+            --accent-gray: #696969;
+            --white: #ffffff;
+            --shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            --shadow-neumorphic: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.5);
+            --transition: all 0.4s ease-in-out;
+            --score-red: #e74c3c;
+            --score-orange: #f39c12;
+            --score-green: #2ecc71;
+            --gradient-border: linear-gradient(45deg, var(--primary-red), var(--secondary-gray));
+            --metallic-bg: linear-gradient(135deg, #2a2a2a, #4a4a4a);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-blur: blur(10px);
+            --glow: 0 0 15px rgba(178, 34, 34, 0.5);
+            --circle-size: 5rem;
+            --glow-color: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Arial', sans-serif, 'Noto Sans Arabic';
+            line-height: 1.7;
+            color: var(--secondary-gray);
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            overflow-x: hidden;
+        }
+
+        [lang="ar"] {
+            direction: rtl;
+            text-align: right;
+        }
+
+        header {
+            background: var(--metallic-bg);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 1rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 2px solid var(--primary-red);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: zoomIn 1.2s ease-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow-neumorphic);
+            animation: rotateIn 1.5s ease-out;
+            transition: var(--transition);
+        }
+
+        header img:hover {
+            transform: scale(1.1);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 5s infinite;
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 2;
+        }
+
+        [lang="ar"] .language-selector {
+            right: auto;
+            left: 1rem;
+        }
+
+        .language-selector select {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary-red);
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .language-selector select:hover {
+            background: var(--secondary-gray);
+            transform: scale(1.05);
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        footer {
+            background: var(--secondary-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease-out;
+            border-top: 2px solid var(--primary-red);
+        }
+
+        .section-toggle {
+            cursor: pointer;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 1.5rem;
+            margin-bottom: 0.75rem;
+            border-radius: 8px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-neumorphic);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .section-toggle::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: var(--gradient-border);
+            z-index: -1;
+        }
+
+        .section-toggle:hover {
+            transform: translateY(-4px);
+            color: var(--secondary-gray);
+        }
+
+        .section-toggle::after {
+            content: '▼';
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .section-toggle.active::after {
+            transform: rotate(180deg);
+        }
+
+        .section-toggle:hover::after {
+            animation: bounce 0.5s;
+        }
+
+        .section-content {
+            max-height: 0;
+            opacity: 0;
+            background: var(--white);
+            padding: 0 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-neumorphic);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: max-height 0.6s ease-out, opacity 0.6s ease-out, padding 0.6s ease-out;
+            border-left: 4px solid var(--primary-red);
+        }
+
+        [lang="ar"] .section-content {
+            border-left: none;
+            border-right: 4px solid var(--primary-red);
+        }
+
+        .section-content.active {
+            max-height: 1500px;
+            opacity: 1;
+            padding: 2rem;
+        }
+
+        .performance-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .performance-data p {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-neumorphic);
+            will-change: transform;
+        }
+
+        .performance-data p:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            background: var(--primary-red);
+            color: var(--white);
+        }
+
+        .performance-data p::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .performance-data p:hover::before {
+            left: 100%;
+        }
+
+        .percentage-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--circle-size);
+            height: var(--circle-size);
+            margin: 0 0.5rem;
+            background: radial-gradient(circle, var(--white) 60%, transparent);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 0 4px var(--glow-color);
+            overflow: visible;
+        }
+
+        .percentage {
+            position: absolute;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            z-index: 2;
+            text-shadow: 0 0 4px var(--glow-color);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .percentage.green { color: var(--score-green); --progress-color: var(--score-green); --glow-color: rgba(46, 204, 113, 0.5); }
+        .percentage.orange { color: var(--score-orange); --progress-color: var(--score-orange); --glow-color: rgba(243, 156, 18, 0.5); }
+        .percentage.red { color: var(--score-red); --progress-color: var(--score-red); --glow-color: rgba(231, 76, 60, 0.5); }
+
+        .percentage.completed {
+            animation: scalePulse 0.6s ease-out, glowPulse 1s ease-out;
+        }
+
+        .percentage-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--progress-color) 10%, transparent);
+            opacity: 0;
+            z-index: 0;
+            animation: backgroundPulse 1s ease-out forwards;
+            animation-delay: 1.2s;
+        }
+
+        .percentage-circle {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+            filter: drop-shadow(0 0 3px var(--glow-color));
+        }
+
+        .percentage-circle circle {
+            fill: none;
+            stroke-width: 5;
+            stroke-linecap: round;
+            cx: 50%;
+            cy: 50%;
+            r: calc(var(--circle-size) * 0.4);
+        }
+
+        .percentage-circle .base {
+            stroke: var(--light-gray);
+        }
+
+        .percentage-circle .progress {
+            stroke: var(--progress-color);
+        }
+
+        .percentage-circle .progress.green { stroke: var(--score-green); }
+        .percentage-circle .progress.orange { stroke: var(--score-orange); }
+        .percentage-circle .progress.red { stroke: var(--score-red); }
+
+        .sparkles {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, var(--glow-color), transparent);
+            border-radius: 50%;
+            opacity: 0;
+            transform-origin: center;
+            animation: sparkle 0.8s ease-out forwards;
+        }
+
+        .resource-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        .resource-link {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-neumorphic);
+            text-align: center;
+            transition: transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.6s ease-out forwards;
+            animation-delay: calc(var(--order) * 0.1s);
+            opacity: 0;
+        }
+
+        .section-content.active .resource-link {
+            opacity: 1;
+        }
+
+        [lang="ar"] .resource-link {
+            text-align: right;
+        }
+
+        .resource-link:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: var(--glow), var(--shadow);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .resource-link a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.4rem;
+            transition: var(--transition);
+            display: block;
+            padding: 0.5rem;
+            background: linear-gradient(90deg, var(--primary-red), var(--secondary-gray));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .resource-link a:hover {
+            color: var(--white);
+            background: var(--primary-red);
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            border-radius: 4px;
+        }
+
+        .resource-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+
+        .resource-link:hover::before {
+            left: 100%;
+        }
+
+        .resource-link .sparkle-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .resource-link:hover .sparkle-effect .sparkle {
+            animation: sparkle 0.5s ease-out forwards;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--accent-gray);
+            font-size: 1rem;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        [lang="ar"] .form-group label {
+            left: unset;
+            right: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-bottom: 3px solid var(--light-gray);
+            border-radius: 4px 4px 0 0;
+            background: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-bottom-color: var(--primary-red);
+            box-shadow: inset 0 2px 8px rgba(178, 34, 34, 0.2);
+        }
+
+        .form-group input:focus + label,
+        .form-group textarea:focus + label,
+        .form-group input:not(:placeholder-shown) + label,
+        .form-group textarea:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            left: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--primary-red);
+        }
+
+        [lang="ar"] .form-group input:focus + label,
+        [lang="ar"] .form-group textarea:focus + label,
+        [lang="ar"] .form-group input:not(:placeholder-shown) + label,
+        [lang="ar"] .form-group textarea:not(:placeholder-shown) + label {
+            left: unset;
+            right: 0.5rem;
+        }
+
+        button {
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        button:hover {
+            background: var(--secondary-gray);
+            transform: scale(1.05);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .message-received, .message-recu {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-neumorphic);
+            margin-bottom: 1.5rem;
+            animation: slideDown 0.6s ease-out;
+            border-left: 4px solid var(--primary-red);
+            display: none;
+        }
+
+        [lang="ar"] .message-received, [lang="ar"] .message-recu {
+            border-left: none;
+            border-right: 4px solid var(--primary-red);
+        }
+
+        .message-received.active, .message-recu.active {
+            display: block;
+        }
+
+        .message-received h2, .message-recu h2 {
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        .message-received p, .message-recu p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-received .back-button, .message-recu .back-button {
+            margin-top: 1rem;
+            background: var(--secondary-gray);
+        }
+
+        .message-received .back-button:hover, .message-recu .back-button:hover {
+            background: var(--primary-red);
+        }
+
+        .login-form {
+            display: none;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-neumorphic);
+            border-left: 4px solid var(--primary-red);
+        }
+
+        [lang="ar"] .login-form {
+            border-left: none;
+            border-right: 4px solid var(--primary-red);
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        .message-list {
+            margin-top: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--light-gray);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+        }
+
+        .message-item {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            animation: fadeInMessage 0.5s ease-out forwards;
+            opacity: 0;
+            position: relative;
+        }
+
+        @keyframes fadeInMessage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes rotateIn {
+            from { opacity: 0; transform: rotate(-10deg); }
+            to { opacity: 1; transform: rotate(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes scalePulse {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 4px var(--glow-color); }
+            50% { text-shadow: 0 0 12px var(--glow-color), 0 0 20px var(--progress-color); }
+            100% { text-shadow: 0 0 4px var(--glow-color); }
+        }
+
+        @keyframes backgroundPulse {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 0.3; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(1.2); }
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 1; transform: scale(0.5); }
+            100% { opacity: 0; transform: scale(1.8) translate(var(--tx), var(--ty)); }
+        }
+
+        @media (max-width: 1024px) {
+            header h1 { font-size: 2.2rem; }
+            header img { max-width: 120px; }
+            main { padding: 1.5rem; }
+            .section-toggle { font-size: 1.8rem; }
+            .performance-data, .resource-links { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+            :root { --circle-size: 4.5rem; }
+            .message-list { max-height: 350px; }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            header img { max-width: 100px; }
+            .section-toggle { font-size: 1.5rem; padding: 1rem; }
+            .section-content.active { padding: 1.5rem; }
+            .performance-data, .resource-links { grid-template-columns: 1fr; }
+            :root { --circle-size: 4rem; }
+            .percentage { font-size: 0.9rem; }
+            .message-list { max-height: 300px; padding: 0.8rem; }
+            .message-item { padding: 0.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 2rem 0.5rem; }
+            header img { max-width: 80px; }
+            .section-toggle { font-size: 1.2rem; }
+            button { font-size: 1rem; padding: 0.8rem; }
+            .form-group input, .form-group textarea { font-size: 0.9rem; }
+            :root { --circle-size: 3.5rem; }
+            .percentage { font-size: 0.8rem; }
+            .resource-link { padding: 1rem; }
+            .resource-link a { font-size: 1.1rem; }
+            .message-list { max-height: 250px; padding: 0.5rem; }
+            .message-item { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body lang="en">
+    <header>
+        <img src="https://ith-gmbh.de/wp-content/uploads/logo-wkwk.png" alt="Monsueal Automotive Logo" loading="lazy">
+        <h1 data-lang="title"> Automotive</h1>
+        <div class="language-selector">
+            <select id="language">
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+            </select>
+        </div>
+    </header>
+
+    <main>
+        <div class="section-toggle" data-target="performance-content" data-lang="performance-title" role="button" aria-expanded="false" aria-controls="performance-content">Performance</div>
+        <div id="performance-content" class="section-content">
+            <div class="performance-data">
+                <p><strong data-lang="audit-gemba-uap1">Audit Gemba UAP 1:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="88"></circle></svg><span class="percentage green" data-value="88">0% Compliance</span><span class="sparkles"></span></span> <span data-lang="date">May 27, 2025</span></p>
+                <p><strong data-lang="audit-gemba-uap2">Audit Gemba UAP 2:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="85"></circle></svg><span class="percentage orange" data-value="85">0% Compliance</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-uap1">Audit 5S UAP 1:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-uap2">Audit 5S UAP 2:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="87"></circle></svg><span class="percentage green" data-value="87">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-gemba-logistique">Audit Gemba Logistique:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="92"></circle></svg><span class="percentage green" data-value="92">0% Efficiency</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-logistique">Audit 5S Logistique:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="89"></circle></svg><span class="percentage green" data-value="89">0% Score</span><span class="sparkles"></span></span></p>
+            </div>
+        </div>
+
+        <div class="section-toggle" data-target="resource-content" data-lang="resource-title" role="button" aria-expanded="false" aria-controls="resource-content">Resource</div>
+        <div id="resource-content" class="section-content">
+            <p data-lang="resource-desc">Access Automotive's audit forms, interactive tools, and submit improvement proposals below:</p>
+            <div class="resource-links">
+                <div class="resource-link" style="--order: 1;"><a href="https://forms.office.com/e/1nWmJsVRNb" target="_blank" rel="noopener" data-lang="audit-gemba">Audit Gemba</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 2;"><a href="https://forms.office.com/e/YNkFgkXXhn" target="_blank" rel="noopener" data-lang="audit-5s">Audit 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 3;"><a href="https://forms.office.com/e/Ps1y5HpJ8u" target="_blank" rel="noopener" data-lang="audit-logistique">Audit Logistique</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 4;"><a href="https://forms.office.com/e/0nhbJYckHs" target="_blank" rel="noopener" data-lang="audit-mur-qualite">Audit Mur Qualité</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 5;"><a href="https://game-5s.web.app/" target="_blank" rel="noopener" data-lang="game-5s">Game 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 6;"><a href="https://proposition-damelioration.web.app/" target="_blank" rel="noopener" data-lang="proposition-amelioration">Proposition d'amélioration</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 7;"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx?d=we62360ff0f0945b38656782a6158348f&csf=1&web=1&e=FYIgfz" target="_blank" rel="noopener noreferrer" data-lang="planning-5s">Planning 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 8;"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx?d=w11eb573cdab84971a90575f8f68c8852&csf=1&web=1&e=dfcudl" target="_blank" rel="noopener noreferrer" data-lang="planning-gemba">Planning Gemba</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link" style="--order: 9;"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx?d=wd411a7fafa334d068ef6d48acc6efb4f&csf=1&web=1&e=kaI9JN" target="_blank" rel="noopener noreferrer" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a><span class="sparkle-effect"></span></div>
+            </div>
+        </div>
+
+        <div class="section-toggle" data-target="results-content" data-lang="results-title" role="button" aria-expanded="false" aria-controls="results-content">Results Monsueal</div>
+        <div id="results-content" class="section-content">
+            <div class="performance-data">
+                <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="80"></circle></svg><span class="percentage orange" data-value="80">0%</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0%</span><span class="sparkles"></span></span></p>
+            </div>
+        </div>
+
+        <div class="section-toggle" data-target="contact-content" data-lang="contact-title" role="button" aria-expanded="false" aria-controls="contact-content">Contact Us</div>
+        <div id="contact-content" class="section-content">
+            <div id="contact-form-content">
+                <p data-lang="contact-desc">Reach out to our team for inquiries or support with Automotive solutions.</p>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder=" " required>
+                        <label for="name" data-lang="name-label">Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder=" " required>
+                        <label for="email" data-lang="email-label">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder=" " rows="5" required></textarea>
+                        <label for="message" data-lang="message-label">Message</label>
+                    </div>
+                    <button type="submit" data-lang="submit-button">Send Message</button>
+                </form>
+            </div>
+            <div id="message-received" class="message-received">
+                <h2 data-lang="message-received-title">Message Received</h2>
+                <p><strong data-lang="name-label">Name:</strong> <span id="received-name"></span></p>
+                <p><strong data-lang="email-label">Email:</strong> <span id="received-email"></span></p>
+                <p><strong data-lang="message-label">Message:</strong> <span id="received-message"></span></p>
+                <button class="type-btn back-button" id="back-to-form" data-lang="back-button">Back to Form</button>
+            </div>
+        </div>
+
+        <div class="section-toggle" data-target="message-recu-content" data-lang="message-recu-title" role="button" aria-expanded="false" aria-controls="message-recu-content">Message Reçu</div>
+        <div id="message-recu-content" class="section-content">
+            <div id="login-form" class="login-form">
+                <h2 data-lang="login-title">Admin Login</h2>
+                <form id="admin-login-form">
+                    <div class="form-group">
+                        <input type="email" id="admin-email" name="admin-email" placeholder=" " required>
+                        <label for="admin-email" data-lang="email-label">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="admin-password" name="password" placeholder=" " required>
+                        <label for="admin-password" data-lang="password-label">Password</label>
+                    </div>
+                    <button type="submit" data-lang="login-button">Login</button>
+                </form>
+                <p id="login-error" style="color: var(--score-red); display: none;"></p>
+            </div>
+            <div id="message-list" class="message-recu" style="display: none;">
+                <h2 data-lang="message-recu-title">Message Reçu</h2>
+                <div id="messages" class="message-list"></div>
+                <button class="type-btn" id="logout-button" data-lang="logout-button">Logout</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p data-meta="footer">© 2025  WKW-Automotive. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJ5XTVCFCzo0Jqrj8m1hUdW4YFOy5ulFQ",
+            authDomain: "wkw-app.firebaseapp.com",
+            projectId: "wkw-app",
+            storageBucket: "wkw-app.firebasestorage.app",
+            messagingSenderId: "646523941245",
+            appId: "1:646523941245:web:329f75952021b48b7fdc14",
+            measurementId: "G-WVRCNDE2YQ"
+        };
+
+        let app, db, auth;
+        if (!window.location.hostname.includes('codepen.io')) {
+            try {
+                console.log('Initializing Firebase');
+                app = initializeApp(firebaseConfig);
+                getAnalytics(app);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                console.log('Firebase initialized');
+            } catch (error) {
+                console.error('Firebase initialization failed:', error);
+                alert('Failed to initialize Firebase.');
+            }
+        } else {
+            console.warn('Firebase disabled on CodePen');
+            document.getElementById('message-recu-content').innerHTML = '<p style="color: var(--score-red)">Firebase Authentication is not available in this preview. Visit our live site for full functionality.</p>';
+            document.getElementById('contact-form').innerHTML = '<p style="color: green;">Contact form disabled in CodePen preview.</p>';
+        }
+
+        function toggleSection(targetId, toggle) {
+            console.log(`Toggling: ${targetId}`);
+            const targetContent = document.getElementById(targetId);
+            if (!targetContent) {
+                console.error(`Target content ${targetId} not found`);
+                return;
+            }
+            const isActive = targetContent.classList.contains('active');
+
+            document.querySelectorAll('.section-content').forEach(content => {
+                content.classList.remove('active');
+                content.setAttribute('aria-expanded', 'false');
+            });
+            document.querySelectorAll('.section-toggle').forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isActive) {
+                targetContent.classList.add('active');
+                targetContent.setAttribute('aria-expanded', 'true');
+                toggle.classList.add('active');
+                toggle.setAttribute('aria-expanded', 'true');
+                if (targetId === 'performance-content' || targetId === 'results-content') {
+                    animatePercentages(targetContent);
+                }
+            }
+        }
+
+        function initToggles() {
+            console.log('Initializing toggles');
+            const toggles = document.querySelectorAll('.section-toggle');
+            console.log(`Found ${toggles.length} toggles`);
+            toggles.forEach(toggle => {
+                const targetId = toggle.getAttribute('data-target');
+                toggle.addEventListener('click', () => {
+                    console.log(`Bound toggle: ${targetId}`);
+                    toggleSection(targetId, toggle);
+                });
+            });
+        }
+
+        initToggles();
+
+        function easeOutQuad(t) {
+            return 1 - (1 - t) * (1 - t);
+        }
+
+        function animatePercentages(container) {
+            console.log('Animating percentages');
+            const percentages = container.querySelectorAll('.percentage');
+            percentages.forEach(p => {
+                const target = parseInt(p.getAttribute('data-value')) || 0;
+                if (target < 0 || target > 100) {
+                    console.warn(`Invalid percentage value: ${target}`);
+                    return;
+                }
+                const circle = p.previousElementSibling.querySelector('.progress');
+                const radius = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--circle-size')) * 0.4;
+                const circumference = 2 * Math.PI * radius;
+                let startTime = null;
+                const duration = 1500;
+
+                function update(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    const elapsed = timestamp - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easedProgress = easeOutQuad(progress);
+                    const current = easedProgress * target;
+                    p.textContent = `${Math.round(current)}%`;
+                    const offset = circumference * (1 - current / 100);
+                    circle.style.strokeDashoffset = offset;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        p.textContent = `${target}%`;
+                        circle.style.strokeDashoffset = circumference * (1 - target / 100);
+                        p.classList.add('completed');
+                        const sparkles = p.nextElementSibling;
+                        for (let i = 0; i < 10; i++) {
+                            const sparkle = document.createElement('span');
+                            sparkle.className = 'sparkle';
+                            const angle = Math.random() * 360;
+                            const dist = 20 + Math.random() * 15;
+                            const size = 4 + Math.random() * 4;
+                            sparkle.style.width = `${size}px`;
+                            sparkle.style.height = `${size}px`;
+                            sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
+                            sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
+                            sparkle.style.animationDelay = `${i * 0.08}s`;
+                            sparkles.appendChild(sparkle);
+                            setTimeout(() => sparkle.remove(), 800);
+                        }
+                    }
+                }
+
+                circle.style.strokeDasharray = circumference;
+                circle.style.strokeDashoffset = circumference;
+                p.textContent = '0%';
+                requestAnimationFrame(update);
+            });
+        }
+
+        function animateResourceLinks() {
+            console.log('Animating resource links');
+            const resourceLinks = document.querySelectorAll('.resource-link');
+            resourceLinks.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    const sparkleContainer = link.querySelector('.sparkle-effect');
+                    for (let i = 0; i < 5; i++) {
+                        const sparkle = document.createElement('span');
+                        sparkle.className = 'sparkle';
+                        const angle = Math.random() * 360;
+                        const dist = 30 + Math.random() * 20;
+                        sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
+                        sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
+                        sparkle.style.animationDelay = `${i * 0.05}s`;
+                        sparkleContainer.appendChild(sparkle);
+                        setTimeout(() => sparkle.remove(), 600);
+                    }
+                });
+            });
+        }
+
+        function changeLanguage() {
+            const langSelect = document.getElementById('language');
+            const lang = langSelect.value;
+            console.log(`Language changed to: ${lang}`);
+            document.body.setAttribute('lang', lang);
+            document.querySelectorAll('[data-lang]').forEach(elem => {
+                const key = elem.getAttribute('data-lang').replace(/-/g, '_');
+                elem.textContent = translations[lang][key] || elem.textContent;
+            });
+            const labels = {
+                audit_gemba_uap1: lang === 'ar' ? 'الامتثال' : lang === 'fr' ? 'Conformité' : lang === 'de' ? 'Konformität' : 'Compliance',
+                audit_gemba_uap2: lang === 'ar' ? 'الامتثال' : lang === 'fr' ? 'Conformité' : lang === 'de' ? 'Konformität' : 'Compliance',
+                audit_5s_uap1: lang === 'ar' ? 'النقاط' : lang === 'fr' ? 'Score' : lang === 'de' ? 'Punktzahl' : 'Score',
+                audit_5s_uap2: lang === 'ar' ? 'النقاط' : lang === 'fr' ? 'Score' : lang === 'de' ? 'Punktzahl' : 'Score',
+                audit_gemba_logistique: lang === 'ar' ? 'الكفاءة' : lang === 'fr' ? 'Efficacité' : lang === 'de' ? 'Effizienz' : 'Efficiency',
+                audit_5s_logistique: lang === 'ar' ? 'النقاط' : lang === 'fr' ? 'Score' : lang === 'de' ? 'Punktzahl' : 'Score',
+                taux_audit_5s_usine: '',
+                taux_audit_gemba_usine: ''
+            };
+            document.querySelectorAll('.percentage').forEach(p => {
+                const parent = p.closest('p');
+                const strong = parent.querySelector('strong');
+                const key = strong.getAttribute('data-lang').replace(/-/g, '_');
+                const text = labels[key] || '';
+                p.textContent = `${p.getAttribute('data-value')}% ${text}`;
+            });
+        }
+
+        async function loadMessages() {
+            console.log('Loading messages');
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = '';
+            if (!app) {
+                messagesContainer.innerHTML = '<p style="color: var(--score-red)">Firestore not available</p>';
+                return;
+            }
+            try {
+                const messageQuery = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
+                const querySnapshot = await getDocs(messageQuery);
+                if (querySnapshot.empty) {
+                    messagesContainer.innerHTML = `<p>${translations[document.getElementById('language').value].no_messages}</p>`;
+                    return;
+                }
+                let delay = 0;
+                querySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const messageItem = document.createElement('div');
+                    messageItem.className = 'message-item';
+                    messageItem.style.animationDelay = `${delay}s`;
+                    messageItem.innerHTML = `
+                        <p><strong>${translations[document.getElementById('language').value].name_label}:</strong> ${data.name || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].email_label}:</strong> ${data.email || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].message_label}:</strong> ${data.message || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].date}:</strong> ${data.timestamp ? new Date(data.timestamp.toMillis()).toLocaleString() : 'N/A'}</p>
+                    `;
+                    messagesContainer.appendChild(messageItem);
+                    delay += 0.1; // Stagger animation for each message
+                });
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                messagesContainer.innerHTML = `<p style="color: var(--score-red)">${translations[document.getElementById('language').value].error_loading}</p>`;
+            }
+        }
+
+        function showContactForm() {
+            console.log('Showing contact form');
+            const contactFormContent = document.getElementById('contact-form-content');
+            const messageReceived = document.getElementById('message-received');
+            if (contactFormContent) contactFormContent.style.display = 'block';
+            if (messageReceived) messageReceived.classList.remove('active');
+        }
+
+        const translations = {
+            en: {
+                title: " Automotive",
+                performance_title: "Performance",
+                audit_gemba_uap1: "Audit Gemba UAP 1",
+                audit_gemba_uap2: "Audit Gemba UAP 2",
+                audit_5s_uap1: "Audit 5S UAP 1",
+                audit_5s_uap2: "Audit 5S UAP 2",
+                audit_gemba_logistique: "Audit Gemba Logistique",
+                audit_5s_logistique: "Audit 5S Logistique",
+                date: "May 27, 2025",
+                resource_title: "Resource",
+                resource_desc: "Access Automotive's audit forms, interactive tools, and submit improvement proposals below:",
+                audit_gemba: "Audit Gemba",
+                audit_5s: "Audit 5S",
+                audit_logistique: "Audit Logistique",
+                audit_mur_qualite: "Audit Mur Qualité",
+                game_5s: "Game 5S",
+                proposition_amelioration: "Improvement Proposition",
+                planning_5s: "Planning 5S",
+                planning_gemba: "Planning Gemba",
+                suivi_mensuel_gemba_5s: "Monthly Gemba and 5S Follow-up",
+                results_title: "Results Monsueal",
+                taux_audit_5s_usine: "Taux Audit 5S Usine",
+                taux_audit_gemba_usine: "Taux Audit Gemba Usine",
+                contact_title: "Contact Us",
+                contact_desc: "Reach out to our team for inquiries or support with Automotive solutions.",
+                name_label: "Name",
+                email_label: "Email",
+                message_label: "Message",
+                submit_button: "Send Message",
+                footer: "© 2025 Automotive. All rights reserved.",
+                message_received_title: "Message Received",
+                message_recu_title: "Received Messages",
+                back_button: "Back to Form",
+                login_title: "Admin Login",
+                password_label: "Password",
+                login_button: "Login",
+                logout_button: "Logout",
+                no_messages: "No messages found",
+                error_loading: "Failed to load messages."
+            },
+            ar: {
+                title: "مونسويل للسيارات",
+                performance_title: "الأداء",
+                audit_gemba_uap1: "تدقيق جمبا UAP 1",
+                audit_gemba_uap2: "تدقيق جمبا UAP 2",
+                audit_5s_uap1: "تدقيق 5S UAP 1",
+                audit_5s_uap2: "تدقيق 5S UAP 2",
+                audit_gemba_logistique: "تدقيق جمبا اللوجستيات",
+                audit_5s_logistique: "تدقيق 5S اللوجستيات",
+                date: "27 مايو 2025",
+                resource_title: "الموارد",
+                resource_desc: "الوصول إلى نماذج التدقيق الخاصة بمونسويل للسيارات والأدوات التفاعلية وتقديم مقترحات التحسين أدناه:",
+                audit_gemba: "تدقيق جمبا",
+                audit_5s: "تدقيق 5S",
+                audit_logistique: "تدقيق اللوجستيات",
+                audit_mur_qualite: "تدقيق جدار الجودة",
+                game_5s: "لعبة 5S",
+                proposition_amelioration: "اقتراح تحسين",
+                planning_5s: "تخطيط 5S",
+                planning_gemba: "تخطيط جمبا",
+                suivi_mensuel_gemba_5s: "المتابعة الشهرية لجمبا و5S",
+                results_title: "نتائج مونسويل",
+                taux_audit_5s_usine: "نسبة تدقيق 5S المصنع",
+                taux_audit_gemba_usine: "نسبة تدقيق جمبا المصنع",
+                contact_title: "اتصل بنا",
+                contact_desc: "تواصل مع فريقنا للاستفسارات أو الدعم مع حلول مونسويل للسيارات.",
+                name_label: "الاسم",
+                email_label: "البريد الإلكتروني",
+                message_label: "الرسالة",
+                submit_button: "إرسال الرسالة",
+                footer: "© 2025 مونسويل للسيارات. جميع الحقوق محفوظة.",
+                message_received_title: "تم استلام الرسالة",
+                message_recu_title: "الرسائل المستلمة",
+                back_button: "العودة إلى النموذج",
+                login_title: "تسجيل دخول المشرف",
+                password_label: "كلمة المرور",
+                login_button: "تسجيل الدخول",
+                logout_button: "تسجيل الخروج",
+                no_messages: "لم يتم العثور على رسائل",
+                error_loading: "فشل تحميل الرسائل."
+            },
+            fr: {
+                title: "Monsueal Automobile",
+                performance_title: "Performance",
+                audit_gemba_uap1: "Audit Gemba UAP 1",
+                audit_gemba_uap2: "Audit Gemba UAP 2",
+                audit_5s_uap1: "Audit 5S UAP 1",
+                audit_5s_uap2: "Audit 5S UAP 2",
+                audit_gemba_logistique: "Audit Gemba Logistique",
+                audit_5s_logistique: "Audit 5S Logistique",
+                date: "27 mai 2025",
+                resource_title: "Ressources",
+                resource_desc: "Accédez aux formulaires d'audit de Monsueal Automobile, aux outils interactifs et soumettez des propositions d'amélioration ci-dessous :",
+                audit_gemba: "Audit Gemba",
+                audit_5s: "Audit 5S",
+                audit_logistique: "Audit Logistique",
+                audit_mur_qualite: "Audit Mur Qualité",
+                game_5s: "Jeu 5S",
+                proposition_amelioration: "Proposition d'amélioration",
+                planning_5s: "Planification 5S",
+                planning_gemba: "Planification Gemba",
+                suivi_mensuel_gemba_5s: "Suivi Mensuel Gemba et 5S",
+                results_title: "Résultats Monsueal",
+                taux_audit_5s_usine: "Taux Audit 5S Usine",
+                taux_audit_gemba_usine: "Taux Audit Gemba Usine",
+                contact_title: "Contactez-nous",
+                contact_desc: "Contactez notre équipe pour des questions ou un soutien avec les solutions Monsueal Automobile.",
+                name_label: "Nom",
+                email_label: "Email",
+                message_label: "Message",
+                submit_button: "Envoyer le Message",
+                footer: "© 2025 Monsueal Automobile. Tous droits réservés.",
+                message_received_title: "Message Reçu",
+                message_recu_title: "Messages Reçus",
+                back_button: "Retour au Formulaire",
+                login_title: "Connexion Admin",
+                password_label: "Mot de Passe",
+                login_button: "Connexion",
+                logout_button: "Déconnexion",
+                no_messages: "Aucun message trouvé",
+                error_loading: "Échec du chargement des messages."
+            },
+            de: {
+                title: " Automotive",
+                performance_title: "Leistung",
+                audit_gemba_uap1: "Audit Gemba UAP 1",
+                audit_gemba_uap2: "Audit Gemba UAP 2",
+                audit_5s_uap1: "Audit 5S UAP 1",
+                audit_5s_uap2: "Audit 5S UAP2",
+                audit_gemba_logistique: "Audit Gemba Logistik",
+                audit_5s_logistique: "Audit 5S Logistik",
+                date: "27. Mai 2025",
+                resource_title: "Ressourcen",
+                resource_desc: "Greifen Sie auf die Audit-Formulare von  Automotive zu, interaktive Tools und reichen Sie unten Verbesserungsvorschläge ein:",
+                audit_gemba: "Audit Gemba",
+                audit_5s: "Audit 5S",
+                audit_logistique: "Audit Logistik",
+                audit_mur_qualite: "Audit Qualitätswand",
+                game_5s: "Spiel 5S",
+                proposition_amelioration: "Verbesserungsvorschlag",
+                planning_5s: "Planung 5S",
+                planning_gemba: "Planung Gemba",
+                suivi_mensuel_gemba_5s: "Monatliche Gemba- und 5S-Nachverfolgung",
+                results_title: "Ergebnisse Monsueal",
+                taux_audit_5s_usine: "Quote Audit 5S Werk",
+                taux_audit_gemba_usine: "Quote Audit Gemba Werk",
+                contact_title: "Kontaktieren Sie Uns",
+                contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit  Automotive-Lösungen.",
+                name_label: "Name",
+                email_label: "E-Mail",
+                message_label: "Nachricht",
+                submit_button: "Nachricht Senden",
+                footer: "© 2025  Automotive. Alle Rechte vorbehalten.",
+                message_received_title: "Nachricht Erhalten",
+                message_recu_title: "Erhaltene Nachrichten",
+                back_button: "Zurück zum Formular",
+                login_title: "Admin-Login",
+                password_label: "Passwort",
+                login_button: "Login",
+                logout_button: "Logout",
+                no_messages: "Keine Nachrichten gefunden",
+                error_loading: "Fehler beim Laden der Nachrichten."
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded');
+            try {
+                const languageSelect = document.getElementById('language');
+                const contactForm = document.getElementById('contact-form');
+                const backButton = document.getElementById('back-to-form');
+                const loginForm = document.getElementById('admin-login-form');
+                const logoutButton = document.getElementById('logout-button');
+
+                if (languageSelect) {
+                    languageSelect.addEventListener('change', changeLanguage);
+                }
+
+                if (contactForm && app) {
+                    contactForm.addEventListener('submit', async (e) => {
+                        console.log('Contact form submitted');
+                        e.preventDefault();
+                        const name = document.getElementById('name').value.trim();
+                        const email = document.getElementById('email').value.trim();
+                        const message = document.getElementById('message').value.trim();
+
+                        if (name.length < 2) {
+                            alert(translations[document.getElementById('language').value].name_label + ' must be at least 2 characters long.');
+                            return;
+                        }
+                        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                            alert('Please enter a valid ' + translations[document.getElementById('language').value].email_label + ' address.');
+                            return;
+                        }
+                        if (message.length < 10) {
+                            alert(translations[document.getElementById('language').value].message_label + ' must be at least 10 characters long.');
+                            return;
+                        }
+
+                        try {
+                            await addDoc(collection(db, 'messages'), {
+                                name,
+                                email,
+                                message,
+                                timestamp: serverTimestamp()
+                            });
+                            await addDoc(collection(db, 'mail'), {
+                                to: 'admin@wkw.com',
+                                message: {
+                                    subject: `New Contact Form Submission from ${name}`,
+                                    html: `
+                                        <h2>New Message from  Automotive Contact Form</h2>
+                                        <p><strong>Name:</strong> ${name}</p>
+                                        <p><strong>Email:</strong> ${email}</p>
+                                        <p><strong>Message:</strong> ${message}</p>
+                                    `
+                                }
+                            });
+
+                            document.getElementById('received-name').textContent = name;
+                            document.getElementById('received-email').textContent = email;
+                            document.getElementById('received-message').textContent = message;
+
+                            const contactFormContent = document.getElementById('contact-form-content');
+                            const messageReceived = document.getElementById('message-received');
+                            if (contactFormContent) contactFormContent.style.display = 'none';
+                            if (messageReceived) messageReceived.classList.add('active');
+
+                            contactForm.reset();
+                            changeLanguage();
+                        } catch (error) {
+                            console.error('Error submitting form:', error);
+                            alert('Failed to submit message.');
+                        }
+                    });
+                }
+
+                if (backButton) {
+                    backButton.addEventListener('click', showContactForm);
+                }
+
+                if (loginForm && app) {
+                    loginForm.addEventListener('submit', async (e) => {
+                        console.log('Admin login form submitted');
+                        e.preventDefault();
+                        const email = document.getElementById('admin-email').value;
+                        const password = document.getElementById('admin-password').value;
+
+                        try {
+                            await signInWithEmailAndPassword(auth, email, password);
+                            document.getElementById('login-form').style.display = 'none';
+                            document.getElementById('message-list').style.display = 'block';
+                            await loadMessages();
+                        } catch (error) {
+                            console.error('Login error:', error);
+                            document.getElementById('login-error').style.display = 'block';
+                            document.getElementById('login-error').textContent = translations[document.getElementById('language').value].error_loading || 'Invalid login credentials';
+                        }
+                    });
+                }
+
+                if (logoutButton && app) {
+                    logoutButton.addEventListener('click', async () => {
+                        console.log('Logout requested');
+                        try {
+                            await signOut(auth);
+                            document.getElementById('login-form').style.display = 'block';
+                            document.getElementById('message-list').style.display = 'none';
+                            document.getElementById('messages').innerHTML = '';
+                        } catch (error) {
+                            console.error('Logout error:', error);
+                        }
+                    });
+                }
+
+                if (app) {
+                    onAuthStateChanged(auth, (user) => {
+                        console.log('Auth state changed:', user ? user.email : 'No user');
+                        if (user && user.email === 'admin@wkw.com') {
+                            document.getElementById('login-form').style.display = 'none';
+                            document.getElementById('message-list').style.display = 'block';
+                            loadMessages();
+                        } else {
+                            document.getElementById('login-form').style.display = 'block';
+                            document.getElementById('message-list').style.display = 'none';
+                        }
+                    });
+                }
+
+                changeLanguage();
+                animateResourceLinks();
+            } catch (err) {
+                console.error('Initialization error:', err);
+            }
+        });
+    </script>
+</body>
+</html>
