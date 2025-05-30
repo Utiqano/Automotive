@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content=" Automotive homepage with performance audit results, resource links, and contact sections.">
+    <meta name="description" content="Automotive homepage with performance audit results, resource links, and contact sections.">
     <meta name="mobile-web-app-capable" content="yes">
-    <title> Automotive Hub</title>
+    <title>Automotive Hub</title>
     <style>
         :root {
             --primary-red: #b22222;
@@ -15,7 +15,7 @@
             --white: #ffffff;
             --shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
             --shadow-neumorphic: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.5);
-            --transition: all 0.4s ease-in-out;
+            --transition: all 0.3s ease-in-out;
             --score-red: #e74c3c;
             --score-orange: #f39c12;
             --score-green: #2ecc71;
@@ -213,93 +213,134 @@
             padding: 2rem;
         }
 
+        .month-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .month-toggle {
+            cursor: pointer;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: var(--transition);
+            box-shadow: var(--shadow-neumorphic);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            flex: 1 1 auto;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .month-toggle::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: var(--gradient-border);
+            z-index: -1;
+        }
+
+        .month-toggle:hover {
+            transform: translateY(-4px);
+            color: var(--secondary-gray);
+        }
+
+        .month-toggle.active {
+            background: var(--primary-red);
+            color: var(--white);
+        }
+
+        .month-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease-out, opacity 0.6s ease-out;
+        }
+
+        .month-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
         .performance-data {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
+.performance-data p {
+    background: #d3d3d3;
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-neumorphic);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
 
-        .performance-data p {
-            background: var(--light-gray);
-            padding: 1.5rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-neumorphic);
-            will-change: transform;
-        }
+.percentage-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--circle-size);
+    height: var(--circle-size);
+    margin: 1rem 0;
+    background: radial-gradient(circle, var(--white) 60%, transparent);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .performance-data p:hover {
-            transform: translateY(-8px) rotateX(5deg);
-            background: var(--primary-red);
-            color: var(--white);
-        }
+.percentage-circle {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
 
-        .performance-data p::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
+.percentage-circle circle {
+    fill: none;
+    stroke-width: 8; /* Thicker stroke to match image */
+    stroke-linecap: round;
+    cx: 50%;
+    cy: 50%;
+    r: calc(var(--circle-size) * 0.4);
+}
 
-        .performance-data p:hover::before {
-            left: 100%;
-        }
+.percentage-circle .base {
+    stroke: #e0e0e0; /* Lighter gray base to match image */
+}
 
-        .percentage-container {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: var(--circle-size);
-            height: var(--circle-size);
-            margin: 0 0.5rem;
-            background: radial-gradient(circle, var(--white) 60%, transparent);
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 0 4px var(--glow-color);
-            overflow: visible;
-        }
+.percentage-circle .progress.red { stroke: var(--score-red); }
+.percentage-circle .progress.orange { stroke: var(--score-orange); }
+.percentage-circle .progress.green { stroke: var(--score-green); }
 
-        .percentage {
-            position: absolute;
-            font-weight: 700;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            z-index: 2;
-            text-shadow: 0 0 4px var(--glow-color);
-            transition: transform 0.3s ease, text-shadow 0.3s ease;
-        }
+.percentage {
+    position: absolute;
+    font-weight: 700;
+    font-size: 1.2rem; /* Slightly larger to match image */
+    z-index: 2;
+    color: var(--score-red); /* Default red, overridden by class */
+}
 
-        .percentage.green { color: var(--score-green); --progress-color: var(--score-green); --glow-color: rgba(46, 204, 113, 0.5); }
-        .percentage.orange { color: var(--score-orange); --progress-color: var(--score-orange); --glow-color: rgba(243, 156, 18, 0.5); }
-        .percentage.red { color: var(--score-red); --progress-color: var(--score-red); --glow-color: rgba(231, 76, 60, 0.5); }
-
-        .percentage.completed {
-            animation: scalePulse 0.6s ease-out, glowPulse 1s ease-out;
-        }
-
-        .percentage-container::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--progress-color) 10%, transparent);
-            opacity: 0;
-            z-index: 0;
-            animation: backgroundPulse 1s ease-out forwards;
-            animation-delay: 1.2s;
-        }
-
+.percentage.green { color: var(--score-green); }
+.percentage.orange { color: var(--score-orange); }
+.percentage.red { color: var(--score-red); }
         .percentage-circle {
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
-            filter: drop-shadow(0 0 3px var(--glow-color));
         }
 
         .percentage-circle circle {
@@ -313,10 +354,6 @@
 
         .percentage-circle .base {
             stroke: var(--light-gray);
-        }
-
-        .percentage-circle .progress {
-            stroke: var(--progress-color);
         }
 
         .percentage-circle .progress.green { stroke: var(--score-green); }
@@ -340,7 +377,6 @@
             background: radial-gradient(circle, var(--glow-color), transparent);
             border-radius: 50%;
             opacity: 0;
-            transform-origin: center;
             animation: sparkle 0.8s ease-out forwards;
         }
 
@@ -354,33 +390,15 @@
         .resource-link {
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
             padding: 2rem;
             border-radius: 12px;
             box-shadow: var(--shadow-neumorphic);
             text-align: center;
-            transition: transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
-            transform-style: preserve-3d;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: fadeInUp 0.6s ease-out forwards;
-            animation-delay: calc(var(--order) * 0.1s);
-            opacity: 0;
-        }
-
-        .section-content.active .resource-link {
-            opacity: 1;
-        }
-
-        [lang="ar"] .resource-link {
-            text-align: right;
+            transition: transform 0.5s ease;
         }
 
         .resource-link:hover {
-            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-            box-shadow: var(--glow), var(--shadow);
-            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-10px);
         }
 
         .resource-link a {
@@ -388,50 +406,6 @@
             text-decoration: none;
             font-weight: 700;
             font-size: 1.4rem;
-            transition: var(--transition);
-            display: block;
-            padding: 0.5rem;
-            background: linear-gradient(90deg, var(--primary-red), var(--secondary-gray));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .resource-link a:hover {
-            color: var(--white);
-            background: var(--primary-red);
-            -webkit-background-clip: initial;
-            background-clip: initial;
-            border-radius: 4px;
-        }
-
-        .resource-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-            pointer-events: none;
-        }
-
-        .resource-link:hover::before {
-            left: 100%;
-        }
-
-        .resource-link .sparkle-effect {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-
-        .resource-link:hover .sparkle-effect .sparkle {
-            animation: sparkle 0.5s ease-out forwards;
         }
 
         .form-group {
@@ -463,14 +437,11 @@
             border-radius: 4px 4px 0 0;
             background: var(--white);
             font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             border-bottom-color: var(--primary-red);
-            box-shadow: inset 0 2px 8px rgba(178, 34, 34, 0.2);
         }
 
         .form-group input:focus + label,
@@ -500,9 +471,6 @@
             font-size: 1.2rem;
             cursor: pointer;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow);
         }
 
         button:hover {
@@ -510,62 +478,18 @@
             transform: scale(1.05);
         }
 
-        button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
-
-        button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .message-received, .message-recu {
+        .message-received {
             background: var(--white);
             padding: 2rem;
             border-radius: 8px;
             box-shadow: var(--shadow-neumorphic);
             margin-bottom: 1.5rem;
-            animation: slideDown 0.6s ease-out;
             border-left: 4px solid var(--primary-red);
             display: none;
         }
 
-        [lang="ar"] .message-received, [lang="ar"] .message-recu {
-            border-left: none;
-            border-right: 4px solid var(--primary-red);
-        }
-
-        .message-received.active, .message-recu.active {
+        .message-received.active {
             display: block;
-        }
-
-        .message-received h2, .message-recu h2 {
-            font-size: 2rem;
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-        }
-
-        .message-received p, .message-recu p {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .message-received .back-button, .message-recu .back-button {
-            margin-top: 1rem;
-            background: var(--secondary-gray);
-        }
-
-        .message-received .back-button:hover, .message-recu .back-button:hover {
-            background: var(--primary-red);
         }
 
         .login-form {
@@ -575,11 +499,6 @@
             border-radius: 8px;
             box-shadow: var(--shadow-neumorphic);
             border-left: 4px solid var(--primary-red);
-        }
-
-        [lang="ar"] .login-form {
-            border-left: none;
-            border-right: 4px solid var(--primary-red);
         }
 
         .login-form.active {
@@ -593,8 +512,6 @@
             padding: 1rem;
             border-radius: 8px;
             background: var(--light-gray);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
         }
 
         .message-item {
@@ -603,14 +520,6 @@
             border-radius: 8px;
             margin-bottom: 1rem;
             box-shadow: var(--shadow);
-            animation: fadeInMessage 0.5s ease-out forwards;
-            opacity: 0;
-            position: relative;
-        }
-
-        @keyframes fadeInMessage {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes zoomIn {
@@ -621,11 +530,6 @@
         @keyframes rotateIn {
             from { opacity: 0; transform: rotate(-10deg); }
             to { opacity: 1; transform: rotate(0); }
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInUp {
@@ -644,37 +548,9 @@
             50% { transform: translateY(-5px); }
         }
 
-        @keyframes scalePulse {
-            0% { transform: scale(0.8); opacity: 0.7; }
-            50% { transform: scale(1.15); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes glowPulse {
-            0% { text-shadow: 0 0 4px var(--glow-color); }
-            50% { text-shadow: 0 0 12px var(--glow-color), 0 0 20px var(--progress-color); }
-            100% { text-shadow: 0 0 4px var(--glow-color); }
-        }
-
-        @keyframes backgroundPulse {
-            0% { opacity: 0; transform: scale(0.8); }
-            50% { opacity: 0.3; transform: scale(1.1); }
-            100% { opacity: 0; transform: scale(1.2); }
-        }
-
         @keyframes sparkle {
             0% { opacity: 1; transform: scale(0.5); }
-            100% { opacity: 0; transform: scale(1.8) translate(var(--tx), var(--ty)); }
-        }
-
-        @media (max-width: 1024px) {
-            header h1 { font-size: 2.2rem; }
-            header img { max-width: 120px; }
-            main { padding: 1.5rem; }
-            .section-toggle { font-size: 1.8rem; }
-            .performance-data, .resource-links { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            :root { --circle-size: 4.5rem; }
-            .message-list { max-height: 350px; }
+            100% { opacity: 0; transform: scale(1.8); }
         }
 
         @media (max-width: 768px) {
@@ -682,32 +558,19 @@
             header img { max-width: 100px; }
             .section-toggle { font-size: 1.5rem; padding: 1rem; }
             .section-content.active { padding: 1.5rem; }
-            .performance-data, .resource-links { grid-template-columns: 1fr; }
-            :root { --circle-size: 4rem; }
-            .percentage { font-size: 0.9rem; }
-            .message-list { max-height: 300px; padding: 0.8rem; }
-            .message-item { padding: 0.8rem; }
+            .month-toggle { font-size: 1rem; padding: 0.8rem; min-width: 100px; }
         }
 
         @media (max-width: 480px) {
-            header { padding: 2rem 0.5rem; }
-            header img { max-width: 80px; }
-            .section-toggle { font-size: 1.2rem; }
-            button { font-size: 1rem; padding: 0.8rem; }
-            .form-group input, .form-group textarea { font-size: 0.9rem; }
-            :root { --circle-size: 3.5rem; }
-            .percentage { font-size: 0.8rem; }
-            .resource-link { padding: 1rem; }
-            .resource-link a { font-size: 1.1rem; }
-            .message-list { max-height: 250px; padding: 0.5rem; }
-            .message-item { font-size: 0.9rem; }
+            .month-list { flex-direction: column; }
+            .month-toggle { font-size: 0.9rem; padding: 0.6rem; }
         }
     </style>
 </head>
 <body lang="en">
     <header>
         <img src="https://ith-gmbh.de/wp-content/uploads/logo-wkwk.png" alt="Monsueal Automotive Logo" loading="lazy">
-        <h1 data-lang="title"> Automotive</h1>
+        <h1 data-lang="title">Automotive</h1>
         <div class="language-selector">
             <select id="language">
                 <option value="en">English</option>
@@ -735,23 +598,73 @@
         <div id="resource-content" class="section-content">
             <p data-lang="resource-desc">Access Automotive's audit forms, interactive tools, and submit improvement proposals below:</p>
             <div class="resource-links">
-                <div class="resource-link" style="--order: 1;"><a href="https://forms.office.com/e/1nWmJsVRNb" target="_blank" rel="noopener" data-lang="audit-gemba">Audit Gemba</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 2;"><a href="https://forms.office.com/e/YNkFgkXXhn" target="_blank" rel="noopener" data-lang="audit-5s">Audit 5S</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 3;"><a href="https://forms.office.com/e/Ps1y5HpJ8u" target="_blank" rel="noopener" data-lang="audit-logistique">Audit Logistique</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 4;"><a href="https://forms.office.com/e/0nhbJYckHs" target="_blank" rel="noopener" data-lang="audit-mur-qualite">Audit Mur Qualité</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 5;"><a href="https://game-5s.web.app/" target="_blank" rel="noopener" data-lang="game-5s">Game 5S</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 6;"><a href="https://proposition-damelioration.web.app/" target="_blank" rel="noopener" data-lang="proposition-amelioration">Proposition d'amélioration</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 7;"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx?d=we62360ff0f0945b38656782a6158348f&csf=1&web=1&e=FYIgfz" target="_blank" rel="noopener noreferrer" data-lang="planning-5s">Planning 5S</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 8;"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx?d=w11eb573cdab84971a90575f8f68c8852&csf=1&web=1&e=dfcudl" target="_blank" rel="noopener noreferrer" data-lang="planning-gemba">Planning Gemba</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link" style="--order: 9;"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx?d=wd411a7fafa334d068ef6d48acc6efb4f&csf=1&web=1&e=kaI9JN" target="_blank" rel="noopener noreferrer" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/1nWmJsVRNb" target="_blank" rel="noopener" data-lang="audit-gemba">Audit Gemba</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/YNkFgkXXhn" target="_blank" rel="noopener" data-lang="audit-5s">Audit 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/Ps1y5HpJ8u" target="_blank" rel="noopener" data-lang="audit-logistique">Audit Logistique</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/0nhbJYckHs" target="_blank" rel="noopener" data-lang="audit-mur-qualite">Audit Mur Qualité</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://game-5s.web.app/" target="_blank" rel="noopener" data-lang="game-5s">Game 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://proposition-damelioration.web.app/" target="_blank" rel="noopener" data-lang="proposition-amelioration">Proposition d'amélioration</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx" target="_blank" rel="noopener" data-lang="planning-5s">Planning 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx" target="_blank" rel="noopener" data-lang="planning-gemba">Planning Gemba</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx" target="_blank" rel="noopener" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a><span class="sparkle-effect"></span></div>
             </div>
         </div>
 
         <div class="section-toggle" data-target="results-content" data-lang="results-title" role="button" aria-expanded="false" aria-controls="results-content">Results Monsueal</div>
         <div id="results-content" class="section-content">
-            <div class="performance-data">
-                <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="80"></circle></svg><span class="percentage orange" data-value="80">0%</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0%</span><span class="sparkles"></span></span></p>
+            <p data-lang="results-desc">Select a month to view Monsueal audit results:</p>
+            <div class="month-list">
+                <div class="month-toggle" data-month="january" data-lang="month-january" role="button" aria-expanded="false" aria-controls="january-results" tabindex="0">January</div>
+                <div class="month-toggle" data-month="february" data-lang="month-february" role="button" aria-expanded="false" aria-controls="february-results" tabindex="0">February</div>
+                <div class="month-toggle" data-month="march" data-lang="month-march" role="button" aria-expanded="false" aria-controls="march-results" tabindex="0">March</div>
+                <div class="month-toggle" data-month="april" data-lang="month-april" role="button" aria-expanded="false" aria-controls="april-results" tabindex="0">April</div>
+                <div class="month-toggle" data-month="may" data-lang="month-may" role="button" aria-expanded="false" aria-controls="may-results" tabindex="0">May</div>
+            </div>
+            <div id="month-results">
+    <div id="january-results" class="month-content" data-month="january">
+        <div class="performance-data">
+            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0% Score</span><span class="sparkles"></span></span></p>
+            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 80%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="80"></circle></svg><span class="percentage orange" data-value="80">0%</span><span class="sparkles"></span></span></p>
+        </div>
+    </div>
+    <div id="february-results" class="month-content" data-month="february">
+        <div class="performance-data">
+            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 30%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="30"></circle></svg><span class="percentage red" data-value="30">0% Score</span><span class="sparkles"></span></span></p>
+            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0%</span><span class="sparkles"></span></span></p>
+        </div>
+    </div>
+    <div id="march-results" class="month-content" data-month="march">
+        <div class="performance-data">
+            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 90%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
+            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+        </div>
+    </div>
+    <div id="april-results" class="month-content" data-month="april">
+        <div class="performance-data">
+            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 65%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="65"></circle></svg><span class="percentage orange" data-value="65">0% Score</span><span class="sparkles"></span></span></p>
+            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+        </div>
+    </div>
+    <div id="may-results" class="month-content" data-month="may">
+        <div class="performance-data">
+            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 92%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="92"></circle></svg><span class="percentage green" data-value="92">0% Score</span><span class="sparkles"></span></span></p>
+            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+        </div>
+    </div>
+</div>
+                </div>
+                <div id="april-results" class="month-content" data-month="april">
+                    <div class="performance-data">
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 65%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="65"></circle></svg><span class="percentage orange" data-value="65">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+                    </div>
+                </div>
+                <div id="may-results" class="month-content" data-month="may">
+                    <div class="performance-data">
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 92%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="92"></circle></svg><span class="percentage green" data-value="92">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -780,7 +693,7 @@
                 <p><strong data-lang="name-label">Name:</strong> <span id="received-name"></span></p>
                 <p><strong data-lang="email-label">Email:</strong> <span id="received-email"></span></p>
                 <p><strong data-lang="message-label">Message:</strong> <span id="received-message"></span></p>
-                <button class="type-btn back-button" id="back-to-form" data-lang="back-button">Back to Form</button>
+                <button class="back-button" id="back-to-form" data-lang="back-button">Back to Form</button>
             </div>
         </div>
 
@@ -801,16 +714,16 @@
                 </form>
                 <p id="login-error" style="color: var(--score-red); display: none;"></p>
             </div>
-            <div id="message-list" class="message-recu" style="display: none;">
+            <div id="message-list" class="message-received" style="display: none;">
                 <h2 data-lang="message-recu-title">Message Reçu</h2>
                 <div id="messages" class="message-list"></div>
-                <button class="type-btn" id="logout-button" data-lang="logout-button">Logout</button>
+                <button id="logout-button" data-lang="logout-button">Logout</button>
             </div>
         </div>
     </main>
 
     <footer>
-        <p data-meta="footer">© 2025  WKW-Automotive. All rights reserved.</p>
+        <p data-meta="footer">© 2025 WKW-Automotive. All rights reserved.</p>
     </footer>
 
     <script type="module">
@@ -830,26 +743,19 @@
         };
 
         let app, db, auth;
-        if (!window.location.hostname.includes('codepen.io')) {
-            try {
-                console.log('Initializing Firebase');
-                app = initializeApp(firebaseConfig);
-                getAnalytics(app);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                console.log('Firebase initialized');
-            } catch (error) {
-                console.error('Firebase initialization failed:', error);
-                alert('Failed to initialize Firebase.');
-            }
-        } else {
-            console.warn('Firebase disabled on CodePen');
-            document.getElementById('message-recu-content').innerHTML = '<p style="color: var(--score-red)">Firebase Authentication is not available in this preview. Visit our live site for full functionality.</p>';
-            document.getElementById('contact-form').innerHTML = '<p style="color: green;">Contact form disabled in CodePen preview.</p>';
+        try {
+            console.log('Initializing Firebase');
+            app = initializeApp(firebaseConfig);
+            getAnalytics(app);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            console.log('Firebase initialized');
+        } catch (error) {
+            console.error('Firebase initialization failed:', error);
         }
 
         function toggleSection(targetId, toggle) {
-            console.log(`Toggling: ${targetId}`);
+            console.log(`Toggling section: ${targetId}`);
             const targetContent = document.getElementById(targetId);
             if (!targetContent) {
                 console.error(`Target content ${targetId} not found`);
@@ -866,43 +772,100 @@
                 t.setAttribute('aria-expanded', 'false');
             });
 
+            document.querySelectorAll('.month-content').forEach(content => {
+                content.classList.remove('active');
+                content.setAttribute('aria-expanded', 'false');
+            });
+            document.querySelectorAll('.month-toggle').forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-expanded', 'false');
+            });
+
             if (!isActive) {
                 targetContent.classList.add('active');
                 targetContent.setAttribute('aria-expanded', 'true');
                 toggle.classList.add('active');
                 toggle.setAttribute('aria-expanded', 'true');
-                if (targetId === 'performance-content' || targetId === 'results-content') {
+                if (targetId === 'performance-content') {
                     animatePercentages(targetContent);
                 }
             }
         }
 
         function initToggles() {
-            console.log('Initializing toggles');
+            console.log('Initializing section toggles');
             const toggles = document.querySelectorAll('.section-toggle');
-            console.log(`Found ${toggles.length} toggles`);
             toggles.forEach(toggle => {
                 const targetId = toggle.getAttribute('data-target');
-                toggle.addEventListener('click', () => {
-                    console.log(`Bound toggle: ${targetId}`);
-                    toggleSection(targetId, toggle);
+                toggle.addEventListener('click', () => toggleSection(targetId, toggle));
+                toggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleSection(targetId, toggle);
+                    }
                 });
             });
         }
 
-        initToggles();
+        function initMonthToggles() {
+            console.log('Initializing month toggles');
+            const monthToggles = document.querySelectorAll('.month-toggle');
+            if (monthToggles.length === 0) {
+                console.error('No month toggles found');
+            }
+            monthToggles.forEach(toggle => {
+                const month = toggle.getAttribute('data-month');
+                toggle.addEventListener('click', () => {
+                    console.log(`Month toggle clicked: ${month}`);
+                    toggleMonth(month, toggle);
+                });
+                toggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleMonth(month, toggle);
+                    }
+                });
+            });
+        }
+
+        function toggleMonth(month, toggle) {
+            console.log(`Toggling month: ${month}`);
+            const targetContent = document.getElementById(`${month}-results`);
+            if (!targetContent) {
+                console.error(`Month content ${month}-results not found`);
+                return;
+            }
+            const isActive = targetContent.classList.contains('active');
+
+            document.querySelectorAll('.month-content').forEach(content => {
+                content.classList.remove('active');
+                content.setAttribute('aria-expanded', 'false');
+            });
+            document.querySelectorAll('.month-toggle').forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isActive) {
+                targetContent.classList.add('active');
+                targetContent.setAttribute('aria-expanded', 'true');
+                toggle.classList.add('active');
+                toggle.setAttribute('aria-expanded', 'true');
+                animatePercentages(targetContent);
+            }
+        }
 
         function easeOutQuad(t) {
             return 1 - (1 - t) * (1 - t);
         }
 
         function animatePercentages(container) {
-            console.log('Animating percentages');
+            console.log('Animating percentages in:', container.id);
             const percentages = container.querySelectorAll('.percentage');
             percentages.forEach(p => {
                 const target = parseInt(p.getAttribute('data-value')) || 0;
                 if (target < 0 || target > 100) {
-                    console.warn(`Invalid percentage value: ${target}`);
+                    console.warn(`Invalid percentage: ${target}`);
                     return;
                 }
                 const circle = p.previousElementSibling.querySelector('.progress');
@@ -917,14 +880,17 @@
                     const progress = Math.min(elapsed / duration, 1);
                     const easedProgress = easeOutQuad(progress);
                     const current = easedProgress * target;
-                    p.textContent = `${Math.round(current)}%`;
-                    const offset = circumference * (1 - current / 100);
-                    circle.style.strokeDashoffset = offset;
+                    const parent = p.closest('p');
+                    const strong = parent.querySelector('strong');
+                    const key = strong.getAttribute('data-lang').replace(/-/g, '_');
+                    const label = key === 'taux_audit_5s_usine' ? translations[document.getElementById('language').value].score_label : '';
+                    p.textContent = `${Math.round(current)}% ${label}`;
+                    circle.style.strokeDashoffset = circumference * (1 - current / 100);
 
                     if (progress < 1) {
                         requestAnimationFrame(update);
                     } else {
-                        p.textContent = `${target}%`;
+                        p.textContent = `${target}% ${label}`;
                         circle.style.strokeDashoffset = circumference * (1 - target / 100);
                         p.classList.add('completed');
                         const sparkles = p.nextElementSibling;
@@ -933,9 +899,8 @@
                             sparkle.className = 'sparkle';
                             const angle = Math.random() * 360;
                             const dist = 20 + Math.random() * 15;
-                            const size = 4 + Math.random() * 4;
-                            sparkle.style.width = `${size}px`;
-                            sparkle.style.height = `${size}px`;
+                            sparkle.style.width = `${4 + Math.random() * 4}px`;
+                            sparkle.style.height = sparkle.style.width;
                             sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
                             sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
                             sparkle.style.animationDelay = `${i * 0.08}s`;
@@ -947,13 +912,12 @@
 
                 circle.style.strokeDasharray = circumference;
                 circle.style.strokeDashoffset = circumference;
-                p.textContent = '0%';
+                p.textContent = `0%`;
                 requestAnimationFrame(update);
             });
         }
 
         function animateResourceLinks() {
-            console.log('Animating resource links');
             const resourceLinks = document.querySelectorAll('.resource-link');
             resourceLinks.forEach(link => {
                 link.addEventListener('mouseenter', () => {
@@ -965,7 +929,6 @@
                         const dist = 30 + Math.random() * 20;
                         sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
                         sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
-                        sparkle.style.animationDelay = `${i * 0.05}s`;
                         sparkleContainer.appendChild(sparkle);
                         setTimeout(() => sparkle.remove(), 600);
                     }
@@ -974,41 +937,25 @@
         }
 
         function changeLanguage() {
-            const langSelect = document.getElementById('language');
-            const lang = langSelect.value;
-            console.log(`Language changed to: ${lang}`);
+            const lang = document.getElementById('language').value;
             document.body.setAttribute('lang', lang);
             document.querySelectorAll('[data-lang]').forEach(elem => {
                 const key = elem.getAttribute('data-lang').replace(/-/g, '_');
                 elem.textContent = translations[lang][key] || elem.textContent;
             });
-            const labels = {
-                audit_gemba_uap1: lang === 'ar' ? 'الامتثال' : lang === 'fr' ? 'Conformité' : lang === 'de' ? 'Konformität' : 'Compliance',
-                audit_gemba_uap2: lang === 'ar' ? 'الامتثال' : lang === 'fr' ? 'Conformité' : lang === 'de' ? 'Konformität' : 'Compliance',
-                audit_5s_uap1: lang === 'ar' ? 'النقاط' : lang === 'fr' ? 'Score' : lang === 'de' ? 'Punktzahl' : 'Score',
-                audit_5s_uap2: lang === 'ar' ? 'النقاط' : lang === 'fr' ? 'Score' : lang === 'de' ? 'Punktzahl' : 'Score',
-                audit_gemba_logistique: lang === 'ar' ? 'الكفاءة' : lang === 'fr' ? 'Efficacité' : lang === 'de' ? 'Effizienz' : 'Efficiency',
-                audit_5s_logistique: lang === 'ar' ? 'النقاط' : lang === 'fr' ? 'Score' : lang === 'de' ? 'Punktzahl' : 'Score',
-                taux_audit_5s_usine: '',
-                taux_audit_gemba_usine: ''
-            };
             document.querySelectorAll('.percentage').forEach(p => {
                 const parent = p.closest('p');
                 const strong = parent.querySelector('strong');
                 const key = strong.getAttribute('data-lang').replace(/-/g, '_');
-                const text = labels[key] || '';
-                p.textContent = `${p.getAttribute('data-value')}% ${text}`;
+                const label = key === 'taux_audit_5s_usine' ? translations[lang].score_label : '';
+                p.textContent = `${p.getAttribute('data-value')}% ${label}`;
             });
         }
 
         async function loadMessages() {
-            console.log('Loading messages');
             const messagesContainer = document.getElementById('messages');
             messagesContainer.innerHTML = '';
-            if (!app) {
-                messagesContainer.innerHTML = '<p style="color: var(--score-red)">Firestore not available</p>';
-                return;
-            }
+            if (!app) return;
             try {
                 const messageQuery = query(collection(db, 'messages'), orderBy('timestamp', 'desc'));
                 const querySnapshot = await getDocs(messageQuery);
@@ -1029,25 +976,21 @@
                         <p><strong>${translations[document.getElementById('language').value].date}:</strong> ${data.timestamp ? new Date(data.timestamp.toMillis()).toLocaleString() : 'N/A'}</p>
                     `;
                     messagesContainer.appendChild(messageItem);
-                    delay += 0.1; // Stagger animation for each message
+                    delay += 0.1;
                 });
             } catch (error) {
                 console.error('Error loading messages:', error);
-                messagesContainer.innerHTML = `<p style="color: var(--score-red)">${translations[document.getElementById('language').value].error_loading}</p>`;
             }
         }
 
         function showContactForm() {
-            console.log('Showing contact form');
-            const contactFormContent = document.getElementById('contact-form-content');
-            const messageReceived = document.getElementById('message-received');
-            if (contactFormContent) contactFormContent.style.display = 'block';
-            if (messageReceived) messageReceived.classList.remove('active');
+            document.getElementById('contact-form-content').style.display = 'block';
+            document.getElementById('message-received').classList.remove('active');
         }
 
         const translations = {
             en: {
-                title: " Automotive",
+                title: "Automotive",
                 performance_title: "Performance",
                 audit_gemba_uap1: "Audit Gemba UAP 1",
                 audit_gemba_uap2: "Audit Gemba UAP 2",
@@ -1068,6 +1011,7 @@
                 planning_gemba: "Planning Gemba",
                 suivi_mensuel_gemba_5s: "Monthly Gemba and 5S Follow-up",
                 results_title: "Results Monsueal",
+                results_desc: "Select a month to view Monsueal audit results:",
                 taux_audit_5s_usine: "Taux Audit 5S Usine",
                 taux_audit_gemba_usine: "Taux Audit Gemba Usine",
                 contact_title: "Contact Us",
@@ -1085,7 +1029,13 @@
                 login_button: "Login",
                 logout_button: "Logout",
                 no_messages: "No messages found",
-                error_loading: "Failed to load messages."
+                error_loading: "Failed to load messages.",
+                month_january: "January",
+                month_february: "February",
+                month_march: "March",
+                month_april: "April",
+                month_may: "May",
+                score_label: "Score"
             },
             ar: {
                 title: "مونسويل للسيارات",
@@ -1109,6 +1059,7 @@
                 planning_gemba: "تخطيط جمبا",
                 suivi_mensuel_gemba_5s: "المتابعة الشهرية لجمبا و5S",
                 results_title: "نتائج مونسويل",
+                results_desc: "اختر شهرًا لعرض نتائج تدقيق مونسويل:",
                 taux_audit_5s_usine: "نسبة تدقيق 5S المصنع",
                 taux_audit_gemba_usine: "نسبة تدقيق جمبا المصنع",
                 contact_title: "اتصل بنا",
@@ -1126,7 +1077,13 @@
                 login_button: "تسجيل الدخول",
                 logout_button: "تسجيل الخروج",
                 no_messages: "لم يتم العثور على رسائل",
-                error_loading: "فشل تحميل الرسائل."
+                error_loading: "فشل تحميل الرسائل.",
+                month_january: "يناير",
+                month_february: "فبراير",
+                month_march: "مارس",
+                month_april: "أبريل",
+                month_may: "مايو",
+                score_label: "النقاط"
             },
             fr: {
                 title: "Monsueal Automobile",
@@ -1150,6 +1107,7 @@
                 planning_gemba: "Planification Gemba",
                 suivi_mensuel_gemba_5s: "Suivi Mensuel Gemba et 5S",
                 results_title: "Résultats Monsueal",
+                results_desc: "Sélectionnez un mois pour voir les résultats d'audit Monsueal :",
                 taux_audit_5s_usine: "Taux Audit 5S Usine",
                 taux_audit_gemba_usine: "Taux Audit Gemba Usine",
                 contact_title: "Contactez-nous",
@@ -1167,20 +1125,26 @@
                 login_button: "Connexion",
                 logout_button: "Déconnexion",
                 no_messages: "Aucun message trouvé",
-                error_loading: "Échec du chargement des messages."
+                error_loading: "Échec du chargement des messages.",
+                month_january: "Janvier",
+                month_february: "Février",
+                month_march: "Mars",
+                month_april: "Avril",
+                month_may: "Mai",
+                score_label: "Score"
             },
             de: {
-                title: " Automotive",
+                title: "Automotive",
                 performance_title: "Leistung",
                 audit_gemba_uap1: "Audit Gemba UAP 1",
                 audit_gemba_uap2: "Audit Gemba UAP 2",
                 audit_5s_uap1: "Audit 5S UAP 1",
-                audit_5s_uap2: "Audit 5S UAP2",
+                audit_5s_uap2: "Audit 5S UAP 2",
                 audit_gemba_logistique: "Audit Gemba Logistik",
                 audit_5s_logistique: "Audit 5S Logistik",
                 date: "27. Mai 2025",
                 resource_title: "Ressourcen",
-                resource_desc: "Greifen Sie auf die Audit-Formulare von  Automotive zu, interaktive Tools und reichen Sie unten Verbesserungsvorschläge ein:",
+                resource_desc: "Greifen Sie auf die Audit-Formulare von Automotive zu, interaktive Tools und reichen Sie Verbesserungsvorschläge ein:",
                 audit_gemba: "Audit Gemba",
                 audit_5s: "Audit 5S",
                 audit_logistique: "Audit Logistik",
@@ -1191,16 +1155,17 @@
                 planning_gemba: "Planung Gemba",
                 suivi_mensuel_gemba_5s: "Monatliche Gemba- und 5S-Nachverfolgung",
                 results_title: "Ergebnisse Monsueal",
+                results_desc: "Wählen Sie einen Monat, um die Audit-Ergebnisse von Monsueal anzuzeigen:",
                 taux_audit_5s_usine: "Quote Audit 5S Werk",
                 taux_audit_gemba_usine: "Quote Audit Gemba Werk",
-                contact_title: "Kontaktieren Sie Uns",
-                contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit  Automotive-Lösungen.",
+                contact_title: "Kontaktieren Sie uns",
+                contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit Automotive-Lösungen.",
                 name_label: "Name",
                 email_label: "E-Mail",
                 message_label: "Nachricht",
-                submit_button: "Nachricht Senden",
-                footer: "© 2025  Automotive. Alle Rechte vorbehalten.",
-                message_received_title: "Nachricht Erhalten",
+                submit_button: "Nachricht senden",
+                footer: "© 2025 Automotive. Alle Rechte vorbehalten.",
+                message_received_title: "Nachricht erhalten",
                 message_recu_title: "Erhaltene Nachrichten",
                 back_button: "Zurück zum Formular",
                 login_title: "Admin-Login",
@@ -1208,12 +1173,17 @@
                 login_button: "Login",
                 logout_button: "Logout",
                 no_messages: "Keine Nachrichten gefunden",
-                error_loading: "Fehler beim Laden der Nachrichten."
+                error_loading: "Fehler beim Laden der Nachrichten.",
+                month_january: "Januar",
+                month_february: "Februar",
+                month_march: "März",
+                month_april: "April",
+                month_may: "Mai",
+                score_label: "Punktzahl"
             }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM loaded');
             try {
                 const languageSelect = document.getElementById('language');
                 const contactForm = document.getElementById('contact-form');
@@ -1221,110 +1191,58 @@
                 const loginForm = document.getElementById('admin-login-form');
                 const logoutButton = document.getElementById('logout-button');
 
-                if (languageSelect) {
-                    languageSelect.addEventListener('change', changeLanguage);
-                }
-
-                if (contactForm && app) {
-                    contactForm.addEventListener('submit', async (e) => {
-                        console.log('Contact form submitted');
+                languageSelect.addEventListener('change', changeLanguage);
+                if (contactForm) {
+                    contactForm.addEventListener('submit', async e => {
                         e.preventDefault();
+                        if (!app) return;
                         const name = document.getElementById('name').value.trim();
                         const email = document.getElementById('email').value.trim();
                         const message = document.getElementById('message').value.trim();
-
-                        if (name.length < 2) {
-                            alert(translations[document.getElementById('language').value].name_label + ' must be at least 2 characters long.');
-                            return;
-                        }
-                        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                            alert('Please enter a valid ' + translations[document.getElementById('language').value].email_label + ' address.');
-                            return;
-                        }
-                        if (message.length < 10) {
-                            alert(translations[document.getElementById('language').value].message_label + ' must be at least 10 characters long.');
-                            return;
-                        }
-
                         try {
                             await addDoc(collection(db, 'messages'), {
-                                name,
-                                email,
-                                message,
-                                timestamp: serverTimestamp()
+                                name, email, message, timestamp: serverTimestamp()
                             });
-                            await addDoc(collection(db, 'mail'), {
-                                to: 'admin@wkw.com',
-                                message: {
-                                    subject: `New Contact Form Submission from ${name}`,
-                                    html: `
-                                        <h2>New Message from  Automotive Contact Form</h2>
-                                        <p><strong>Name:</strong> ${name}</p>
-                                        <p><strong>Email:</strong> ${email}</p>
-                                        <p><strong>Message:</strong> ${message}</p>
-                                    `
-                                }
-                            });
-
                             document.getElementById('received-name').textContent = name;
                             document.getElementById('received-email').textContent = email;
                             document.getElementById('received-message').textContent = message;
-
-                            const contactFormContent = document.getElementById('contact-form-content');
-                            const messageReceived = document.getElementById('message-received');
-                            if (contactFormContent) contactFormContent.style.display = 'none';
-                            if (messageReceived) messageReceived.classList.add('active');
-
+                            document.getElementById('contact-form-content').style.display = 'none';
+                            document.getElementById('message-received').classList.add('active');
                             contactForm.reset();
-                            changeLanguage();
-                        } catch (error) {
-                            console.error('Error submitting form:', error);
-                            alert('Failed to submit message.');
+                        } catch (e) {
+                            console.error('Error submitting form:', e);
                         }
                     });
                 }
-
-                if (backButton) {
-                    backButton.addEventListener('click', showContactForm);
-                }
-
-                if (loginForm && app) {
-                    loginForm.addEventListener('submit', async (e) => {
-                        console.log('Admin login form submitted');
+                if (backButton) backButton.addEventListener('click', showContactForm);
+                if (loginForm) {
+                    loginForm.addEventListener('submit', async e => {
                         e.preventDefault();
+                        if (!auth) return;
                         const email = document.getElementById('admin-email').value;
                         const password = document.getElementById('admin-password').value;
-
                         try {
                             await signInWithEmailAndPassword(auth, email, password);
                             document.getElementById('login-form').style.display = 'none';
                             document.getElementById('message-list').style.display = 'block';
                             await loadMessages();
-                        } catch (error) {
-                            console.error('Login error:', error);
+                        } catch (e) {
+                            console.error('Login error:', e);
                             document.getElementById('login-error').style.display = 'block';
-                            document.getElementById('login-error').textContent = translations[document.getElementById('language').value].error_loading || 'Invalid login credentials';
+                            document.getElementById('login-error').textContent = translations[document.getElementById('language').value].error_loading;
                         }
                     });
                 }
-
-                if (logoutButton && app) {
+                if (logoutButton) {
                     logoutButton.addEventListener('click', async () => {
-                        console.log('Logout requested');
-                        try {
-                            await signOut(auth);
-                            document.getElementById('login-form').style.display = 'block';
-                            document.getElementById('message-list').style.display = 'none';
-                            document.getElementById('messages').innerHTML = '';
-                        } catch (error) {
-                            console.error('Logout error:', error);
-                        }
+                        if (auth) await signOut(auth);
+                        document.getElementById('login-form').style.display = 'block';
+                        document.getElementById('message-list').style.display = 'none';
+                        document.getElementById('messages').innerHTML = '';
                     });
                 }
-
-                if (app) {
-                    onAuthStateChanged(auth, (user) => {
-                        console.log('Auth state changed:', user ? user.email : 'No user');
+                if (auth) {
+                    onAuthStateChanged(auth, user => {
                         if (user && user.email === 'admin@wkw.com') {
                             document.getElementById('login-form').style.display = 'none';
                             document.getElementById('message-list').style.display = 'block';
@@ -1336,10 +1254,12 @@
                     });
                 }
 
+                initToggles();
+                initMonthToggles();
                 changeLanguage();
                 animateResourceLinks();
-            } catch (err) {
-                console.error('Initialization error:', err);
+            } catch (e) {
+                console.error('Initialization error:', e);
             }
         });
     </script>
