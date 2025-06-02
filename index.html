@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automotive homepage with performance audit results, resource links, and contact sections.">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://www.googleapis.com 'sha256-Aib1TfB0Xk25LR6foxEDe4rDDbFv60AXVTpbsm3zpS8='; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://ith-gmbh.de data:">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://www.googleapis.com; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://ith-gmbh.de data:">
     <title>Automotive Hub</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&family=Oswald:wght@200;400;700&display=swap');
@@ -602,79 +602,100 @@
         }
 
         .message-received {
-            display: none;
-            background: var(--glass-bg);
+            background: var(--white);
             padding: 2.5rem;
-            border-radius: 15px;
+            border-radius: 12px;
             box-shadow: var(--shadow-neumorphic);
-            margin-top: 2rem;
-            border: var(--glass-border);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-red);
+            display: none;
+            background-image: var(--pattern-bg);
+            background-size: 20px 20px;
         }
 
         .message-received.active {
             display: block;
         }
 
-        .message-received h2 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 2rem;
-            color: var(--primary-red);
-            margin-bottom: 1.5rem;
-        }
-
-        .message-received p {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .message-item {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
         .login-form {
-            background: var(--glass-bg);
+            display: none;
             padding: 2.5rem;
-            border-radius: 15px;
+            background: var(--white);
+            border-radius: 12px;
             box-shadow: var(--shadow-neumorphic);
-            max-width: 500px;
-            margin: 0 auto;
-            border: var(--glass-border);
-        }
-
-        .login-form h2 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 2rem;
-            color: var(--primary-red);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: var(--metallic-bg);
-            color: var(--white);
-            box-shadow: var(--shadow);
-            font-size: 1.1rem;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 400;
-            border-top: 3px solid var(--primary-red);
+            border-left: 5px solid var(--primary-red);
             background-image: var(--pattern-bg);
             background-size: 20px 20px;
         }
 
+        .login-form.active {
+            display: block;
+        }
+
+        .message-list {
+            margin-top: 1.5rem;
+            max-height: 450px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            border-radius: 10px;
+            background: var(--light-gray);
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .message-item {
+            background: var(--glass-bg);
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--shadow);
+            border: var(--glass-border);
+        }
+
+        footer {
+            background: var(--secondary-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease-out;
+            border-top: 3px solid var(--primary-red);
+            background-image: var(--pattern-bg);
+            background-size: 15px 15px;
+        }
+
+        footer p {
+            position: relative;
+        }
+
+        footer p::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-red);
+            transition: width 0.5s ease-in-out;
+        }
+
+        footer p:hover::after {
+            width: 100%;
+        }
+
         @keyframes zoomIn {
-            from { transform: scale(0); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         @keyframes rotateIn {
-            from { transform: rotate(-180deg); opacity: 0; }
-            to { transform: rotate(0); opacity: 1; }
+            from { opacity: 0; transform: rotate(-10deg); }
+            to { opacity: 1; transform: rotate(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes shine {
@@ -685,44 +706,41 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        @keyframes pulseText {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
+            50% { transform: translateY(-6px); }
         }
 
         @keyframes sparkle {
-            0% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1.5); }
-            100% { opacity: 0; transform: scale(0); }
+            0% { opacity: 1; transform: scale(0.5); }
+            100% { opacity: 0; transform: scale(1.8); }
         }
 
-        @keyframes glowPulse {
-            from { opacity: 0.4; }
-            to { opacity: 0.9; }
+        @keyframes pulseText {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.15); opacity: 1; }
         }
 
         @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
-            header img { max-width: 140px; }
+            header h1 { font-size: 2rem; }
+            header img { max-width: 120px; }
             .section-toggle { font-size: 1.8rem; padding: 1.2rem; }
-            .section-content.active { padding: 1.5rem; }
-            .month-toggle { font-size: 1.1rem; padding: 0.8rem; }
-            .performance-data { grid-template-columns: 1fr; }
-            .resource-links { grid-template-columns: 1fr; }
-            :root { --circle-size: 4rem; }
+            .section-content.active { padding: 1.8rem; }
+            .month-toggle { font-size: 1.1rem; padding: 0.9rem; min-width: 110px; }
+            :root { --circle-size: 4.5rem; }
+            .percentage { font-size: 1.1rem; }
+            .performance-data p { font-size: 1rem; padding: 1.2rem; }
+            .resource-link a { font-size: 1.4rem; }
+            .resource-link { padding: 1.8rem; }
+            .section-content { background-size: 15px 15px; }
         }
 
         @media (max-width: 480px) {
-            header h1 { font-size: 2rem; }
-            header img { max-width: 120px; }
-            .section-toggle { font-size: 1.5rem; padding: 1rem; }
-            .section-content.active { padding: 1rem; }
-            .month-toggle { font-size: 1rem; min-width: 100px; }
-            .language-selector select { font-size: 1rem; padding: 0.4rem; }
-            main { padding: 1.5rem; }
+            .month-list { flex-direction: column; }
+            .month-toggle { font-size: 1rem; padding: 0.7rem; }
+            :root { --circle-size: 4rem; }
+            .percentage { font-size: 1rem; }
+            .performance-data { grid-template-columns: 1fr; }
+            .resource-links { grid-template-columns: 1fr; }
+            .section-content { background-size: 10px 10px; }
         }
     </style>
 </head>
@@ -831,7 +849,7 @@
                         <label for="email" data-lang="email-label">Email</label>
                     </div>
                     <div class="form-group">
-                        <textarea id="message" name="message" placeholder=" " required type="message" rows="5"></textarea>
+                        <textarea id="message" name="message" placeholder=" " rows="5" required></textarea>
                         <label for="message" data-lang="message-label">Message</label>
                     </div>
                     <button type="submit" data-lang="submit-button">Send Message</button>
@@ -866,7 +884,7 @@
             </div>
             <div id="message-list" class="message-received" style="display: none;">
                 <h2 data-lang="message-recu-title">Message Reçu</h2>
-                <div id="messages" class="message-content"></div>
+                <div id="messages" class="message-list"></div>
                 <button id="logout-button" data-lang="logout-button">Logout</button>
             </div>
         </div>
@@ -877,7 +895,7 @@
     </footer>
 
     <script type="module">
-        import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
         import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
@@ -893,28 +911,25 @@
         };
 
         let app, db, auth;
-        if (!getApps().length) {
+        try {
             console.log('Initializing Firebase');
             app = initializeApp(firebaseConfig);
             getAnalytics(app);
             db = getFirestore(app);
             auth = getAuth(app);
             console.log('Firebase initialized');
-        } else {
-            app = getApps()[0];
-            db = getFirestore(app);
-            auth = getAuth(app);
-            console.log('Using existing Firebase app');
+        } catch (error) {
+            console.error('Firebase initialization failed:', error);
         }
 
-        function toggleSection(sectionTargetId, toggleElement) {
-            console.log(`Toggling section: ${sectionTargetId}`);
-            const sectionTargetContent = document.getElementById(sectionTargetId);
-            if (!sectionTargetContent) {
-                console.error(`Target content ${sectionTargetId} not found`);
+        function toggleSection(targetId, toggle) {
+            console.log(`Toggling section: ${targetId}`);
+            const targetContent = document.getElementById(targetId);
+            if (!targetContent) {
+                console.error(`Target content ${targetId} not found`);
                 return;
             }
-            const isSectionActive = sectionTargetContent.classList.contains('active');
+            const isActive = targetContent.classList.contains('active');
 
             document.querySelectorAll('.section-content').forEach(content => {
                 content.classList.remove('active');
@@ -934,31 +949,31 @@
                 t.setAttribute('aria-expanded', 'false');
             });
 
-            if (!isSectionActive) {
-                sectionTargetContent.classList.add('active');
-                sectionTargetContent.setAttribute('aria-expanded', 'true');
-                toggleElement.classList.add('active');
-                toggleElement.setAttribute('aria-expanded', 'true');
-                if (sectionTargetId === 'performance-content' || sectionTargetContent.closest('#results-content')) {
-                    animatePercentages(sectionTargetContent);
+            if (!isActive) {
+                targetContent.classList.add('active');
+                targetContent.setAttribute('aria-expanded', 'true');
+                toggle.classList.add('active');
+                toggle.setAttribute('aria-expanded', 'true');
+                if (targetId === 'performance-content' || targetContent.closest('#results-content')) {
+                    animatePercentages(targetContent);
                 }
             }
         }
 
-        function initSectionToggles() {
+        function initToggles() {
             console.log('Initializing section toggles');
-            const sectionToggles = document.querySelectorAll('.section-toggle');
-            if (sectionToggles.length === 0) {
+            const toggles = document.querySelectorAll('.section-toggle');
+            if (toggles.length === 0) {
                 console.error('No section toggles found');
                 return;
             }
-            sectionToggles.forEach(toggle => {
-                const sectionTargetId = toggle.getAttribute('data-target');
-                toggle.addEventListener('click', () => toggleSection(sectionTargetId, toggle));
-                toggle.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        toggleSection(sectionTargetId, toggle);
+            toggles.forEach(toggle => {
+                const targetId = toggle.getAttribute('data-target');
+                toggle.addEventListener('click', () => toggleSection(targetId, toggle));
+                toggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleSection(targetId, toggle);
                     }
                 });
             });
@@ -977,23 +992,23 @@
                     console.log(`Month toggle clicked: ${month}`);
                     toggleMonth(month, toggle);
                 });
-                toggle.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
+                toggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
                         toggleMonth(month, toggle);
                     }
                 });
             });
         }
 
-        function toggleMonth(monthId, monthToggleElement) {
-            console.log(`Toggling month: ${monthId}`);
-            const monthTargetContent = document.getElementById(`${monthId}-results`);
-            if (!monthTargetContent) {
-                console.error(`Month content ${monthId}-results not found`);
+        function toggleMonth(month, toggle) {
+            console.log(`Toggling month: ${month}`);
+            const targetContent = document.getElementById(`${month}-results`);
+            if (!targetContent) {
+                console.error(`Month content ${month}-results not found`);
                 return;
             }
-            const isMonthActive = monthTargetContent.classList.contains('active');
+            const isActive = targetContent.classList.contains('active');
 
             document.querySelectorAll('.month-content').forEach(content => {
                 content.classList.remove('active');
@@ -1004,69 +1019,69 @@
                 t.setAttribute('aria-expanded', 'false');
             });
 
-            if (!isMonthActive) {
-                monthTargetContent.classList.add('active');
-                monthTargetContent.setAttribute('aria-expanded', 'true');
-                monthToggleElement.classList.add('active');
-                monthToggleElement.setAttribute('aria-expanded', 'true');
-                animatePercentages(monthTargetContent);
+            if (!isActive) {
+                targetContent.classList.add('active');
+                targetContent.setAttribute('aria-expanded', 'true');
+                toggle.classList.add('active');
+                toggle.setAttribute('aria-expanded', 'true');
+                animatePercentages(targetContent);
             }
         }
 
-        function easeInOutQuad(t) {
-            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         }
 
-        function animatePercentages(containerElement) {
-            console.log('Animating percentages in:', containerElement.id);
-            const percentageElements = containerElement.querySelectorAll('.percentage');
-            const dataCards = containerElement.querySelectorAll('.performance-data p');
+        function animatePercentages(container) {
+            console.log('Animating percentages in:', container.id);
+            const percentages = container.querySelectorAll('.percentage');
+            const dataCards = container.querySelectorAll('.performance-data p');
             
             dataCards.forEach((card, index) => {
                 card.classList.add('visible');
             });
 
-            percentageElements.forEach(p => {
-                const targetPercentage = parseInt(p.getAttribute('data-value')) || 0;
-                if (targetPercentage < 0 || targetPercentage > 100) {
-                    console.warn(`Invalid percentage: ${targetPercentage}`);
+            percentages.forEach(p => {
+                const target = parseInt(p.getAttribute('data-value')) || 0;
+                if (target < 0 || target > 100) {
+                    console.warn(`Invalid percentage: ${target}`);
                     return;
                 }
-                const progressCircle = p.previousElementSibling.querySelector('.progress');
-                const svgCircleElement = p.previousElementSibling;
-                const percentageContainer = p.closest('.percentage-container');
+                const circle = p.previousElementSibling.querySelector('.progress');
+                const svgCircle = p.previousElementSibling;
+                const container = p.closest('.percentage-container');
                 const radius = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--circle-size')) * 0.4;
                 const circumference = 2 * Math.PI * radius;
-                let animationStartTime = null;
-                const animationDuration = 1200;
+                let startTime = null;
+                const duration = 1200;
 
-                function updateAnimation(timestamp) {
-                    if (!animationStartTime) animationStartTime = timestamp;
-                    const elapsedTime = timestamp - animationStartTime;
-                    const progress = Math.min(elapsedTime / animationDuration, 1);
-                    const easedProgress = easeInOutQuad(progress);
-                    const currentPercentage = easedProgress * targetPercentage;
-                    const parentElement = p.closest('p');
-                    const strongElement = parentElement.querySelector('strong');
-                    const key = strongElement.getAttribute('data-lang').replace(/-/g, '_');
+                function update(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    const elapsed = timestamp - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easedProgress = easeInOutCubic(progress);
+                    const current = easedProgress * target;
+                    const parent = p.closest('p');
+                    const strong = parent.querySelector('strong');
+                    const key = strong.getAttribute('data-lang').replace(/-/g, '_');
                     const label = key === 'taux_audit_5s_usine' ? translations[document.getElementById('language').value].score_label : '';
-                    p.textContent = `${Math.round(currentPercentage)}% ${label}`;
-                    progressCircle.style.strokeDashoffset = circumference * (1 - currentPercentage / 100);
+                    p.textContent = `${Math.round(current)}% ${label}`;
+                    circle.style.strokeDashoffset = circumference * (1 - current / 100);
 
-                    svgCircleElement.classList.add('glow');
+                    svgCircle.classList.add('glow');
                     p.classList.add('pulse');
 
                     if (progress < 1) {
-                        percentageContainer.classList.add('animate');
-                        requestAnimationFrame(updateAnimation);
+                        container.classList.add('animate');
+                        requestAnimationFrame(update);
                     } else {
-                        p.textContent = `${targetPercentage}% ${label}`;
-                        progressCircle.style.strokeDashoffset = circumference * (1 - targetPercentage / 100);
-                        svgCircleElement.classList.remove('glow');
+                        p.textContent = `${target}% ${label}`;
+                        circle.style.strokeDashoffset = circumference * (1 - target / 100);
+                        svgCircle.classList.remove('glow');
                         p.classList.remove('pulse');
-                        const sparklesElement = p.nextElementSibling;
-                        if (!sparklesElement.classList.contains('animated')) {
-                            sparklesElement.innerHTML = '';
+                        const sparkles = p.nextElementSibling;
+                        if (!sparkles.classList.contains('animated')) {
+                            sparkles.innerHTML = '';
                             for (let i = 0; i < 6; i++) {
                                 const sparkle = document.createElement('span');
                                 sparkle.className = 'sparkle';
@@ -1074,33 +1089,33 @@
                                 const distance = Math.random() * 50 + 25;
                                 sparkle.style.left = `${50 + distance * Math.cos(angle)}%`;
                                 sparkle.style.top = `${50 + distance * Math.sin(angle)}%`;
-                                sparklesElement.appendChild(sparkle);
+                                sparkles.appendChild(sparkle);
                             }
-                            sparklesElement.classList.add('animated');
-                            setTimeout(() => sparklesElement.innerHTML = '', 1200);
+                            sparkles.classList.add('animated');
+                            setTimeout(() => sparkles.innerHTML = '', 1200);
                         }
                     }
                 }
 
-                progressCircle.style.strokeDasharray = circumference;
-                progressCircle.style.strokeDashoffset = circumference;
+                circle.style.strokeDasharray = circumference;
+                circle.style.strokeDashoffset = circumference;
                 p.textContent = `0%`;
-                requestAnimationFrame(updateAnimation);
+                requestAnimationFrame(update);
             });
         }
 
         function changeLanguage() {
-            const selectedLanguage = document.getElementById('language').value;
-            document.body.setAttribute('lang', selectedLanguage);
-            document.querySelectorAll('[data-lang]').forEach(element => {
-                const key = element.getAttribute('data-lang').replace(/-/g, '_');
-                element.textContent = translations[selectedLanguage][key] || element.textContent;
+            const lang = document.getElementById('language').value;
+            document.body.setAttribute('lang', lang);
+            document.querySelectorAll('[data-lang]').forEach(elem => {
+                const key = elem.getAttribute('data-lang').replace(/-/g, '_');
+                elem.textContent = translations[lang][key] || elem.textContent;
             });
             document.querySelectorAll('.percentage').forEach(p => {
-                const parentElement = p.closest('p');
-                const strongElement = parentElement.querySelector('strong');
-                const key = strongElement.getAttribute('data-lang').replace(/-/g, '_');
-                const label = key === 'taux_audit_5s_usine' ? translations[selectedLanguage].score_label : '';
+                const parent = p.closest('p');
+                const strong = parent.querySelector('strong');
+                const key = strong.getAttribute('data-lang').replace(/-/g, '_');
+                const label = key === 'taux_audit_5s_usine' ? translations[lang].score_label : '';
                 p.textContent = `${p.getAttribute('data-value')}% ${label}`;
             });
         }
@@ -1117,14 +1132,14 @@
                     return;
                 }
                 querySnapshot.forEach(doc => {
-                    const messageData = doc.data();
+                    const data = doc.data();
                     const messageItem = document.createElement('div');
                     messageItem.className = 'message-item';
                     messageItem.innerHTML = `
-                        <p><strong>${translations[document.getElementById('language').value].name_label}:</strong> ${messageData.name || 'N/A'}</p>
-                        <p><strong>${translations[document.getElementById('language').value].email_label}:</strong> ${messageData.email || 'N/A'}</p>
-                        <p><strong>${translations[document.getElementById('language').value].message_label}:</strong> ${messageData.message || 'N/A'}</p>
-                        <p><strong>${translations[document.getElementById('language').value].date}:</strong> ${messageData.timestamp ? new Date(messageData.timestamp.toMillis()).toLocaleString() : 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].name_label}:</strong> ${data.name || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].email_label}:</strong> ${data.email || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].message_label}:</strong> ${data.message || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].date}:</strong> ${data.timestamp ? new Date(data.timestamp.toMillis()).toLocaleString() : 'N/A'}</p>
                     `;
                     messagesContainer.appendChild(messageItem);
                 });
@@ -1284,7 +1299,7 @@
                 score_label: "Score"
             },
             de: {
-                title: "Monsueal Automobil",
+                title: "Automotive",
                 performance_title: "Leistung",
                 audit_gemba_uap1: "Audit Gemba UAP 1",
                 audit_gemba_uap2: "Audit Gemba UAP 2",
@@ -1294,7 +1309,7 @@
                 audit_5s_logistique: "Audit 5S Logistik",
                 date: "27. Mai 2025",
                 resource_title: "Ressourcen",
-                resource_desc: "Greifen Sie auf die Audit-Formulare, interaktiven Tools von Monsueal Automobil zu und reichen Sie Verbesserungsvorschläge ein:",
+                resource_desc: "Greifen Sie auf die Audit-Formulare von Automotive zu, interaktive Tools und reichen Sie Verbesserungsvorschläge ein:",
                 audit_gemba: "Audit Gemba",
                 audit_5s: "Audit 5S",
                 audit_logistique: "Audit Logistik",
@@ -1303,25 +1318,25 @@
                 proposition_amelioration: "Verbesserungsvorschlag",
                 planning_5s: "Planung 5S",
                 planning_gemba: "Planung Gemba",
-                suivi_mensuel_gemba_5s: "Monatliche Nachverfolgung Gemba und 5S",
+                suivi_mensuel_gemba_5s: "Monatliche Gemba- und 5S-Nachverfolgung",
                 results_title: "Ergebnisse Monsueal",
-                results_desc: "Wählen Sie einen Monat aus, um die Audit-Ergebnisse von Monsueal anzuzeigen:",
-                taux_audit_5s_usine: "Rate Audit 5S Werk",
-                taux_audit_gemba_usine: "Rate Audit Gemba Werk",
+                results_desc: "Wählen Sie einen Monat, um die Audit-Ergebnisse von Monsueal anzuzeigen:",
+                taux_audit_5s_usine: "Quote Audit 5S Werk",
+                taux_audit_gemba_usine: "Quote Audit Gemba Werk",
                 contact_title: "Kontaktieren Sie uns",
-                contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit Monsueal Automobil-Lösungen.",
+                contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit Automotive-Lösungen.",
                 name_label: "Name",
                 email_label: "E-Mail",
                 message_label: "Nachricht",
-                submit_button: "Nachricht Senden",
-                footer: "© 2025 Monsueal Automobil. Alle Rechte vorbehalten.",
-                message_received_title: "Nachricht Erhalten",
-                message_recu_title: "Empfangene Nachrichten",
+                submit_button: "Nachricht senden",
+                footer: "© 2025 Automotive. Alle Rechte vorbehalten.",
+                message_received_title: "Nachricht erhalten",
+                message_recu_title: "Erhaltene Nachrichten",
                 back_button: "Zurück zum Formular",
                 login_title: "Admin-Login",
                 password_label: "Passwort",
-                login_button: "Anmelden",
-                logout_button: "Abmelden",
+                login_button: "Login",
+                logout_button: "Logout",
                 no_messages: "Keine Nachrichten gefunden",
                 error_loading: "Fehler beim Laden der Nachrichten.",
                 month_january: "Januar",
@@ -1334,76 +1349,84 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM Loaded');
-            initSectionToggles();
-            initMonthToggles();
-            changeLanguage();
-            document.getElementById('language').addEventListener('change', changeLanguage);
+            try {
+                console.log('DOM fully loaded, initializing...');
+                const languageSelect = document.getElementById('language');
+                const contactForm = document.getElementById('contact-form');
+                const backButton = document.getElementById('back-to-form');
+                const loginForm = document.getElementById('admin-login-form');
+                const logoutButton = document.getElementById('logout-button');
 
-            const contactFormElement = document.getElementById('contact-form');
-            contactFormElement.addEventListener('submit', async event => {
-                event.preventDefault();
-                const nameInput = document.getElementById('name').value;
-                const emailInput = document.getElementById('email').value;
-                const messageInput = document.getElementById('message').value;
-                try {
-                    await addDoc(collection(db, 'messages'), {
-                        name: nameInput,
-                        email: emailInput,
-                        message: messageInput,
-                        timestamp: serverTimestamp()
+                if (!languageSelect) console.error('Language select element not found');
+                languageSelect.addEventListener('change', changeLanguage);
+                if (contactForm) {
+                    contactForm.addEventListener('submit', async e => {
+                        e.preventDefault();
+                        if (!app) return;
+                        const name = document.getElementById('name').value.trim();
+                        const email = document.getElementById('email').value.trim();
+                        const message = document.getElementById('message').value.trim();
+                        try {
+                            await addDoc(collection(db, 'messages'), {
+                                name, email, message, timestamp: serverTimestamp()
+                            });
+                            document.getElementById('received-name').textContent = name;
+                            document.getElementById('received-email').textContent = email;
+                            document.getElementById('received-message').textContent = message;
+                            document.getElementById('contact-form-content').style.display = 'none';
+                            document.getElementById('message-received').classList.add('active');
+                            contactForm.reset();
+                        } catch (e) {
+                            console.error('Error submitting form:', e);
+                        }
                     });
-                    document.getElementById('contact-form-content').style.display = 'none';
-                    document.getElementById('message-received').classList.add('active');
-                    document.getElementById('received-name').textContent = nameInput;
-                    document.getElementById('received-email').textContent = emailInput;
-                    document.getElementById('received-message').textContent = messageInput;
-                    contactFormElement.reset();
-                } catch (error) {
-                    console.error('Error submitting form:', error);
                 }
-            });
-
-            document.getElementById('back-to-form').addEventListener('click', showContactForm);
-
-            const adminLoginFormElement = document.getElementById('admin-login-form');
-            adminLoginFormElement.addEventListener('submit', async event => {
-                event.preventDefault();
-                const adminEmailInput = document.getElementById('admin-email').value;
-                const adminPasswordInput = document.getElementById('admin-password').value;
-                const loginErrorElement = document.getElementById('login-error');
-                try {
-                    await signInWithEmailAndPassword(auth, adminEmailInput, adminPasswordInput);
-                    console.log('Admin logged in');
-                } catch (error) {
-                    console.error('Login error:', error);
-                    loginErrorElement.style.display = 'block';
-                    loginErrorElement.textContent = translations[document.getElementById('language').value].login_error || 'Invalid login credentials';
+                if (backButton) backButton.addEventListener('click', showContactForm);
+                if (loginForm) {
+                    loginForm.addEventListener('submit', async e => {
+                        e.preventDefault();
+                        if (!auth) return;
+                        const email = document.getElementById('admin-email').value;
+                        const password = document.getElementById('admin-password').value;
+                        try {
+                            await signInWithEmailAndPassword(auth, email, password);
+                            document.getElementById('login-form').style.display = 'none';
+                            document.getElementById('message-list').style.display = 'block';
+                            await loadMessages();
+                        } catch (e) {
+                            console.error('Login error:', e);
+                            document.getElementById('login-error').style.display = 'block';
+                            document.getElementById('login-error').textContent = translations[document.getElementById('language').value].error_loading;
+                        }
+                    });
                 }
-            });
-
-            onAuthStateChanged(auth, user => {
-                const loginFormElement = document.getElementById('login-form');
-                const messageListElement = document.getElementById('message-list');
-                if (user && user.email === 'admin@wkw.com') {
-                    console.log('Authenticated admin user');
-                    loginFormElement.style.display = 'none';
-                    messageListElement.style.display = 'block';
-                    loadMessages();
-                } else {
-                    loginFormElement.style.display = 'block';
-                    messageListElement.style.display = 'none';
+                if (logoutButton) {
+                    logoutButton.addEventListener('click', async () => {
+                        if (auth) await signOut(auth);
+                        document.getElementById('login-form').style.display = 'block';
+                        document.getElementById('message-list').style.display = 'none';
+                        document.getElementById('messages').innerHTML = '';
+                    });
                 }
-            });
-
-            document.getElementById('logout-button').addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    console.log('Admin logged out');
-                } catch (error) {
-                    console.error('Logout error:', error);
+                if (auth) {
+                    onAuthStateChanged(auth, user => {
+                        if (user && user.email === 'admin@wkw.com') {
+                            document.getElementById('login-form').style.display = 'none';
+                            document.getElementById('message-list').style.display = 'block';
+                            loadMessages();
+                        } else {
+                            document.getElementById('login-form').style.display = 'block';
+                            document.getElementById('message-list').style.display = 'none';
+                        }
+                    });
                 }
-            });
+
+                initToggles();
+                initMonthToggles();
+                changeLanguage();
+            } catch (e) {
+                console.error('Initialization error:', e);
+            }
         });
     </script>
 </body>
