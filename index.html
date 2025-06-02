@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automotive homepage with performance audit results, resource links, and contact sections.">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://www.googleapis.com 'sha256-Aib1TfB0Xk25LR6foxEDe4rDDbFv60AXVTpbsm3zpS8='; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://ith-gmbh.de data:">
     <title>Automotive Hub</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&family=Oswald:wght@200;400;700&display=swap');
+
         :root {
             --primary-red: #b22222;
             --secondary-gray: #333333;
@@ -19,13 +22,16 @@
             --score-red: #e74c3c;
             --score-orange: #f39c12;
             --score-green: #2ecc71;
-            --gradient-border: linear-gradient(45deg, var(--primary-red), var(--secondary-gray));
+            --gradient-main: linear-gradient(135deg, var(--primary-red), #8b0000);
+            --gradient-accent: linear-gradient(45deg, var(--primary-red), var(--secondary-gray));
             --metallic-bg: linear-gradient(135deg, #2a2a2a, #4a4a4a);
             --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-blur: blur(10px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
             --glow: 0 0 15px rgba(178, 34, 34, 0.5);
             --circle-size: 5rem;
             --glow-color: rgba(255, 255, 255, 0.5);
+            --pattern-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M0 0h10v10H0z' fill='none' stroke='%23e0e0e0' stroke-width='0.5'/%3E%3C/svg%3E");
+            --wave-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23b22222' fill-opacity='0.1' d='M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,106.7C960,128,1056,160,1152,176C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
         }
 
         * {
@@ -58,29 +64,46 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            border-bottom: 2px solid var(--primary-red);
+            gap: 1.5rem;
+            border-bottom: 3px solid var(--primary-red);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, rgba(42, 42, 42, 0.8), rgba(74, 74, 74, 0.8));
+            background-image: var(--pattern-bg), var(--wave-pattern);
+            background-size: 20px 20px, cover;
+            background-position: center;
+            background-blend-mode: overlay;
         }
 
         header h1 {
-            font-size: 3rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             animation: zoomIn 1.2s ease-out;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            background: var(--glass-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: var(--glass-border);
         }
 
         header img {
-            max-width: 150px;
+            max-width: 180px;
             height: auto;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: var(--shadow-neumorphic);
             animation: rotateIn 1.5s ease-out;
             transition: var(--transition);
+            background: var(--glass-bg);
+            padding: 0.5rem;
+            border: var(--glass-border);
         }
 
         header img:hover {
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
         header::before {
@@ -90,67 +113,70 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: shine 5s infinite;
         }
 
         .language-selector {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 1.5rem;
+            right: 1.5rem;
             z-index: 2;
+            background: var(--glass-bg);
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: var(--glass-border);
         }
 
         [lang="ar"] .language-selector {
             right: auto;
-            left: 1rem;
+            left: 1.5rem;
         }
 
         .language-selector select {
-            padding: 0.5rem;
+            padding: 0.6rem;
             border: none;
             border-radius: 4px;
-            background: var(--primary-red);
+            background: var(--gradient-main);
             color: var(--white);
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: var(--transition);
             box-shadow: var(--shadow);
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
         }
 
         .language-selector select:hover {
             background: var(--secondary-gray);
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         main {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 2.5rem;
         }
 
-        footer {
-            background: var(--secondary-gray);
-            color: var(--white);
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
-            box-shadow: var(--shadow);
-            animation: fadeInUp 1s ease-out;
-            border-top: 2px solid var(--primary-red);
+        .section-divider {
+            height: 20px;
+            background: var(--wave-pattern);
+            background-size: cover;
+            margin: 2rem 0;
         }
 
         .section-toggle {
             cursor: pointer;
-            background: var(--white);
-            color: var(--primary-red);
-            padding: 1.5rem;
-            margin-bottom: 0.75rem;
-            border-radius: 8px;
-            font-size: 2.2rem;
-            font-weight: bold;
+            background: var(--gradient-main);
+            color: var(--white);
+            padding: 1.8rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             transition: var(--transition);
             display: flex;
             justify-content: space-between;
@@ -158,27 +184,34 @@
             box-shadow: var(--shadow-neumorphic);
             position: relative;
             overflow: hidden;
-            border: 2px solid transparent;
+            border: 3px solid transparent;
             background-clip: padding-box;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .section-toggle::before {
             content: '';
             position: absolute;
-            inset: -2px;
-            background: var(--gradient-border);
+            inset: -3px;
+            background: var(--gradient-accent);
             z-index: -1;
+            opacity: 0.9;
+            border-radius: 10px;
         }
 
         .section-toggle:hover {
-            transform: translateY(-4px);
-            color: var(--secondary-gray);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-toggle:hover::after {
+            filter: drop-shadow(0 0 10px rgba(178, 34, 34, 0.7));
         }
 
         .section-toggle::after {
             content: '▼';
-            font-size: 1.2rem;
-            transition: var(--transition);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
         }
 
         .section-toggle.active::after {
@@ -193,41 +226,44 @@
             max-height: 0;
             opacity: 0;
             background: var(--white);
-            padding: 0 2rem;
-            border-radius: 8px;
+            padding: 0 2.5rem;
+            border-radius: 10px;
             box-shadow: var(--shadow-neumorphic);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             overflow: hidden;
-            transition: max-height 0.6s ease-out, opacity 0.6s ease-out, padding 0.6s ease-out;
-            border-left: 4px solid var(--primary-red);
+            transition: max-height 0.7s ease-out, opacity 0.7s ease-out, padding 0.7s ease-out;
+            border-left: 5px dashed var(--gradient-accent);
+            background-image: var(--pattern-bg);
+            background-size: 25px 25px;
         }
 
         [lang="ar"] .section-content {
             border-left: none;
-            border-right: 4px solid var(--primary-red);
+            border-right: 5px dashed var(--gradient-accent);
         }
 
         .section-content.active {
             max-height: 1500px;
             opacity: 1;
-            padding: 2rem;
+            padding: 2.5rem;
         }
 
         .month-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .month-toggle {
             cursor: pointer;
             background: var(--white);
             color: var(--primary-red);
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            padding: 1.2rem;
+            border-radius: 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
             text-transform: uppercase;
             transition: var(--transition);
             box-shadow: var(--shadow-neumorphic);
@@ -236,116 +272,138 @@
             border: 2px solid transparent;
             background-clip: padding-box;
             flex: 1 1 auto;
-            min-width: 120px;
+            min-width: 130px;
             text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .month-toggle::before {
             content: '';
             position: absolute;
             inset: -2px;
-            background: var(--gradient-border);
+            background: var(--gradient-accent);
             z-index: -1;
+            opacity: 0.7;
+            border-radius: 10px;
         }
 
         .month-toggle:hover {
-            transform: translateY(-4px);
+            transform: scale(1.08);
             color: var(--secondary-gray);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .month-toggle.active {
-            background: var(--primary-red);
+            background: var(--gradient-main);
             color: var(--white);
+            transform: scale(1.05);
         }
 
         .month-content {
             max-height: 0;
             opacity: 0;
             overflow: hidden;
-            transition: max-height 0.6s ease-out, opacity 0.6s ease-out;
+            transform: translateY(20px);
+            transition: max-height 0.7s ease-out, opacity 0.7s ease-out, transform 0.7s ease-out;
         }
 
         .month-content.active {
             max-height: 500px;
             opacity: 1;
+            transform: translateY(0);
         }
 
         .performance-data {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
         }
-.performance-data p {
-    background: #d3d3d3;
-    padding: 1.5rem;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-neumorphic);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
 
-.percentage-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--circle-size);
-    height: var(--circle-size);
-    margin: 1rem 0;
-    background: radial-gradient(circle, var(--white) 60%, transparent);
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+        .performance-data p {
+            background: linear-gradient(135deg, #f5f5f5, #ffffff);
+            padding: 1.8rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-neumorphic);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            border: 1px solid rgba(178, 34, 34, 0.1);
+            background-image: var(--pattern-bg);
+            background-size: 15px 15px;
+        }
 
-.percentage-circle {
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
-}
+        .performance-data p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-.percentage-circle circle {
-    fill: none;
-    stroke-width: 8; /* Thicker stroke to match image */
-    stroke-linecap: round;
-    cx: 50%;
-    cy: 50%;
-    r: calc(var(--circle-size) * 0.4);
-}
+        .performance-data p:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
 
-.percentage-circle .base {
-    stroke: #e0e0e0; /* Lighter gray base to match image */
-}
+        .percentage-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--circle-size);
+            height: var(--circle-size);
+            margin: 1.5rem 0;
+            background: radial-gradient(circle, var(--white) 60%, transparent);
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease-in-out;
+            transform-style: preserve-3d;
+        }
 
-.percentage-circle .progress.red { stroke: var(--score-red); }
-.percentage-circle .progress.orange { stroke: var(--score-orange); }
-.percentage-circle .progress.green { stroke: var(--score-green); }
+        .percentage-container::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(178, 34, 34, 0.3), transparent 70%);
+            opacity: 0;
+            border-radius: 50%;
+            transition: opacity 1.2s ease-in-out;
+            z-index: -1;
+        }
 
-.percentage {
-    position: absolute;
-    font-weight: 700;
-    font-size: 1.2rem; /* Slightly larger to match image */
-    z-index: 2;
-    color: var(--score-red); /* Default red, overridden by class */
-}
+        .percentage-container.animate::before {
+            opacity: 0.7;
+        }
 
-.percentage.green { color: var(--score-green); }
-.percentage.orange { color: var(--score-orange); }
-.percentage.red { color: var(--score-red); }
+        .percentage-container.animate {
+            transform: scale(1.1) rotate(360deg);
+        }
+
+        .percentage-container:hover {
+            transform: rotate(5deg) scale(1.1) perspective(500px) rotateX(10deg) rotateY(10deg);
+        }
+
         .percentage-circle {
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
+            filter: drop-shadow(0 0 5px rgba(178, 34, 34, 0));
+            transition: filter 1.2s ease-in-out;
+        }
+
+        .percentage-circle.glow {
+            filter: drop-shadow(0 0 10px rgba(178, 34, 34, 0.8));
         }
 
         .percentage-circle circle {
             fill: none;
-            stroke-width: 5;
+            stroke-width: 8;
             stroke-linecap: round;
             cx: 50%;
             cy: 50%;
@@ -353,12 +411,30 @@
         }
 
         .percentage-circle .base {
-            stroke: var(--light-gray);
+            stroke: #e0e0e0;
         }
 
-        .percentage-circle .progress.green { stroke: var(--score-green); }
-        .percentage-circle .progress.orange { stroke: var(--score-orange); }
         .percentage-circle .progress.red { stroke: var(--score-red); }
+        .percentage-circle .progress.orange { stroke: var(--score-orange); }
+        .percentage-circle .progress.green { stroke: var(--score-green); }
+
+        .percentage {
+            position: absolute;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            z-index: 2;
+            color: var(--score-red);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .percentage.green { color: var(--score-green); }
+        .percentage.orange { color: var(--score-orange); }
+        .percentage.red { color: var(--score-red); }
+
+        .percentage.pulse {
+            animation: pulseText 0.6s ease-in-out infinite alternate;
+        }
 
         .sparkles {
             position: absolute;
@@ -374,83 +450,126 @@
             position: absolute;
             width: 6px;
             height: 6px;
-            background: radial-gradient(circle, var(--glow-color), transparent);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.7), transparent);
             border-radius: 50%;
             opacity: 0;
-            animation: sparkle 0.8s ease-out forwards;
+            animation: sparkle 1s ease-out forwards;
+        }
+
+        .sparkle:nth-child(odd) {
+            width: 10px;
+            height: 10px;
+            animation-duration: 1.2s;
+        }
+
+        .sparkle:nth-child(even) {
+            animation-delay: 0.3s;
         }
 
         .resource-links {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            padding: 1rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding: 1.5rem 0;
         }
 
         .resource-link {
             background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            padding: 2rem;
-            border-radius: 12px;
+            padding: 2.5rem;
+            border-radius: 15px;
             box-shadow: var(--shadow-neumorphic);
             text-align: center;
-            transition: transform 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            border: var(--glass-border);
         }
 
         .resource-link:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
         }
 
         .resource-link a {
             color: var(--primary-red);
             text-decoration: none;
+            font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 15%, transparent 30%);
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+            pointer-events: none;
+        }
+
+        .resource-link:hover::after {
+            opacity: 0.9;
+            animation: glowPulse 1.2s infinite alternate;
         }
 
         .form-group {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-group label {
             position: absolute;
-            top: 1rem;
-            left: 1rem;
+            top: 1.2rem;
+            left: 1.2rem;
             color: var(--accent-gray);
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: var(--transition);
             pointer-events: none;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
         }
 
         [lang="ar"] .form-group label {
             left: unset;
-            right: 1rem;
+            right: 1.2rem;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 1rem;
+            padding: 1.2rem;
             border: none;
-            border-bottom: 3px solid var(--light-gray);
-            border-radius: 4px 4px 0 0;
+            border-bottom: 4px solid var(--light-gray);
+            border-radius: 6px 6px 0 0;
             background: var(--white);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             border-bottom-color: var(--primary-red);
+            box-shadow: inset 0 2px 6px rgba(178, 34, 34, 0.2);
         }
 
         .form-group input:focus + label,
         .form-group textarea:focus + label,
         .form-group input:not(:placeholder-shown) + label,
         .form-group textarea:not(:placeholder-shown) + label {
-            top: -0.5rem;
-            left: 0.5rem;
-            font-size: 0.8rem;
+            top: -0.7rem;
+            left: 0.7rem;
+            font-size: 0.9rem;
             color: var(--primary-red);
         }
 
@@ -459,82 +578,103 @@
         [lang="ar"] .form-group input:not(:placeholder-shown) + label,
         [lang="ar"] .form-group textarea:not(:placeholder-shown) + label {
             left: unset;
-            right: 0.5rem;
+            right: 0.7rem;
         }
 
         button {
-            background: var(--primary-red);
+            background: var(--gradient-main);
             color: var(--white);
-            padding: 1rem;
+            padding: 1.2rem 2rem;
             border: none;
-            border-radius: 8px;
-            font-size: 1.2rem;
+            border-radius: 10px;
+            font-size: 1.3rem;
             cursor: pointer;
             transition: var(--transition);
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         button:hover {
             background: var(--secondary-gray);
-            transform: scale(1.05);
+            transform: scale(1.08);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .message-received {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: var(--shadow-neumorphic);
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary-red);
             display: none;
+            background: var(--glass-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            margin-top: 2rem;
+            border: var(--glass-border);
         }
 
         .message-received.active {
             display: block;
         }
 
-        .login-form {
-            display: none;
-            padding: 2rem;
-            background: var(--white);
-            border-radius: 8px;
-            box-shadow: var(--shadow-neumorphic);
-            border-left: 4px solid var(--primary-red);
+        .message-received h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 1.5rem;
         }
 
-        .login-form.active {
-            display: block;
-        }
-
-        .message-list {
-            margin-top: 1rem;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 1rem;
-            border-radius: 8px;
-            background: var(--light-gray);
+        .message-received p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .message-item {
             background: var(--white);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
             box-shadow: var(--shadow);
         }
 
+        .login-form {
+            background: var(--glass-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            max-width: 500px;
+            margin: 0 auto;
+            border: var(--glass-border);
+        }
+
+        .login-form h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--metallic-bg);
+            color: var(--white);
+            box-shadow: var(--shadow);
+            font-size: 1.1rem;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            border-top: 3px solid var(--primary-red);
+            background-image: var(--pattern-bg);
+            background-size: 20px 20px;
+        }
+
         @keyframes zoomIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         @keyframes rotateIn {
-            from { opacity: 0; transform: rotate(-10deg); }
-            to { opacity: 1; transform: rotate(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { transform: rotate(-180deg); opacity: 0; }
+            to { transform: rotate(0); opacity: 1; }
         }
 
         @keyframes shine {
@@ -545,25 +685,44 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulseText {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
 
         @keyframes sparkle {
-            0% { opacity: 1; transform: scale(0.5); }
-            100% { opacity: 0; transform: scale(1.8); }
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+
+        @keyframes glowPulse {
+            from { opacity: 0.4; }
+            to { opacity: 0.9; }
         }
 
         @media (max-width: 768px) {
-            header h1 { font-size: 1.8rem; }
-            header img { max-width: 100px; }
-            .section-toggle { font-size: 1.5rem; padding: 1rem; }
+            header h1 { font-size: 2.5rem; }
+            header img { max-width: 140px; }
+            .section-toggle { font-size: 1.8rem; padding: 1.2rem; }
             .section-content.active { padding: 1.5rem; }
-            .month-toggle { font-size: 1rem; padding: 0.8rem; min-width: 100px; }
+            .month-toggle { font-size: 1.1rem; padding: 0.8rem; }
+            .performance-data { grid-template-columns: 1fr; }
+            .resource-links { grid-template-columns: 1fr; }
+            :root { --circle-size: 4rem; }
         }
 
         @media (max-width: 480px) {
-            .month-list { flex-direction: column; }
-            .month-toggle { font-size: 0.9rem; padding: 0.6rem; }
+            header h1 { font-size: 2rem; }
+            header img { max-width: 120px; }
+            .section-toggle { font-size: 1.5rem; padding: 1rem; }
+            .section-content.active { padding: 1rem; }
+            .month-toggle { font-size: 1rem; min-width: 100px; }
+            .language-selector select { font-size: 1rem; padding: 0.4rem; }
+            main { padding: 1.5rem; }
         }
     </style>
 </head>
@@ -582,6 +741,7 @@
     </header>
 
     <main>
+        <div class="section-divider"></div>
         <div class="section-toggle" data-target="performance-content" data-lang="performance-title" role="button" aria-expanded="false" aria-controls="performance-content">Performance</div>
         <div id="performance-content" class="section-content">
             <div class="performance-data">
@@ -594,22 +754,24 @@
             </div>
         </div>
 
+        <div class="section-divider"></div>
         <div class="section-toggle" data-target="resource-content" data-lang="resource-title" role="button" aria-expanded="false" aria-controls="resource-content">Resource</div>
         <div id="resource-content" class="section-content">
             <p data-lang="resource-desc">Access Automotive's audit forms, interactive tools, and submit improvement proposals below:</p>
             <div class="resource-links">
-                <div class="resource-link"><a href="https://forms.office.com/e/1nWmJsVRNb" target="_blank" rel="noopener" data-lang="audit-gemba">Audit Gemba</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://forms.office.com/e/YNkFgkXXhn" target="_blank" rel="noopener" data-lang="audit-5s">Audit 5S</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://forms.office.com/e/Ps1y5HpJ8u" target="_blank" rel="noopener" data-lang="audit-logistique">Audit Logistique</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://forms.office.com/e/0nhbJYckHs" target="_blank" rel="noopener" data-lang="audit-mur-qualite">Audit Mur Qualité</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://game-5s.web.app/" target="_blank" rel="noopener" data-lang="game-5s">Game 5S</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://proposition-damelioration.web.app/" target="_blank" rel="noopener" data-lang="proposition-amelioration">Proposition d'amélioration</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx" target="_blank" rel="noopener" data-lang="planning-5s">Planning 5S</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx" target="_blank" rel="noopener" data-lang="planning-gemba">Planning Gemba</a><span class="sparkle-effect"></span></div>
-                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx" target="_blank" rel="noopener" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/1nWmJsVRNb" target="_blank" rel="noopener" data-lang="audit-gemba">Audit Gemba</a></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/YNkFgkXXhn" target="_blank" rel="noopener" data-lang="audit-5s">Audit 5S</a></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/Ps1y5HpJ8u" target="_blank" rel="noopener" data-lang="audit-logistique">Audit Logistique</a></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/0nhbJYckHs" target="_blank" rel="noopener" data-lang="audit-mur-qualite">Audit Mur Qualité</a></div>
+                <div class="resource-link"><a href="https://game-5s.web.app/" target="_blank" rel="noopener" data-lang="game-5s">Game 5S</a></div>
+                <div class="resource-link"><a href="https://proposition-damelioration.web.app/" target="_blank" rel="noopener" data-lang="proposition-amelioration">Proposition d'amélioration</a></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx" target="_blank" rel="noopener" data-lang="planning-5s">Planning 5S</a></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx" target="_blank" rel="noopener" data-lang="planning-gemba">Planning Gemba</a></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx" target="_blank" rel="noopener" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a></div>
             </div>
         </div>
 
+        <div class="section-divider"></div>
         <div class="section-toggle" data-target="results-content" data-lang="results-title" role="button" aria-expanded="false" aria-controls="results-content">Results Monsueal</div>
         <div id="results-content" class="section-content">
             <p data-lang="results-desc">Select a month to view Monsueal audit results:</p>
@@ -621,37 +783,23 @@
                 <div class="month-toggle" data-month="may" data-lang="month-may" role="button" aria-expanded="false" aria-controls="may-results" tabindex="0">May</div>
             </div>
             <div id="month-results">
-    <div id="january-results" class="month-content" data-month="january">
-        <div class="performance-data">
-            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0% Score</span><span class="sparkles"></span></span></p>
-            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 80%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="80"></circle></svg><span class="percentage orange" data-value="80">0%</span><span class="sparkles"></span></span></p>
-        </div>
-    </div>
-    <div id="february-results" class="month-content" data-month="february">
-        <div class="performance-data">
-            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 30%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="30"></circle></svg><span class="percentage red" data-value="30">0% Score</span><span class="sparkles"></span></span></p>
-            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0%</span><span class="sparkles"></span></span></p>
-        </div>
-    </div>
-    <div id="march-results" class="month-content" data-month="march">
-        <div class="performance-data">
-            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 90%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
-            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
-        </div>
-    </div>
-    <div id="april-results" class="month-content" data-month="april">
-        <div class="performance-data">
-            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 65%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="65"></circle></svg><span class="percentage orange" data-value="65">0% Score</span><span class="sparkles"></span></span></p>
-            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
-        </div>
-    </div>
-    <div id="may-results" class="month-content" data-month="may">
-        <div class="performance-data">
-            <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 92%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="92"></circle></svg><span class="percentage green" data-value="92">0% Score</span><span class="sparkles"></span></span></p>
-            <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
-        </div>
-    </div>
-</div>
+                <div id="january-results" class="month-content" data-month="january">
+                    <div class="performance-data">
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 80%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="80"></circle></svg><span class="percentage orange" data-value="80">0%</span><span class="sparkles"></span></span></p>
+                    </div>
+                </div>
+                <div id="february-results" class="month-content" data-month="february">
+                    <div class="performance-data">
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 30%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="30"></circle></svg><span class="percentage red" data-value="30">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0%</span><span class="sparkles"></span></span></p>
+                    </div>
+                </div>
+                <div id="march-results" class="month-content" data-month="march">
+                    <div class="performance-data">
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 90%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+                    </div>
                 </div>
                 <div id="april-results" class="month-content" data-month="april">
                     <div class="performance-data">
@@ -668,6 +816,7 @@
             </div>
         </div>
 
+        <div class="section-divider"></div>
         <div class="section-toggle" data-target="contact-content" data-lang="contact-title" role="button" aria-expanded="false" aria-controls="contact-content">Contact Us</div>
         <div id="contact-content" class="section-content">
             <div id="contact-form-content">
@@ -682,7 +831,7 @@
                         <label for="email" data-lang="email-label">Email</label>
                     </div>
                     <div class="form-group">
-                        <textarea id="message" name="message" placeholder=" " rows="5" required></textarea>
+                        <textarea id="message" name="message" placeholder=" " required type="message" rows="5"></textarea>
                         <label for="message" data-lang="message-label">Message</label>
                     </div>
                     <button type="submit" data-lang="submit-button">Send Message</button>
@@ -697,6 +846,7 @@
             </div>
         </div>
 
+        <div class="section-divider"></div>
         <div class="section-toggle" data-target="message-recu-content" data-lang="message-recu-title" role="button" aria-expanded="false" aria-controls="message-recu-content">Message Reçu</div>
         <div id="message-recu-content" class="section-content">
             <div id="login-form" class="login-form">
@@ -716,7 +866,7 @@
             </div>
             <div id="message-list" class="message-received" style="display: none;">
                 <h2 data-lang="message-recu-title">Message Reçu</h2>
-                <div id="messages" class="message-list"></div>
+                <div id="messages" class="message-content"></div>
                 <button id="logout-button" data-lang="logout-button">Logout</button>
             </div>
         </div>
@@ -727,7 +877,7 @@
     </footer>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
         import { getFirestore, collection, addDoc, serverTimestamp, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
@@ -743,25 +893,28 @@
         };
 
         let app, db, auth;
-        try {
+        if (!getApps().length) {
             console.log('Initializing Firebase');
             app = initializeApp(firebaseConfig);
             getAnalytics(app);
             db = getFirestore(app);
             auth = getAuth(app);
             console.log('Firebase initialized');
-        } catch (error) {
-            console.error('Firebase initialization failed:', error);
+        } else {
+            app = getApps()[0];
+            db = getFirestore(app);
+            auth = getAuth(app);
+            console.log('Using existing Firebase app');
         }
 
-        function toggleSection(targetId, toggle) {
-            console.log(`Toggling section: ${targetId}`);
-            const targetContent = document.getElementById(targetId);
-            if (!targetContent) {
-                console.error(`Target content ${targetId} not found`);
+        function toggleSection(sectionTargetId, toggleElement) {
+            console.log(`Toggling section: ${sectionTargetId}`);
+            const sectionTargetContent = document.getElementById(sectionTargetId);
+            if (!sectionTargetContent) {
+                console.error(`Target content ${sectionTargetId} not found`);
                 return;
             }
-            const isActive = targetContent.classList.contains('active');
+            const isSectionActive = sectionTargetContent.classList.contains('active');
 
             document.querySelectorAll('.section-content').forEach(content => {
                 content.classList.remove('active');
@@ -781,27 +934,31 @@
                 t.setAttribute('aria-expanded', 'false');
             });
 
-            if (!isActive) {
-                targetContent.classList.add('active');
-                targetContent.setAttribute('aria-expanded', 'true');
-                toggle.classList.add('active');
-                toggle.setAttribute('aria-expanded', 'true');
-                if (targetId === 'performance-content') {
-                    animatePercentages(targetContent);
+            if (!isSectionActive) {
+                sectionTargetContent.classList.add('active');
+                sectionTargetContent.setAttribute('aria-expanded', 'true');
+                toggleElement.classList.add('active');
+                toggleElement.setAttribute('aria-expanded', 'true');
+                if (sectionTargetId === 'performance-content' || sectionTargetContent.closest('#results-content')) {
+                    animatePercentages(sectionTargetContent);
                 }
             }
         }
 
-        function initToggles() {
+        function initSectionToggles() {
             console.log('Initializing section toggles');
-            const toggles = document.querySelectorAll('.section-toggle');
-            toggles.forEach(toggle => {
-                const targetId = toggle.getAttribute('data-target');
-                toggle.addEventListener('click', () => toggleSection(targetId, toggle));
-                toggle.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleSection(targetId, toggle);
+            const sectionToggles = document.querySelectorAll('.section-toggle');
+            if (sectionToggles.length === 0) {
+                console.error('No section toggles found');
+                return;
+            }
+            sectionToggles.forEach(toggle => {
+                const sectionTargetId = toggle.getAttribute('data-target');
+                toggle.addEventListener('click', () => toggleSection(sectionTargetId, toggle));
+                toggle.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        toggleSection(sectionTargetId, toggle);
                     }
                 });
             });
@@ -812,6 +969,7 @@
             const monthToggles = document.querySelectorAll('.month-toggle');
             if (monthToggles.length === 0) {
                 console.error('No month toggles found');
+                return;
             }
             monthToggles.forEach(toggle => {
                 const month = toggle.getAttribute('data-month');
@@ -819,23 +977,23 @@
                     console.log(`Month toggle clicked: ${month}`);
                     toggleMonth(month, toggle);
                 });
-                toggle.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
+                toggle.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
                         toggleMonth(month, toggle);
                     }
                 });
             });
         }
 
-        function toggleMonth(month, toggle) {
-            console.log(`Toggling month: ${month}`);
-            const targetContent = document.getElementById(`${month}-results`);
-            if (!targetContent) {
-                console.error(`Month content ${month}-results not found`);
+        function toggleMonth(monthId, monthToggleElement) {
+            console.log(`Toggling month: ${monthId}`);
+            const monthTargetContent = document.getElementById(`${monthId}-results`);
+            if (!monthTargetContent) {
+                console.error(`Month content ${monthId}-results not found`);
                 return;
             }
-            const isActive = targetContent.classList.contains('active');
+            const isMonthActive = monthTargetContent.classList.contains('active');
 
             document.querySelectorAll('.month-content').forEach(content => {
                 content.classList.remove('active');
@@ -846,108 +1004,103 @@
                 t.setAttribute('aria-expanded', 'false');
             });
 
-            if (!isActive) {
-                targetContent.classList.add('active');
-                targetContent.setAttribute('aria-expanded', 'true');
-                toggle.classList.add('active');
-                toggle.setAttribute('aria-expanded', 'true');
-                animatePercentages(targetContent);
+            if (!isMonthActive) {
+                monthTargetContent.classList.add('active');
+                monthTargetContent.setAttribute('aria-expanded', 'true');
+                monthToggleElement.classList.add('active');
+                monthToggleElement.setAttribute('aria-expanded', 'true');
+                animatePercentages(monthTargetContent);
             }
         }
 
-        function easeOutQuad(t) {
-            return 1 - (1 - t) * (1 - t);
+        function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
         }
 
-        function animatePercentages(container) {
-            console.log('Animating percentages in:', container.id);
-            const percentages = container.querySelectorAll('.percentage');
-            percentages.forEach(p => {
-                const target = parseInt(p.getAttribute('data-value')) || 0;
-                if (target < 0 || target > 100) {
-                    console.warn(`Invalid percentage: ${target}`);
+        function animatePercentages(containerElement) {
+            console.log('Animating percentages in:', containerElement.id);
+            const percentageElements = containerElement.querySelectorAll('.percentage');
+            const dataCards = containerElement.querySelectorAll('.performance-data p');
+            
+            dataCards.forEach((card, index) => {
+                card.classList.add('visible');
+            });
+
+            percentageElements.forEach(p => {
+                const targetPercentage = parseInt(p.getAttribute('data-value')) || 0;
+                if (targetPercentage < 0 || targetPercentage > 100) {
+                    console.warn(`Invalid percentage: ${targetPercentage}`);
                     return;
                 }
-                const circle = p.previousElementSibling.querySelector('.progress');
+                const progressCircle = p.previousElementSibling.querySelector('.progress');
+                const svgCircleElement = p.previousElementSibling;
+                const percentageContainer = p.closest('.percentage-container');
                 const radius = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--circle-size')) * 0.4;
                 const circumference = 2 * Math.PI * radius;
-                let startTime = null;
-                const duration = 1500;
+                let animationStartTime = null;
+                const animationDuration = 1200;
 
-                function update(timestamp) {
-                    if (!startTime) startTime = timestamp;
-                    const elapsed = timestamp - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const easedProgress = easeOutQuad(progress);
-                    const current = easedProgress * target;
-                    const parent = p.closest('p');
-                    const strong = parent.querySelector('strong');
-                    const key = strong.getAttribute('data-lang').replace(/-/g, '_');
+                function updateAnimation(timestamp) {
+                    if (!animationStartTime) animationStartTime = timestamp;
+                    const elapsedTime = timestamp - animationStartTime;
+                    const progress = Math.min(elapsedTime / animationDuration, 1);
+                    const easedProgress = easeInOutQuad(progress);
+                    const currentPercentage = easedProgress * targetPercentage;
+                    const parentElement = p.closest('p');
+                    const strongElement = parentElement.querySelector('strong');
+                    const key = strongElement.getAttribute('data-lang').replace(/-/g, '_');
                     const label = key === 'taux_audit_5s_usine' ? translations[document.getElementById('language').value].score_label : '';
-                    p.textContent = `${Math.round(current)}% ${label}`;
-                    circle.style.strokeDashoffset = circumference * (1 - current / 100);
+                    p.textContent = `${Math.round(currentPercentage)}% ${label}`;
+                    progressCircle.style.strokeDashoffset = circumference * (1 - currentPercentage / 100);
+
+                    svgCircleElement.classList.add('glow');
+                    p.classList.add('pulse');
 
                     if (progress < 1) {
-                        requestAnimationFrame(update);
+                        percentageContainer.classList.add('animate');
+                        requestAnimationFrame(updateAnimation);
                     } else {
-                        p.textContent = `${target}% ${label}`;
-                        circle.style.strokeDashoffset = circumference * (1 - target / 100);
-                        p.classList.add('completed');
-                        const sparkles = p.nextElementSibling;
-                        for (let i = 0; i < 10; i++) {
-                            const sparkle = document.createElement('span');
-                            sparkle.className = 'sparkle';
-                            const angle = Math.random() * 360;
-                            const dist = 20 + Math.random() * 15;
-                            sparkle.style.width = `${4 + Math.random() * 4}px`;
-                            sparkle.style.height = sparkle.style.width;
-                            sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
-                            sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
-                            sparkle.style.animationDelay = `${i * 0.08}s`;
-                            sparkles.appendChild(sparkle);
-                            setTimeout(() => sparkle.remove(), 800);
+                        p.textContent = `${targetPercentage}% ${label}`;
+                        progressCircle.style.strokeDashoffset = circumference * (1 - targetPercentage / 100);
+                        svgCircleElement.classList.remove('glow');
+                        p.classList.remove('pulse');
+                        const sparklesElement = p.nextElementSibling;
+                        if (!sparklesElement.classList.contains('animated')) {
+                            sparklesElement.innerHTML = '';
+                            for (let i = 0; i < 6; i++) {
+                                const sparkle = document.createElement('span');
+                                sparkle.className = 'sparkle';
+                                const angle = (i / 6) * 2 * Math.PI;
+                                const distance = Math.random() * 50 + 25;
+                                sparkle.style.left = `${50 + distance * Math.cos(angle)}%`;
+                                sparkle.style.top = `${50 + distance * Math.sin(angle)}%`;
+                                sparklesElement.appendChild(sparkle);
+                            }
+                            sparklesElement.classList.add('animated');
+                            setTimeout(() => sparklesElement.innerHTML = '', 1200);
                         }
                     }
                 }
 
-                circle.style.strokeDasharray = circumference;
-                circle.style.strokeDashoffset = circumference;
+                progressCircle.style.strokeDasharray = circumference;
+                progressCircle.style.strokeDashoffset = circumference;
                 p.textContent = `0%`;
-                requestAnimationFrame(update);
-            });
-        }
-
-        function animateResourceLinks() {
-            const resourceLinks = document.querySelectorAll('.resource-link');
-            resourceLinks.forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    const sparkleContainer = link.querySelector('.sparkle-effect');
-                    for (let i = 0; i < 5; i++) {
-                        const sparkle = document.createElement('span');
-                        sparkle.className = 'sparkle';
-                        const angle = Math.random() * 360;
-                        const dist = 30 + Math.random() * 20;
-                        sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
-                        sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
-                        sparkleContainer.appendChild(sparkle);
-                        setTimeout(() => sparkle.remove(), 600);
-                    }
-                });
+                requestAnimationFrame(updateAnimation);
             });
         }
 
         function changeLanguage() {
-            const lang = document.getElementById('language').value;
-            document.body.setAttribute('lang', lang);
-            document.querySelectorAll('[data-lang]').forEach(elem => {
-                const key = elem.getAttribute('data-lang').replace(/-/g, '_');
-                elem.textContent = translations[lang][key] || elem.textContent;
+            const selectedLanguage = document.getElementById('language').value;
+            document.body.setAttribute('lang', selectedLanguage);
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang').replace(/-/g, '_');
+                element.textContent = translations[selectedLanguage][key] || element.textContent;
             });
             document.querySelectorAll('.percentage').forEach(p => {
-                const parent = p.closest('p');
-                const strong = parent.querySelector('strong');
-                const key = strong.getAttribute('data-lang').replace(/-/g, '_');
-                const label = key === 'taux_audit_5s_usine' ? translations[lang].score_label : '';
+                const parentElement = p.closest('p');
+                const strongElement = parentElement.querySelector('strong');
+                const key = strongElement.getAttribute('data-lang').replace(/-/g, '_');
+                const label = key === 'taux_audit_5s_usine' ? translations[selectedLanguage].score_label : '';
                 p.textContent = `${p.getAttribute('data-value')}% ${label}`;
             });
         }
@@ -963,20 +1116,17 @@
                     messagesContainer.innerHTML = `<p>${translations[document.getElementById('language').value].no_messages}</p>`;
                     return;
                 }
-                let delay = 0;
                 querySnapshot.forEach(doc => {
-                    const data = doc.data();
+                    const messageData = doc.data();
                     const messageItem = document.createElement('div');
                     messageItem.className = 'message-item';
-                    messageItem.style.animationDelay = `${delay}s`;
                     messageItem.innerHTML = `
-                        <p><strong>${translations[document.getElementById('language').value].name_label}:</strong> ${data.name || 'N/A'}</p>
-                        <p><strong>${translations[document.getElementById('language').value].email_label}:</strong> ${data.email || 'N/A'}</p>
-                        <p><strong>${translations[document.getElementById('language').value].message_label}:</strong> ${data.message || 'N/A'}</p>
-                        <p><strong>${translations[document.getElementById('language').value].date}:</strong> ${data.timestamp ? new Date(data.timestamp.toMillis()).toLocaleString() : 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].name_label}:</strong> ${messageData.name || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].email_label}:</strong> ${messageData.email || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].message_label}:</strong> ${messageData.message || 'N/A'}</p>
+                        <p><strong>${translations[document.getElementById('language').value].date}:</strong> ${messageData.timestamp ? new Date(messageData.timestamp.toMillis()).toLocaleString() : 'N/A'}</p>
                     `;
                     messagesContainer.appendChild(messageItem);
-                    delay += 0.1;
                 });
             } catch (error) {
                 console.error('Error loading messages:', error);
@@ -1020,7 +1170,7 @@
                 email_label: "Email",
                 message_label: "Message",
                 submit_button: "Send Message",
-                footer: "© 2025 Automotive. All rights reserved.",
+                footer: "© 2025 WKW-Automotive. All rights reserved.",
                 message_received_title: "Message Received",
                 message_recu_title: "Received Messages",
                 back_button: "Back to Form",
@@ -1134,7 +1284,7 @@
                 score_label: "Score"
             },
             de: {
-                title: "Automotive",
+                title: "Monsueal Automobil",
                 performance_title: "Leistung",
                 audit_gemba_uap1: "Audit Gemba UAP 1",
                 audit_gemba_uap2: "Audit Gemba UAP 2",
@@ -1144,7 +1294,7 @@
                 audit_5s_logistique: "Audit 5S Logistik",
                 date: "27. Mai 2025",
                 resource_title: "Ressourcen",
-                resource_desc: "Greifen Sie auf die Audit-Formulare von Automotive zu, interaktive Tools und reichen Sie Verbesserungsvorschläge ein:",
+                resource_desc: "Greifen Sie auf die Audit-Formulare, interaktiven Tools von Monsueal Automobil zu und reichen Sie Verbesserungsvorschläge ein:",
                 audit_gemba: "Audit Gemba",
                 audit_5s: "Audit 5S",
                 audit_logistique: "Audit Logistik",
@@ -1153,25 +1303,25 @@
                 proposition_amelioration: "Verbesserungsvorschlag",
                 planning_5s: "Planung 5S",
                 planning_gemba: "Planung Gemba",
-                suivi_mensuel_gemba_5s: "Monatliche Gemba- und 5S-Nachverfolgung",
+                suivi_mensuel_gemba_5s: "Monatliche Nachverfolgung Gemba und 5S",
                 results_title: "Ergebnisse Monsueal",
-                results_desc: "Wählen Sie einen Monat, um die Audit-Ergebnisse von Monsueal anzuzeigen:",
-                taux_audit_5s_usine: "Quote Audit 5S Werk",
-                taux_audit_gemba_usine: "Quote Audit Gemba Werk",
+                results_desc: "Wählen Sie einen Monat aus, um die Audit-Ergebnisse von Monsueal anzuzeigen:",
+                taux_audit_5s_usine: "Rate Audit 5S Werk",
+                taux_audit_gemba_usine: "Rate Audit Gemba Werk",
                 contact_title: "Kontaktieren Sie uns",
-                contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit Automotive-Lösungen.",
+                contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit Monsueal Automobil-Lösungen.",
                 name_label: "Name",
                 email_label: "E-Mail",
                 message_label: "Nachricht",
-                submit_button: "Nachricht senden",
-                footer: "© 2025 Automotive. Alle Rechte vorbehalten.",
-                message_received_title: "Nachricht erhalten",
-                message_recu_title: "Erhaltene Nachrichten",
+                submit_button: "Nachricht Senden",
+                footer: "© 2025 Monsueal Automobil. Alle Rechte vorbehalten.",
+                message_received_title: "Nachricht Erhalten",
+                message_recu_title: "Empfangene Nachrichten",
                 back_button: "Zurück zum Formular",
                 login_title: "Admin-Login",
                 password_label: "Passwort",
-                login_button: "Login",
-                logout_button: "Logout",
+                login_button: "Anmelden",
+                logout_button: "Abmelden",
                 no_messages: "Keine Nachrichten gefunden",
                 error_loading: "Fehler beim Laden der Nachrichten.",
                 month_january: "Januar",
@@ -1184,83 +1334,76 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            try {
-                const languageSelect = document.getElementById('language');
-                const contactForm = document.getElementById('contact-form');
-                const backButton = document.getElementById('back-to-form');
-                const loginForm = document.getElementById('admin-login-form');
-                const logoutButton = document.getElementById('logout-button');
+            console.log('DOM Loaded');
+            initSectionToggles();
+            initMonthToggles();
+            changeLanguage();
+            document.getElementById('language').addEventListener('change', changeLanguage);
 
-                languageSelect.addEventListener('change', changeLanguage);
-                if (contactForm) {
-                    contactForm.addEventListener('submit', async e => {
-                        e.preventDefault();
-                        if (!app) return;
-                        const name = document.getElementById('name').value.trim();
-                        const email = document.getElementById('email').value.trim();
-                        const message = document.getElementById('message').value.trim();
-                        try {
-                            await addDoc(collection(db, 'messages'), {
-                                name, email, message, timestamp: serverTimestamp()
-                            });
-                            document.getElementById('received-name').textContent = name;
-                            document.getElementById('received-email').textContent = email;
-                            document.getElementById('received-message').textContent = message;
-                            document.getElementById('contact-form-content').style.display = 'none';
-                            document.getElementById('message-received').classList.add('active');
-                            contactForm.reset();
-                        } catch (e) {
-                            console.error('Error submitting form:', e);
-                        }
+            const contactFormElement = document.getElementById('contact-form');
+            contactFormElement.addEventListener('submit', async event => {
+                event.preventDefault();
+                const nameInput = document.getElementById('name').value;
+                const emailInput = document.getElementById('email').value;
+                const messageInput = document.getElementById('message').value;
+                try {
+                    await addDoc(collection(db, 'messages'), {
+                        name: nameInput,
+                        email: emailInput,
+                        message: messageInput,
+                        timestamp: serverTimestamp()
                     });
+                    document.getElementById('contact-form-content').style.display = 'none';
+                    document.getElementById('message-received').classList.add('active');
+                    document.getElementById('received-name').textContent = nameInput;
+                    document.getElementById('received-email').textContent = emailInput;
+                    document.getElementById('received-message').textContent = messageInput;
+                    contactFormElement.reset();
+                } catch (error) {
+                    console.error('Error submitting form:', error);
                 }
-                if (backButton) backButton.addEventListener('click', showContactForm);
-                if (loginForm) {
-                    loginForm.addEventListener('submit', async e => {
-                        e.preventDefault();
-                        if (!auth) return;
-                        const email = document.getElementById('admin-email').value;
-                        const password = document.getElementById('admin-password').value;
-                        try {
-                            await signInWithEmailAndPassword(auth, email, password);
-                            document.getElementById('login-form').style.display = 'none';
-                            document.getElementById('message-list').style.display = 'block';
-                            await loadMessages();
-                        } catch (e) {
-                            console.error('Login error:', e);
-                            document.getElementById('login-error').style.display = 'block';
-                            document.getElementById('login-error').textContent = translations[document.getElementById('language').value].error_loading;
-                        }
-                    });
-                }
-                if (logoutButton) {
-                    logoutButton.addEventListener('click', async () => {
-                        if (auth) await signOut(auth);
-                        document.getElementById('login-form').style.display = 'block';
-                        document.getElementById('message-list').style.display = 'none';
-                        document.getElementById('messages').innerHTML = '';
-                    });
-                }
-                if (auth) {
-                    onAuthStateChanged(auth, user => {
-                        if (user && user.email === 'admin@wkw.com') {
-                            document.getElementById('login-form').style.display = 'none';
-                            document.getElementById('message-list').style.display = 'block';
-                            loadMessages();
-                        } else {
-                            document.getElementById('login-form').style.display = 'block';
-                            document.getElementById('message-list').style.display = 'none';
-                        }
-                    });
-                }
+            });
 
-                initToggles();
-                initMonthToggles();
-                changeLanguage();
-                animateResourceLinks();
-            } catch (e) {
-                console.error('Initialization error:', e);
-            }
+            document.getElementById('back-to-form').addEventListener('click', showContactForm);
+
+            const adminLoginFormElement = document.getElementById('admin-login-form');
+            adminLoginFormElement.addEventListener('submit', async event => {
+                event.preventDefault();
+                const adminEmailInput = document.getElementById('admin-email').value;
+                const adminPasswordInput = document.getElementById('admin-password').value;
+                const loginErrorElement = document.getElementById('login-error');
+                try {
+                    await signInWithEmailAndPassword(auth, adminEmailInput, adminPasswordInput);
+                    console.log('Admin logged in');
+                } catch (error) {
+                    console.error('Login error:', error);
+                    loginErrorElement.style.display = 'block';
+                    loginErrorElement.textContent = translations[document.getElementById('language').value].login_error || 'Invalid login credentials';
+                }
+            });
+
+            onAuthStateChanged(auth, user => {
+                const loginFormElement = document.getElementById('login-form');
+                const messageListElement = document.getElementById('message-list');
+                if (user && user.email === 'admin@wkw.com') {
+                    console.log('Authenticated admin user');
+                    loginFormElement.style.display = 'none';
+                    messageListElement.style.display = 'block';
+                    loadMessages();
+                } else {
+                    loginFormElement.style.display = 'block';
+                    messageListElement.style.display = 'none';
+                }
+            });
+
+            document.getElementById('logout-button').addEventListener('click', async () => {
+                try {
+                    await signOut(auth);
+                    console.log('Admin logged out');
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            });
         });
     </script>
 </body>
