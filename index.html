@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automotive homepage with performance audit results, resource links, and contact sections.">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://www.googleapis.com; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://ith-gmbh.de data:">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://www.googleapis.com 'sha256-Aib1TfB0Xk25LR6foxEDe4rDDbFv60AXVTpbsm3zpS8='; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://ith-gmbh.de data:">
     <title>Automotive Hub</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&family=Oswald:wght@200;400;700&display=swap');
@@ -370,7 +370,7 @@
             position: absolute;
             width: 120%;
             height: 120%;
-            background: radial-gradient(circle, rgba(178, 34, 34, 0.3), transparent 70%);
+            background: radial-gradient(circle, rgba(178, 34,  artifact_id="e8e616e0-d894-4936-a3f5-391682ee794c" title="index.html" contentType="text/html">34, 0.3), transparent 70%);
             opacity: 0;
             border-radius: 50%;
             transition: opacity 1.2s ease-in-out;
@@ -521,102 +521,6 @@
             animation: glowPulse 1.2s infinite alternate;
         }
 
-        .form-group {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        .form-group label {
-            position: absolute;
-            top: 1.2rem;
-            left: 1.2rem;
-            color: var(--accent-gray);
-            font-size: 1.1rem;
-            transition: var(--transition);
-            pointer-events: none;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 400;
-        }
-
-        [lang="ar"] .form-group label {
-            left: unset;
-            right: 1.2rem;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1.2rem;
-            border: none;
-            border-bottom: 4px solid var(--light-gray);
-            border-radius: 6px 6px 0 0;
-            background: var(--white);
-            font-size: 1.1rem;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 400;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-bottom-color: var(--primary-red);
-            box-shadow: inset 0 2px 6px rgba(178, 34, 34, 0.2);
-        }
-
-        .form-group input:focus + label,
-        .form-group textarea:focus + label,
-        .form-group input:not(:placeholder-shown) + label,
-        .form-group textarea:not(:placeholder-shown) + label {
-            top: -0.7rem;
-            left: 0.7rem;
-            font-size: 0.9rem;
-            color: var(--primary-red);
-        }
-
-        [lang="ar"] .form-group input:focus + label,
-        [lang="ar"] .form-group textarea:focus + label,
-        [lang="ar"] .form-group input:not(:placeholder-shown) + label,
-        [lang="ar"] .form-group textarea:not(:placeholder-shown) + label {
-            left: unset;
-            right: 0.7rem;
-        }
-
-        button {
-            background: var(--gradient-main);
-            color: var(--white);
-            padding: 1.2rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        button:hover {
-            background: var(--secondary-gray);
-            transform: scale(1.08);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .message-received {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-neumorphic);
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--primary-red);
-            display: none;
-            background-image: var(--pattern-bg);
-            background-size: 20px 20px;
-        }
-
-        .message-received.active {
-            display: block;
-        }
-
         .login-form {
             display: none;
             padding: 2.5rem;
@@ -716,7 +620,8 @@
 
         @keyframes pulseText {
             0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1.15); opacity: 1 ~
+
         }
 
         @media (max-width: 768px) {
