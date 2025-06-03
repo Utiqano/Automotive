@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automotive homepage with performance audit results, resource links, and contact sections.">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://www.googleapis.com 'sha256-Aib1TfB0Xk25LR6foxEDe4rDDbFv60AXVTpbsm3zpS8='; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' https://ith-gmbh.de data:">
     <title>Automotive Hub</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&family=Oswald:wght@200;400;700&display=swap');
-
         :root {
             --primary-red: #b22222;
             --secondary-gray: #333333;
@@ -22,16 +19,13 @@
             --score-red: #e74c3c;
             --score-orange: #f39c12;
             --score-green: #2ecc71;
-            --gradient-main: linear-gradient(135deg, var(--primary-red), #8b0000);
-            --gradient-accent: linear-gradient(45deg, var(--primary-red), var(--secondary-gray));
+            --gradient-border: linear-gradient(45deg, var(--primary-red), var(--secondary-gray));
             --metallic-bg: linear-gradient(135deg, #2a2a2a, #4a4a4a);
             --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --glass-blur: blur(10px);
             --glow: 0 0 15px rgba(178, 34, 34, 0.5);
-            --circle-size: 5rem;
+            --circle-size: clamp(3.5rem, 8vw, 4.5rem); /* Responsive circle size */
             --glow-color: rgba(255, 255, 255, 0.5);
-            --pattern-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M0 0h10v10H0z' fill='none' stroke='%23e0e0e0' stroke-width='0.5'/%3E%3C/svg%3E");
-            --wave-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23b22222' fill-opacity='0.1' d='M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,106.7C960,128,1056,160,1152,176C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
         }
 
         * {
@@ -64,46 +58,29 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
-            border-bottom: 3px solid var(--primary-red);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: linear-gradient(135deg, rgba(42, 42, 42, 0.8), rgba(74, 74, 74, 0.8));
-            background-image: var(--pattern-bg), var(--wave-pattern);
-            background-size: 20px 20px, cover;
-            background-position: center;
-            background-blend-mode: overlay;
+            gap: 1rem;
+            border-bottom: 2px solid var(--primary-red);
         }
 
         header h1 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 700;
+            font-size: 3rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             animation: zoomIn 1.2s ease-out;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
-            background: var(--glass-bg);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border: var(--glass-border);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         header img {
-            max-width: 180px;
+            max-width: 150px;
             height: auto;
-            border-radius: 12px;
+            border-radius: 8px;
             box-shadow: var(--shadow-neumorphic);
             animation: rotateIn 1.5s ease-out;
             transition: var(--transition);
-            background: var(--glass-bg);
-            padding: 0.5rem;
-            border: var(--glass-border);
         }
 
         header img:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
         }
 
         header::before {
@@ -113,70 +90,67 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             animation: shine 5s infinite;
         }
 
         .language-selector {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 1rem;
+            right: 1rem;
             z-index: 2;
-            background: var(--glass-bg);
-            padding: 0.5rem;
-            border-radius: 6px;
-            border: var(--glass-border);
         }
 
         [lang="ar"] .language-selector {
             right: auto;
-            left: 1.5rem;
+            left: 1rem;
         }
 
         .language-selector select {
-            padding: 0.6rem;
+            padding: 0.5rem;
             border: none;
             border-radius: 4px;
-            background: var(--gradient-main);
+            background: var(--primary-red);
             color: var(--white);
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
             box-shadow: var(--shadow);
-            font-family: 'Oswald', sans-serif;
-            font-weight: 400;
         }
 
         .language-selector select:hover {
             background: var(--secondary-gray);
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         main {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2.5rem;
+            padding: 2rem;
         }
 
-        .section-divider {
-            height: 20px;
-            background: var(--wave-pattern);
-            background-size: cover;
-            margin: 2rem 0;
+        footer {
+            background: var(--secondary-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease-out;
+            border-top: 2px solid var(--primary-red);
         }
 
         .section-toggle {
             cursor: pointer;
-            background: var(--gradient-main);
-            color: var(--white);
-            padding: 1.8rem;
-            margin-bottom: 1rem;
-            border-radius: 10px;
-            font-family: 'Oswald', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 1.5rem;
+            margin-bottom: 0.75rem;
+            border-radius: 8px;
+            font-size: 2.2rem;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             transition: var(--transition);
             display: flex;
             justify-content: space-between;
@@ -184,34 +158,27 @@
             box-shadow: var(--shadow-neumorphic);
             position: relative;
             overflow: hidden;
-            border: 3px solid transparent;
+            border: 2px solid transparent;
             background-clip: padding-box;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .section-toggle::before {
             content: '';
             position: absolute;
-            inset: -3px;
-            background: var(--gradient-accent);
+            inset: -2px;
+            background: var(--gradient-border);
             z-index: -1;
-            opacity: 0.9;
-            border-radius: 10px;
         }
 
         .section-toggle:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .section-toggle:hover::after {
-            filter: drop-shadow(0 0 10px rgba(178, 34, 34, 0.7));
+            transform: translateY(-4px);
+            color: var(--secondary-gray);
         }
 
         .section-toggle::after {
             content: '▼';
-            font-size: 1.5rem;
-            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+            font-size: 1.2rem;
+            transition: var(--transition);
         }
 
         .section-toggle.active::after {
@@ -226,44 +193,41 @@
             max-height: 0;
             opacity: 0;
             background: var(--white);
-            padding: 0 2.5rem;
-            border-radius: 10px;
+            padding: 0 2rem;
+            border-radius: 8px;
             box-shadow: var(--shadow-neumorphic);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             overflow: hidden;
-            transition: max-height 0.7s ease-out, opacity 0.7s ease-out, padding 0.7s ease-out;
-            border-left: 5px dashed var(--gradient-accent);
-            background-image: var(--pattern-bg);
-            background-size: 25px 25px;
+            transition: max-height 0.6s ease-out, opacity 0.6s ease-out, padding 0.6s ease-out;
+            border-left: 4px solid var(--primary-red);
         }
 
         [lang="ar"] .section-content {
             border-left: none;
-            border-right: 5px dashed var(--gradient-accent);
+            border-right: 4px solid var(--primary-red);
         }
 
         .section-content.active {
             max-height: 1500px;
             opacity: 1;
-            padding: 2.5rem;
+            padding: 2rem;
         }
 
         .month-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .month-toggle {
             cursor: pointer;
             background: var(--white);
             color: var(--primary-red);
-            padding: 1.2rem;
-            border-radius: 10px;
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
             text-transform: uppercase;
             transition: var(--transition);
             box-shadow: var(--shadow-neumorphic);
@@ -272,82 +236,59 @@
             border: 2px solid transparent;
             background-clip: padding-box;
             flex: 1 1 auto;
-            min-width: 130px;
+            min-width: 120px;
             text-align: center;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .month-toggle::before {
             content: '';
             position: absolute;
             inset: -2px;
-            background: var(--gradient-accent);
+            background: var(--gradient-border);
             z-index: -1;
-            opacity: 0.7;
-            border-radius: 10px;
         }
 
         .month-toggle:hover {
-            transform: scale(1.08);
+            transform: translateY(-4px);
             color: var(--secondary-gray);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .month-toggle.active {
-            background: var(--gradient-main);
+            background: var(--primary-red);
             color: var(--white);
-            transform: scale(1.05);
         }
 
         .month-content {
             max-height: 0;
             opacity: 0;
             overflow: hidden;
-            transform: translateY(20px);
-            transition: max-height 0.7s ease-out, opacity 0.7s ease-out, transform 0.7s ease-out;
+            transition: max-height 0.6s ease-out, opacity 0.6s ease-out;
         }
 
         .month-content.active {
             max-height: 500px;
             opacity: 1;
-            transform: translateY(0);
         }
 
         .performance-data {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
         }
 
         .performance-data p {
-            background: linear-gradient(135deg, #f5f5f5, #ffffff);
-            padding: 1.8rem;
+            background: #d3d3d3;
+            padding: 1.5rem;
             border-radius: 12px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-neumorphic);
+           box-shadow: var(--shadow-neumorphic);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            border: 1px solid rgba(178, 34, 34, 0.1);
-            background-image: var(--pattern-bg);
-            background-size: 15px 15px;
-        }
-
-        .performance-data p.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .performance-data p:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
 
         .percentage-container {
@@ -357,57 +298,25 @@
             justify-content: center;
             width: var(--circle-size);
             height: var(--circle-size);
-            margin: 1.5rem 0;
+            margin: 0.8rem 0;
             background: radial-gradient(circle, var(--white) 60%, transparent);
             border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.5s ease-in-out;
-            transform-style: preserve-3d;
-        }
-
-        .percentage-container::before {
-            content: '';
-            position: absolute;
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(178, 34,  artifact_id="e8e616e0-d894-4936-a3f5-391682ee794c" title="index.html" contentType="text/html">34, 0.3), transparent 70%);
-            opacity: 0;
-            border-radius: 50%;
-            transition: opacity 1.2s ease-in-out;
-            z-index: -1;
-        }
-
-        .percentage-container.animate::before {
-            opacity: 0.7;
-        }
-
-        .percentage-container.animate {
-            transform: scale(1.1) rotate(360deg);
-        }
-
-        .percentage-container:hover {
-            transform: rotate(5deg) scale(1.1) perspective(500px) rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .percentage-circle {
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
-            filter: drop-shadow(0 0 5px rgba(178, 34, 34, 0));
-            transition: filter 1.2s ease-in-out;
-        }
-
-        .percentage-circle.glow {
-            filter: drop-shadow(0 0 10px rgba(178, 34, 34, 0.8));
         }
 
         .percentage-circle circle {
             fill: none;
-            stroke-width: 8;
+            stroke-width: clamp(5, 1vw, 6); /* Responsive stroke width */
             stroke-linecap: round;
-            cx: 50%;
-            cy: 50%;
-            r: calc(var(--circle-size) * 0.4);
+            cx: 50;
+            cy: 50;
+            r: 40; /* Fixed radius for viewBox */
         }
 
         .percentage-circle .base {
@@ -420,21 +329,15 @@
 
         .percentage {
             position: absolute;
-            font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Responsive font size */
             z-index: 2;
             color: var(--score-red);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .percentage.green { color: var(--score-green); }
         .percentage.orange { color: var(--score-orange); }
         .percentage.red { color: var(--score-red); }
-
-        .percentage.pulse {
-            animation: pulseText 0.6s ease-in-out infinite alternate;
-        }
 
         .sparkles {
             position: absolute;
@@ -450,86 +353,131 @@
             position: absolute;
             width: 6px;
             height: 6px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.7), transparent);
+            background: radial-gradient(circle, var(--glow-color), transparent);
             border-radius: 50%;
             opacity: 0;
-            animation: sparkle 1s ease-out forwards;
-        }
-
-        .sparkle:nth-child(odd) {
-            width: 10px;
-            height: 10px;
-            animation-duration: 1.2s;
-        }
-
-        .sparkle:nth-child(even) {
-            animation-delay: 0.3s;
+            animation: sparkle 0.5s ease-out forwards;
         }
 
         .resource-links {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            padding: 1.5rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
         }
 
         .resource-link {
             background: var(--glass-bg);
-            padding: 2.5rem;
-            border-radius: 15px;
+            backdrop-filter: var(--glass-blur);
+            padding: 2rem;
+            border-radius: 12px;
             box-shadow: var(--shadow-neumorphic);
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            will-change: transform;
-            transform-style: preserve-3d;
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-            border: var(--glass-border);
+            transition: transform 0.5s ease;
         }
 
         .resource-link:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px);
         }
 
         .resource-link a {
             color: var(--primary-red);
             text-decoration: none;
-            font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 1.6rem;
-            position: relative;
-            z-index: 1;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-size: 1.4rem;
         }
 
-        .resource-link::after {
-            content: '';
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 15%, transparent 30%);
-            opacity: 0;
-            transition: opacity 0.4s ease-out;
+            top: 1rem;
+            left: 1rem;
+            color: var(--accent-gray);
+            font-size: 1rem;
+            transition: var(--transition);
             pointer-events: none;
         }
 
-        .resource-link:hover::after {
-            opacity: 0.9;
-            animation: glowPulse 1.2s infinite alternate;
+        [lang="ar"] .form-group label {
+            left: unset;
+            right: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-bottom: 3px solid var(--light-gray);
+            border-radius: 4px 4px 0 0;
+            background: var(--white);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-bottom-color: var(--primary-red);
+        }
+
+        .form-group input:focus + label,
+        .form-group textarea:focus + label,
+        .form-group input:not(:placeholder-shown) + label,
+        .form-group textarea:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            left: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--primary-red);
+        }
+
+        [lang="ar"] .form-group input:focus + label,
+        [lang="ar"] .form-group textarea:focus + label,
+        [lang="ar"] .form-group input:not(:placeholder-shown) + label,
+        [lang="ar"] .form-group textarea:not(:placeholder-shown) + label {
+            left: unset;
+            right: 0.5rem;
+        }
+
+        button {
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        button:hover {
+            background: var(--secondary-gray);
+            transform: scale(1.05);
+        }
+
+        .message-received {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-neumorphic);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-red);
+            display: none;
+        }
+
+        .message-received.active {
+            display: block;
         }
 
         .login-form {
             display: none;
-            padding: 2.5rem;
+            padding: 2rem;
             background: var(--white);
-            border-radius: 12px;
+            border-radius: 8px;
             box-shadow: var(--shadow-neumorphic);
-            border-left: 5px solid var(--primary-red);
-            background-image: var(--pattern-bg);
-            background-size: 20px 20px;
+            border-left: 4px solid var(--primary-red);
         }
 
         .login-form.active {
@@ -537,54 +485,20 @@
         }
 
         .message-list {
-            margin-top: 1.5rem;
-            max-height: 450px;
+            margin-top: 1rem;
+            max-height: 400px;
             overflow-y: auto;
-            padding: 1.5rem;
-            border-radius: 10px;
+            padding: 1rem;
+            border-radius: 8px;
             background: var(--light-gray);
-            box-shadow: var(--shadow-neumorphic);
         }
 
         .message-item {
-            background: var(--glass-bg);
-            padding: 1.2rem;
+            background: var(--white);
+            padding: 1rem;
             border-radius: 8px;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
             box-shadow: var(--shadow);
-            border: var(--glass-border);
-        }
-
-        footer {
-            background: var(--secondary-gray);
-            color: var(--white);
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            box-shadow: var(--shadow);
-            animation: fadeInUp 1s ease-out;
-            border-top: 3px solid var(--primary-red);
-            background-image: var(--pattern-bg);
-            background-size: 15px 15px;
-        }
-
-        footer p {
-            position: relative;
-        }
-
-        footer p::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-red);
-            transition: width 0.5s ease-in-out;
-        }
-
-        footer p:hover::after {
-            width: 100%;
         }
 
         @keyframes zoomIn {
@@ -610,42 +524,48 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-5px); }
         }
 
         @keyframes sparkle {
-            0% { opacity: 1; transform: scale(0.5); }
-            100% { opacity: 0; transform: scale(1.8); }
-        }
-
-        @keyframes pulseText {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.15); opacity: 1 ~
-
+            0% { opacity: 1; transform: scale(0.5) translate(var(--tx), var(--ty)); }
+            100% { opacity: 0; transform: scale(1.5) translate(var(--tx), var(--ty)); }
         }
 
         @media (max-width: 768px) {
-            header h1 { font-size: 2rem; }
-            header img { max-width: 120px; }
-            .section-toggle { font-size: 1.8rem; padding: 1.2rem; }
-            .section-content.active { padding: 1.8rem; }
-            .month-toggle { font-size: 1.1rem; padding: 0.9rem; min-width: 110px; }
-            :root { --circle-size: 4.5rem; }
-            .percentage { font-size: 1.1rem; }
-            .performance-data p { font-size: 1rem; padding: 1.2rem; }
-            .resource-link a { font-size: 1.4rem; }
-            .resource-link { padding: 1.8rem; }
-            .section-content { background-size: 15px 15px; }
+            header h1 { font-size: 1.8rem; }
+            header img { max-width: 100px; }
+            .section-toggle { font-size: 1.5rem; padding: 1rem; }
+            .section-content.active { padding: 1.5rem; }
+            .month-toggle { font-size: 1rem; padding: 0.8rem; min-width: 100px; }
+            .percentage-container {
+                width: clamp(3rem, 7vw, 3.8rem);
+                height: clamp(3rem, 7vw, 3.8rem);
+                margin: 0.5rem 0;
+            }
+            .percentage-circle circle {
+                stroke-width: 4;
+            }
+            .percentage {
+                font-size: clamp(0.8rem, 2vw, 0.95rem);
+            }
         }
 
         @media (max-width: 480px) {
             .month-list { flex-direction: column; }
-            .month-toggle { font-size: 1rem; padding: 0.7rem; }
-            :root { --circle-size: 4rem; }
-            .percentage { font-size: 1rem; }
-            .performance-data { grid-template-columns: 1fr; }
-            .resource-links { grid-template-columns: 1fr; }
-            .section-content { background-size: 10px 10px; }
+            .month-toggle { font-size: 0.9rem; padding: 0.6rem; }
+            .percentage-container {
+                width: clamp(2.5rem, 6vw, 3.2rem);
+                height: clamp(2.5rem, 6vw, 3.2rem);
+            }
+            .percentage {
+                font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+            }
+        }
+
+        noscript {
+            .percentage-circle { display: none; }
+            .percentage { position: static; font-size: 1rem; }
         }
     </style>
 </head>
@@ -664,37 +584,34 @@
     </header>
 
     <main>
-        <div class="section-divider"></div>
         <div class="section-toggle" data-target="performance-content" data-lang="performance-title" role="button" aria-expanded="false" aria-controls="performance-content">Performance</div>
         <div id="performance-content" class="section-content">
             <div class="performance-data">
-                <p><strong data-lang="audit-gemba-uap1">Audit Gemba UAP 1:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="88"></circle></svg><span class="percentage green" data-value="88">0% Compliance</span><span class="sparkles"></span></span> <span data-lang="date">May 27, 2025</span></p>
-                <p><strong data-lang="audit-gemba-uap2">Audit Gemba UAP 2:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="85"></circle></svg><span class="percentage orange" data-value="85">0% Compliance</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-5s-uap1">Audit 5S UAP 1:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-5s-uap2">Audit 5S UAP 2:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="87"></circle></svg><span class="percentage green" data-value="87">0% Score</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-gemba-logistique">Audit Gemba Logistique:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="92"></circle></svg><span class="percentage green" data-value="92">0% Efficiency</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-5s-logistique">Audit 5S Logistique:</strong> <span class="percentage-container"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="89"></circle></svg><span class="percentage green" data-value="89">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-gemba-uap1">Audit Gemba UAP 1:</strong> <span class="percentage-container" aria-label="Audit Gemba UAP 1: 88%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="88" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="88">0% Compliance</span><span class="sparkles"></span></span> <span data-lang="date">May 27, 2025</span></p>
+                <p><strong data-lang="audit-gemba-uap2">Audit Gemba UAP 2:</strong> <span class="percentage-container" aria-label="Audit Gemba UAP 2: 85%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="85" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="85">0% Compliance</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-uap1">Audit 5S UAP 1:</strong> <span class="percentage-container" aria-label="Audit 5S UAP 1: 90%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="90" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-uap2">Audit 5S UAP 2:</strong> <span class="percentage-container" aria-label="Audit 5S UAP 2: 87%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="87" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="87">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-gemba-logistique">Audit Gemba Logistique:</strong> <span class="percentage-container" aria-label="Audit Gemba Logistique: 92%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="92" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="92">0% Efficiency</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-logistique">Audit 5S Logistique:</strong> <span class="percentage-container" aria-label="Audit 5S Logistique: 89%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="89" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="89">0% Score</span><span class="sparkles"></span></span></p>
             </div>
         </div>
 
-        <div class="section-divider"></div>
         <div class="section-toggle" data-target="resource-content" data-lang="resource-title" role="button" aria-expanded="false" aria-controls="resource-content">Resource</div>
         <div id="resource-content" class="section-content">
             <p data-lang="resource-desc">Access Automotive's audit forms, interactive tools, and submit improvement proposals below:</p>
             <div class="resource-links">
-                <div class="resource-link"><a href="https://forms.office.com/e/1nWmJsVRNb" target="_blank" rel="noopener" data-lang="audit-gemba">Audit Gemba</a></div>
-                <div class="resource-link"><a href="https://forms.office.com/e/YNkFgkXXhn" target="_blank" rel="noopener" data-lang="audit-5s">Audit 5S</a></div>
-                <div class="resource-link"><a href="https://forms.office.com/e/Ps1y5HpJ8u" target="_blank" rel="noopener" data-lang="audit-logistique">Audit Logistique</a></div>
-                <div class="resource-link"><a href="https://forms.office.com/e/0nhbJYckHs" target="_blank" rel="noopener" data-lang="audit-mur-qualite">Audit Mur Qualité</a></div>
-                <div class="resource-link"><a href="https://game-5s.web.app/" target="_blank" rel="noopener" data-lang="game-5s">Game 5S</a></div>
-                <div class="resource-link"><a href="https://proposition-damelioration.web.app/" target="_blank" rel="noopener" data-lang="proposition-amelioration">Proposition d'amélioration</a></div>
-                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx" target="_blank" rel="noopener" data-lang="planning-5s">Planning 5S</a></div>
-                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx" target="_blank" rel="noopener" data-lang="planning-gemba">Planning Gemba</a></div>
-                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx" target="_blank" rel="noopener" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/1nWmJsVRNb" target="_blank" rel="noopener" data-lang="audit-gemba">Audit Gemba</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/YNkFgkXXhn" target="_blank" rel="noopener" data-lang="audit-5s">Audit 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/Ps1y5HpJ8u" target="_blank" rel="noopener" data-lang="audit-logistique">Audit Logistique</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://forms.office.com/e/0nhbJYckHs" target="_blank" rel="noopener" data-lang="audit-mur-qualite">Audit Mur Qualité</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://game-5s.web.app/" target="_blank" rel="noopener" data-lang="game-5s">Game 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://proposition-damelioration.web.app/" target="_blank" rel="noopener" data-lang="proposition-amelioration">Proposition d'amélioration</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx" target="_blank" rel="noopener" data-lang="planning-5s">Planning 5S</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx" target="_blank" rel="noopener" data-lang="planning-gemba">Planning Gemba</a><span class="sparkle-effect"></span></div>
+                <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx" target="_blank" rel="noopener" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a><span class="sparkle-effect"></span></div>
             </div>
         </div>
 
-        <div class="section-divider"></div>
         <div class="section-toggle" data-target="results-content" data-lang="results-title" role="button" aria-expanded="false" aria-controls="results-content">Results Monsueal</div>
         <div id="results-content" class="section-content">
             <p data-lang="results-desc">Select a month to view Monsueal audit results:</p>
@@ -708,38 +625,37 @@
             <div id="month-results">
                 <div id="january-results" class="month-content" data-month="january">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 80%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="80"></circle></svg><span class="percentage orange" data-value="80">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 60%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="60" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="60">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 80%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="80" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="80">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="february-results" class="month-content" data-month="february">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 30%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="30"></circle></svg><span class="percentage red" data-value="30">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 60%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="60"></circle></svg><span class="percentage orange" data-value="60">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 30%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="30" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="30">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 60%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="60" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="60">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="march-results" class="month-content" data-month="march">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 90%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="90"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 90%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="90" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="april-results" class="month-content" data-month="april">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 65%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress orange" data-value="65"></circle></svg><span class="percentage orange" data-value="65">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 65%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="65" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="65">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="may-results" class="month-content" data-month="may">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 92%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress green" data-value="92"></circle></svg><span class="percentage green" data-value="92">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle"><circle class="base"></circle><circle class="progress red" data-value="50"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 92%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="92" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="92">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="50">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="section-divider"></div>
         <div class="section-toggle" data-target="contact-content" data-lang="contact-title" role="button" aria-expanded="false" aria-controls="contact-content">Contact Us</div>
         <div id="contact-content" class="section-content">
             <div id="contact-form-content">
@@ -769,7 +685,6 @@
             </div>
         </div>
 
-        <div class="section-divider"></div>
         <div class="section-toggle" data-target="message-recu-content" data-lang="message-recu-title" role="button" aria-expanded="false" aria-controls="message-recu-content">Message Reçu</div>
         <div id="message-recu-content" class="section-content">
             <div id="login-form" class="login-form">
@@ -798,6 +713,13 @@
     <footer>
         <p data-meta="footer">© 2025 WKW-Automotive. All rights reserved.</p>
     </footer>
+
+    <noscript>
+        <style>
+            .percentage-circle { display: none; }
+            .percentage { position: static; font-size: 1rem; }
+        </style>
+    </noscript>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
@@ -859,7 +781,7 @@
                 targetContent.setAttribute('aria-expanded', 'true');
                 toggle.classList.add('active');
                 toggle.setAttribute('aria-expanded', 'true');
-                if (targetId === 'performance-content' || targetContent.closest('#results-content')) {
+                if (targetId === 'performance-content' || targetId === 'results-content') {
                     animatePercentages(targetContent);
                 }
             }
@@ -868,10 +790,6 @@
         function initToggles() {
             console.log('Initializing section toggles');
             const toggles = document.querySelectorAll('.section-toggle');
-            if (toggles.length === 0) {
-                console.error('No section toggles found');
-                return;
-            }
             toggles.forEach(toggle => {
                 const targetId = toggle.getAttribute('data-target');
                 toggle.addEventListener('click', () => toggleSection(targetId, toggle));
@@ -889,7 +807,6 @@
             const monthToggles = document.querySelectorAll('.month-toggle');
             if (monthToggles.length === 0) {
                 console.error('No month toggles found');
-                return;
             }
             monthToggles.forEach(toggle => {
                 const month = toggle.getAttribute('data-month');
@@ -933,19 +850,13 @@
             }
         }
 
-        function easeInOutCubic(t) {
-            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        function easeOutQuad(t) {
+            return 1 - (1 - t) * (1 - t);
         }
 
         function animatePercentages(container) {
             console.log('Animating percentages in:', container.id);
             const percentages = container.querySelectorAll('.percentage');
-            const dataCards = container.querySelectorAll('.performance-data p');
-            
-            dataCards.forEach((card, index) => {
-                card.classList.add('visible');
-            });
-
             percentages.forEach(p => {
                 const target = parseInt(p.getAttribute('data-value')) || 0;
                 if (target < 0 || target > 100) {
@@ -953,18 +864,16 @@
                     return;
                 }
                 const circle = p.previousElementSibling.querySelector('.progress');
-                const svgCircle = p.previousElementSibling;
-                const container = p.closest('.percentage-container');
-                const radius = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--circle-size')) * 0.4;
+                const radius = 40; // Matches r="40" in SVG
                 const circumference = 2 * Math.PI * radius;
                 let startTime = null;
-                const duration = 1200;
+                const duration = 1500;
 
                 function update(timestamp) {
                     if (!startTime) startTime = timestamp;
                     const elapsed = timestamp - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    const easedProgress = easeInOutCubic(progress);
+                    const easedProgress = easeOutQuad(progress);
                     const current = easedProgress * target;
                     const parent = p.closest('p');
                     const strong = parent.querySelector('strong');
@@ -973,31 +882,25 @@
                     p.textContent = `${Math.round(current)}% ${label}`;
                     circle.style.strokeDashoffset = circumference * (1 - current / 100);
 
-                    svgCircle.classList.add('glow');
-                    p.classList.add('pulse');
-
                     if (progress < 1) {
-                        container.classList.add('animate');
                         requestAnimationFrame(update);
                     } else {
                         p.textContent = `${target}% ${label}`;
                         circle.style.strokeDashoffset = circumference * (1 - target / 100);
-                        svgCircle.classList.remove('glow');
-                        p.classList.remove('pulse');
+                        p.classList.add('completed');
                         const sparkles = p.nextElementSibling;
-                        if (!sparkles.classList.contains('animated')) {
-                            sparkles.innerHTML = '';
-                            for (let i = 0; i < 6; i++) {
-                                const sparkle = document.createElement('span');
-                                sparkle.className = 'sparkle';
-                                const angle = (i / 6) * 2 * Math.PI;
-                                const distance = Math.random() * 50 + 25;
-                                sparkle.style.left = `${50 + distance * Math.cos(angle)}%`;
-                                sparkle.style.top = `${50 + distance * Math.sin(angle)}%`;
-                                sparkles.appendChild(sparkle);
-                            }
-                            sparkles.classList.add('animated');
-                            setTimeout(() => sparkles.innerHTML = '', 1200);
+                        for (let i = 0; i < 10; i++) {
+                            const sparkle = document.createElement('span');
+                            sparkle.className = 'sparkle';
+                            const angle = Math.random() * 360;
+                            const dist = 15 + Math.random() * 10;
+                            sparkle.style.width = `${3 + Math.random() * 3}px`;
+                            sparkle.style.height = sparkle.style.width;
+                            sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
+                            sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
+                            sparkle.style.animationDelay = `${i * 0.06}s`;
+                            sparkles.appendChild(sparkle);
+                            setTimeout(() => sparkle.remove(), 600);
                         }
                     }
                 }
@@ -1006,6 +909,42 @@
                 circle.style.strokeDashoffset = circumference;
                 p.textContent = `0%`;
                 requestAnimationFrame(update);
+            });
+        }
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function (...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => (inThrottle = false), limit);
+                }
+            };
+        }
+
+        function animateResourceLinks() {
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                return;
+            }
+            const resourceLinks = document.querySelectorAll('.resource-link');
+            resourceLinks.forEach(link => {
+                const sparkleContainer = link.querySelector('.sparkle-effect');
+                sparkleContainer.innerHTML = '';
+                const animateSparkles = throttle(() => {
+                    for (let i = 0; i < 3; i++) {
+                        const sparkle = document.createElement('span');
+                        sparkle.className = 'sparkle';
+                        const angle = Math.random() * 360;
+                        const dist = 20 + Math.random() * 15;
+                        sparkle.style.setProperty('--tx', `${Math.cos(angle * Math.PI / 180) * dist}px`);
+                        sparkle.style.setProperty('--ty', `${Math.sin(angle * Math.PI / 180) * dist}px`);
+                        sparkle.style.animationDuration = '0.5s';
+                        sparkleContainer.appendChild(sparkle);
+                        setTimeout(() => sparkle.remove(), 500);
+                    }
+                }, 300);
+                link.addEventListener('mouseenter', animateSparkles);
             });
         }
 
@@ -1036,10 +975,12 @@
                     messagesContainer.innerHTML = `<p>${translations[document.getElementById('language').value].no_messages}</p>`;
                     return;
                 }
+                let delay = 0;
                 querySnapshot.forEach(doc => {
                     const data = doc.data();
                     const messageItem = document.createElement('div');
                     messageItem.className = 'message-item';
+                    messageItem.style.animationDelay = `${delay}s`;
                     messageItem.innerHTML = `
                         <p><strong>${translations[document.getElementById('language').value].name_label}:</strong> ${data.name || 'N/A'}</p>
                         <p><strong>${translations[document.getElementById('language').value].email_label}:</strong> ${data.email || 'N/A'}</p>
@@ -1047,6 +988,7 @@
                         <p><strong>${translations[document.getElementById('language').value].date}:</strong> ${data.timestamp ? new Date(data.timestamp.toMillis()).toLocaleString() : 'N/A'}</p>
                     `;
                     messagesContainer.appendChild(messageItem);
+                    delay += 0.1;
                 });
             } catch (error) {
                 console.error('Error loading messages:', error);
@@ -1090,7 +1032,7 @@
                 email_label: "Email",
                 message_label: "Message",
                 submit_button: "Send Message",
-                footer: "© 2025 WKW-Automotive. All rights reserved.",
+                footer: "© 2025 Automotive. All rights reserved.",
                 message_received_title: "Message Received",
                 message_recu_title: "Received Messages",
                 back_button: "Back to Form",
@@ -1255,14 +1197,12 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                console.log('DOM fully loaded, initializing...');
                 const languageSelect = document.getElementById('language');
                 const contactForm = document.getElementById('contact-form');
                 const backButton = document.getElementById('back-to-form');
                 const loginForm = document.getElementById('admin-login-form');
                 const logoutButton = document.getElementById('logout-button');
 
-                if (!languageSelect) console.error('Language select element not found');
                 languageSelect.addEventListener('change', changeLanguage);
                 if (contactForm) {
                     contactForm.addEventListener('submit', async e => {
@@ -1329,6 +1269,7 @@
                 initToggles();
                 initMonthToggles();
                 changeLanguage();
+                animateResourceLinks();
             } catch (e) {
                 console.error('Initialization error:', e);
             }
