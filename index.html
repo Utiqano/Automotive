@@ -165,7 +165,7 @@
         .section-toggle::before {
             content: '';
             position: absolute;
-            inset: -2px;
+            insetEnd: -2px;
             background: var(--gradient-border);
             z-index: -1;
         }
@@ -243,7 +243,7 @@
         .month-toggle::before {
             content: '';
             position: absolute;
-            inset: -2px;
+            insetEnd: -2px;
             background: var(--gradient-border);
             z-index: -1;
         }
@@ -593,6 +593,7 @@
         noscript {
             .percentage-circle { display: none; }
             .percentage { position: static; font-size: 1rem; }
+            .percentage::before { content: attr(data-value) '%'; }
         }
     </style>
 </head>
@@ -614,12 +615,12 @@
         <div class="section-toggle" data-target="performance-content" data-lang="performance-title" role="button" aria-expanded="false" aria-controls="performance-content">Performance</div>
         <div id="performance-content" class="section-content">
             <div class="performance-data">
-                <p><strong data-lang="audit-gemba-uap1">Audit Gemba UAP 1:</strong> <span class="percentage-container" aria-label="Audit Gemba UAP 1: 88%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="88" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="84">0% Compliance</span><span class="sparkles"></span></span> <span data-lang="date">May 27, 2025</span></p>
-                <p><strong data-lang="audit-gemba-uap2">Audit Gemba UAP 2:</strong> <span class="percentage-container" aria-label="Audit Gemba UAP 2: 85%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="85" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="80">0% Compliance</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-5s-uap1">Audit 5S UAP 1:</strong> <span class="percentage-container" aria-label="Audit 5S UAP 1: 90%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="90" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="79">0% Score</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-5s-uap2">Audit 5S UAP 2:</strong> <span class="percentage-container" aria-label="Audit 5S UAP 2: 87%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="87" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="72">0% Score</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-gemba-logistique">Audit Gemba Logistique:</strong> <span class="percentage-container" aria-label="Audit Gemba Logistique: 92%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="92" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="100">0% Efficiency</span><span class="sparkles"></span></span></p>
-                <p><strong data-lang="audit-5s-logistique">Audit 5S Logistique:</strong> <span class="percentage-container" aria-label="Audit 5S Logistique: 89%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="89" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="86">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-gemba-uap1">Audit Gemba UAP 1:</strong> <span class="percentage-container" aria-label="Audit Gemba UAP 1: 88%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="88" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="88">0% Compliance</span><span class="sparkles"></span></span> <span data-lang="date">May 27, 2025</span></p>
+                <p><strong data-lang="audit-gemba-uap2">Audit Gemba UAP 2:</strong> <span class="percentage-container" aria-label="Audit Gemba UAP 2: 85%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="85" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="85">0% Compliance</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-uap1">Audit 5S UAP 1:</strong> <span class="percentage-container" aria-label="Audit 5S UAP 1: 90%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="90" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-uap2">Audit 5S UAP 2:</strong> <span class="percentage-container" aria-label="Audit 5S UAP 2: 87%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="87" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="87">0% Score</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-gemba-logistique">Audit Gemba Logistique:</strong> <span class="percentage-container" aria-label="Audit Gemba Logistique: 92%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="92" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="92">0% Efficiency</span><span class="sparkles"></span></span></p>
+                <p><strong data-lang="audit-5s-logistique">Audit 5S Logistique:</strong> <span class="percentage-container" aria-label="Audit 5S Logistique: 89%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="89" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="89">0% Score</span><span class="sparkles"></span></span></p>
             </div>
         </div>
 
@@ -652,32 +653,32 @@
             <div id="month-results">
                 <div id="january-results" class="month-content" data-month="january">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 60%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="60" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="78">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 80%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="80" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="88">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 60%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="60" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="60">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 80%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="80" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="80">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="february-results" class="month-content" data-month="february">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 30%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="30" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="71">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 60%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="60" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="75">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 30%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="30" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="30">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 60%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="60" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="60">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="march-results" class="month-content" data-month="march">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 90%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="90" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="79">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="78">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 90%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="90" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="90">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="50">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="april-results" class="month-content" data-month="april">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 65%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress orange" data-value="65" cx="50" cy="50" r="40"></circle></svg><span class="percentage orange" data-value="76">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="92">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 65%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="65" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="65">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="50">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
                 <div id="may-results" class="month-content" data-month="may">
                     <div class="performance-data">
-                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 92%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress green" data-value="92" cx="50" cy="50" r="40"></circle></svg><span class="percentage green" data-value="79">0% Score</span><span class="sparkles"></span></span></p>
-                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress red" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage red" data-value="88">0%</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-5s-usine">Taux Audit 5S Usine:</strong> <span class="percentage-container" aria-label="Audit 5S: 92%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="92" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="92">0% Score</span><span class="sparkles"></span></span></p>
+                        <p><strong data-lang="taux-audit-gemba-usine">Taux Audit Gemba Usine:</strong> <span class="percentage-container" aria-label="Audit Gemba: 50%"><svg class="percentage-circle" viewBox="0 0 100 100"><circle class="base" cx="50" cy="50" r="40"></circle><circle class="progress" data-value="50" cx="50" cy="50" r="40"></circle></svg><span class="percentage" data-value="50">0%</span><span class="sparkles"></span></span></p>
                     </div>
                 </div>
             </div>
@@ -745,6 +746,7 @@
         <style>
             .percentage-circle { display: none; }
             .percentage { position: static; font-size: 1rem; }
+            .percentage::before { content: attr(data-value) '%'; }
         </style>
     </noscript>
 
@@ -896,6 +898,22 @@
                 let startTime = null;
                 const duration = 1500;
 
+                // Determine color based on percentage
+                let colorClass;
+                if (target >= 85) {
+                    colorClass = 'green';
+                } else if (target >= 75) {
+                    colorClass = 'orange';
+                } else {
+                    colorClass = 'red';
+                }
+
+                // Remove existing color classes and add the correct one
+                p.classList.remove('red', 'orange', 'green');
+                p.classList.add(colorClass);
+                circle.classList.remove('red', 'orange', 'green');
+                circle.classList.add(colorClass);
+
                 function update(timestamp) {
                     if (!startTime) startTime = timestamp;
                     const elapsed = timestamp - startTime;
@@ -1046,7 +1064,7 @@
                 audit_gemba: "Audit Gemba",
                 audit_5s: "Audit 5S",
                 audit_logistique: "Audit Logistique",
-                audit_mur质ite: "Audit Mur Qualité",
+                audit_mur_qualite: "Audit Mur Qualité",
                 game_5s: "Game 5S",
                 proposition_amelioration: "Improvement Proposition",
                 planning_5s: "Planning 5S",
@@ -1182,7 +1200,7 @@
                 audit_gemba_uap2: "Audit Gemba UAP 2",
                 audit_5s_uap1: "Audit 5S UAP 1",
                 audit_5s_uap2: "Audit 5S UAP 2",
-                audit_gemba_logistique: "Audit G |emba Logistik",
+                audit_gemba_logistique: "Audit Gemba Logistik",
                 audit_5s_logistique: "Audit 5S Logistik",
                 date: "27. Mai 2025",
                 resource_title: "Ressourcen",
