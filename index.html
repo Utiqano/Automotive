@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Automotive homepage with performance audit results, resource links, and contact sections.">
+    <meta name="description" content="Automotive homepage with performance audit results, resource links, monthly results histogram, and contact sections.">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="keywords" content="automotive, audit, 5S, Gemba, Monsueal, histogram">
+    <meta name="author" content="WKW-Automotive">
     <title>Automotive Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --primary-red: #b22222;
             --secondary-gray: #333333;
-            --light-gray: #d3d3d3;
-            --accent-gray: #696969;
+            --light-gray: #f5f5f5;
             --white: #ffffff;
-            --shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            --shadow-neumorphic: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.5);
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
             --transition: all 0.3s ease-in-out;
             --score-red: #e74c3c;
             --score-orange: #f39c12;
             --score-green: #2ecc71;
-            --gradient-border: linear-gradient(45deg, var(--primary-red), var(--secondary-gray));
-            --metallic-bg: linear-gradient(135deg, #2a2a2a, #4a4a4a);
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-blur: blur(10px);
-            --glow: 0 0 15px rgba(178, 34, 34, 0.5);
-            --circle-size: clamp(3.5rem, 8vw, 4.5rem);
-            --glow-color: rgba(255, 255, 255, 0.5);
+            --circle-size: clamp(3.5rem, 8vw, 4rem);
+            --glow-color: rgba(178, 34, 34, 0.3);
+            --border-radius: 6px;
+            --font-primary: 'Inter', 'Arial', sans-serif, 'Noto Sans Arabic';
         }
 
         * {
@@ -35,10 +34,10 @@
         }
 
         body {
-            font-family: 'Roboto', 'Arial', sans-serif, 'Noto Sans Arabic';
-            line-height: 1.7;
+            font-family: var(--font-primary);
+            line-height: 1.6;
             color: var(--secondary-gray);
-            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            background: var(--white);
             overflow-x: hidden;
         }
 
@@ -48,50 +47,37 @@
         }
 
         header {
-            background: var(--metallic-bg);
-            color: var(--white);
+            background: var(--white);
+            color: var(--secondary-gray);
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 2rem 1rem;
             box-shadow: var(--shadow);
+            border-bottom: 3px solid var(--primary-red);
             position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            border-bottom: 2px solid var(--primary-red);
         }
 
         header h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: zoomIn 1.2s ease-out;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
         header img {
-            max-width: 150px;
+            max-width: 120px;
             height: auto;
-            border-radius: 8px;
-            box-shadow: var(--shadow-neumorphic);
-            animation: rotateIn 1.5s ease-out;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
             transition: var(--transition);
         }
 
         header img:hover {
-            transform: scale(1.1);
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: shine 5s infinite;
+            transform: scale(1.05);
+            box-shadow: var(--shadow-hover);
         }
 
         .language-selector {
@@ -107,77 +93,64 @@
         }
 
         .language-selector select {
-            padding: 0.5rem;
-            border: none;
-            border-radius: 4px;
-            background: var(--primary-red);
-            color: var(--white);
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            background: var(--white);
+            color: var(--secondary-gray);
             font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: var(--shadow);
         }
 
         .language-selector select:hover {
-            background: var(--secondary-gray);
-            transform: scale(1.05);
+            background: var(--light-gray);
+            border-color: var(--secondary-gray);
         }
 
         main {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 2rem 1rem;
         }
 
         footer {
-            background: var(--secondary-gray);
-            color: var(--white);
+            background: var(--white);
+            color: var(--secondary-gray);
             text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
+            padding: 1rem;
+            border-top: 3px solid var(--primary-red);
             box-shadow: var(--shadow);
-            animation: fadeInUp 1s ease-out;
-            border-top: 2px solid var(--primary-red);
         }
 
         .section-toggle {
             cursor: pointer;
             background: var(--white);
             color: var(--primary-red);
-            padding: 1.5rem;
-            margin-bottom: 0.75rem;
-            border-radius: 8px;
-            font-size: 2.2rem;
-            font-weight: bold;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            font-size: 1.8rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
             transition: var(--transition);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow-neumorphic);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid transparent;
-            background-clip: padding-box;
-        }
-
-        .section-toggle::before {
-            content: '';
-            position: absolute;
-            insetEnd: -2px;
-            background: var(--gradient-border);
-            z-index: -1;
+            box-shadow: var(--shadow);
         }
 
         .section-toggle:hover {
-            transform: translateY(-4px);
-            color: var(--secondary-gray);
+            background: var(--light-gray);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
         }
 
         .section-toggle::after {
             content: '▼';
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: var(--transition);
         }
 
@@ -185,110 +158,97 @@
             transform: rotate(180deg);
         }
 
-        .section-toggle:hover::after {
-            animation: bounce 0.5s;
-        }
-
         .section-content {
             max-height: 0;
             opacity: 0;
             background: var(--white);
-            padding: 0 2rem;
-            border-radius: 8px;
-            box-shadow: var(--shadow-neumorphic);
-            margin-bottom: 1.5rem;
+            padding: 0 1.5rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
             overflow: hidden;
-            transition: max-height 0.6s ease-out, opacity 0.6s ease-out, padding 0.6s ease-out;
-            border-left: 4px solid var(--primary-red);
-        }
-
-        [lang="ar"] .section-content {
-            border-left: none;
-            border-right: 4px solid var(--primary-red);
+            transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding 0.4s ease-out;
         }
 
         .section-content.active {
-            max-height: 1500px;
+            max-height: 2000px;
             opacity: 1;
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .month-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
         }
 
         .month-toggle {
             cursor: pointer;
             background: var(--white);
             color: var(--primary-red);
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            padding: 0.75rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
             text-transform: uppercase;
             transition: var(--transition);
-            box-shadow: var(--shadow-neumorphic);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid transparent;
-            background-clip: padding-box;
+            box-shadow: var(--shadow);
             flex: 1 1 auto;
-            min-width: 120px;
+            min-width: 100px;
             text-align: center;
         }
 
-        .month-toggle::before {
-            content: '';
-            position: absolute;
-            insetEnd: -2px;
-            background: var(--gradient-border);
-            z-index: -1;
-        }
-
         .month-toggle:hover {
-            transform: translateY(-4px);
-            color: var(--secondary-gray);
+            background: var(--light-gray);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
         }
 
         .month-toggle.active {
             background: var(--primary-red);
             color: var(--white);
+            box-shadow: var(--shadow);
         }
 
         .month-content {
             max-height: 0;
             opacity: 0;
             overflow: hidden;
-            transition: max-height 0.6s ease-out, opacity 0.6s ease-out;
+            transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
         }
 
         .month-content.active {
-            max-height: 500px;
+            max-height: 1000px;
             opacity: 1;
         }
 
         .performance-data {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
         }
 
         .performance-data p {
-            background: #d3d3d3;
-            padding: 1.5rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            background: var(--white);
+            padding: 1rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-neumorphic);
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+        }
+
+        .performance-data p:hover {
+            background: var(--light-gray);
+            box-shadow: var(--shadow-hover);
         }
 
         .percentage-container {
@@ -298,10 +258,11 @@
             justify-content: center;
             width: var(--circle-size);
             height: var(--circle-size);
-            margin: 0.8rem 0;
-            background: radial-gradient(circle, var(--white) 60%, transparent);
+            margin: 0.5rem 0;
+            background: var(--white);
+            border: 2px solid var(--primary-red);
             border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
         }
 
         .percentage-circle {
@@ -312,7 +273,7 @@
 
         .percentage-circle circle {
             fill: none;
-            stroke-width: clamp(5, 1vw, 6);
+            stroke-width: 5;
             stroke-linecap: round;
             cx: 50;
             cy: 50;
@@ -320,7 +281,7 @@
         }
 
         .percentage-circle .base {
-            stroke: #e0e0e0;
+            stroke: var(--light-gray);
         }
 
         .percentage-circle .progress.red { stroke: var(--score-red); }
@@ -329,8 +290,8 @@
 
         .percentage {
             position: absolute;
-            font-weight: 700;
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 600;
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
             z-index: 2;
             color: var(--score-red);
         }
@@ -356,37 +317,57 @@
             background: radial-gradient(circle, var(--glow-color) 40%, transparent);
             border-radius: 50%;
             opacity: 0;
-            animation: sparkle 0.6s ease-out forwards;
+            animation: sparkle 0.5s ease-out forwards;
         }
 
         .resource-links {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
             padding: 1rem 0;
         }
 
         .resource-link {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-neumorphic);
+            background: var(--white);
+            padding: 1.5rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             text-align: center;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            position: relative;
+            transition: var(--transition);
         }
 
         .resource-link:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 10px var(--glow-color);
+            background: var(--light-gray);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
         }
 
         .resource-link a {
             color: var(--primary-red);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.4rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .resource-link a:hover {
+            color: var(--secondary-gray);
+        }
+
+        .chart-container {
+            background: var(--white);
+            padding: 1.5rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: 1rem;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        #audit-chart {
+            max-height: 400px;
         }
 
         .sparkle-effect {
@@ -401,17 +382,17 @@
 
         @keyframes sparkle {
             0% {
-                opacity: 0.8;
+                opacity: 0.7;
                 transform: scale(0.3) translate(var(--tx), var(--ty));
             }
             100% {
                 opacity: 0;
-                transform: scale(1.2) translate(var(--tx), var(--ty));
+                transform: scale(1) translate(var(--tx), var(--ty));
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .resource-link {
+            .resource-link, .section-toggle, .month-toggle, .performance-data p {
                 transition: none;
             }
             .sparkle {
@@ -421,15 +402,16 @@
 
         .form-group {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
             position: absolute;
-            top: 1rem;
+            top: 0.8rem;
             left: 1rem;
-            color: var(--accent-gray);
-            font-size: 1rem;
+            color: var(--secondary-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
             transition: var(--transition);
             pointer-events: none;
         }
@@ -442,27 +424,32 @@
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 1rem;
-            border: none;
-            border-bottom: 3px solid var(--light-gray);
-            border-radius: 4px 4px 0 0;
+            padding: 0.8rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
             background: var(--white);
             font-size: 1rem;
+            font-weight: 400;
+            transition: var(--transition);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
-            border-bottom-color: var(--primary-red);
+            border-color: var(--secondary-gray);
+            box-shadow: var(--shadow);
+            outline: none;
         }
 
         .form-group input:focus + label,
         .form-group textarea:focus + label,
         .form-group input:not(:placeholder-shown) + label,
         .form-group textarea:not(:placeholder-shown) + label {
-            top: -0.5rem;
+            top: -0.6rem;
             left: 0.5rem;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary-red);
+            background: var(--white);
+            padding: 0 0.2rem;
         }
 
         [lang="ar"] .form-group input:focus + label,
@@ -476,26 +463,28 @@
         button {
             background: var(--primary-red);
             color: var(--white);
-            padding: 1rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
         }
 
         button:hover {
-            background: var(--secondary-gray);
-            transform: scale(1.05);
+            background: var(--white);
+            color: var(--primary-red);
+            box-shadow: var(--shadow-hover);
         }
 
         .message-received {
             background: var(--white);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: var(--shadow-neumorphic);
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary-red);
+            padding: 1.5rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
             display: none;
         }
 
@@ -505,11 +494,11 @@
 
         .login-form {
             display: none;
-            padding: 2rem;
+            padding: 1.5rem;
             background: var(--white);
-            border-radius: 8px;
-            box-shadow: var(--shadow-neumorphic);
-            border-left: 4px solid var(--primary-red);
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
 
         .login-form.active {
@@ -518,75 +507,63 @@
 
         .message-list {
             margin-top: 1rem;
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
             padding: 1rem;
-            border-radius: 8px;
-            background: var(--light-gray);
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            background: var(--white);
+            box-shadow: var(--shadow);
         }
 
         .message-item {
             background: var(--white);
             padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            border: 2px solid var(--primary-red);
+            border-radius: var(--border-radius);
+            margin-bottom: 0.75rem;
             box-shadow: var(--shadow);
         }
 
-        @keyframes zoomIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes rotateIn {
-            from { opacity: 0; transform: rotate(-10deg); }
-            to { opacity: 1; transform: rotate(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes shine {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        .section-toggle, .month-toggle, .performance-data p, .resource-link, .chart-container {
+            animation: fadeIn 0.5s ease-out;
         }
 
         @media (max-width: 768px) {
-            header h1 { font-size: 1.8rem; }
+            header h1 { font-size: 2rem; }
             header img { max-width: 100px; }
-            .section-toggle { font-size: 1.5rem; padding: 1rem; }
-            .section-content.active { padding: 1.5rem; }
-            .month-toggle { font-size: 1rem; padding: 0.8rem; min-width: 100px; }
+            .section-toggle { font-size: 1.5rem; padding: 0.8rem; }
+            .section-content.active { padding: 1rem; }
+            .month-toggle { font-size: 0.9rem; padding: 0.6rem; min-width: 90px; }
             .percentage-container {
-                width: clamp(3rem, 7vw, 3.8rem);
-                height: clamp(3rem, 7vw, 3.8rem);
-                margin: 0.5rem 0;
+                width: clamp(3rem, 7vw, 3.5rem);
+                height: clamp(3rem, 7vw, 3.5rem);
             }
             .percentage-circle circle {
                 stroke-width: 4;
             }
             .percentage {
-                font-size: clamp(0.8rem, 2vw, 0.95rem);
+                font-size: clamp(0.8rem, 2vw, 0.9rem);
+            }
+            .chart-container {
+                padding: 1rem;
             }
         }
 
         @media (max-width: 480px) {
             .month-list { flex-direction: column; }
-            .month-toggle { font-size: 0.9rem; padding: 0.6rem; }
+            .month-toggle { font-size: 0.85rem; padding: 0.5rem; }
             .percentage-container {
-                width: clamp(2.5rem, 6vw, 3.2rem);
-                height: clamp(2.5rem, 6vw, 3.2rem);
+                width: clamp(2.5rem, 6vw, 3rem);
+                height: clamp(2.5rem, 6vw, 3rem);
             }
             .percentage {
-                font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+                font-size: clamp(0.7rem, 1.8vw, 0.8rem);
             }
         }
 
@@ -637,6 +614,10 @@
                 <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%205S.xlsx" target="_blank" rel="noopener" data-lang="planning-5s">Planning 5S</a><span class="sparkle-effect"></span></div>
                 <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/Planning%20Gemba.xlsx" target="_blank" rel="noopener" data-lang="planning-gemba">Planning Gemba</a><span class="sparkle-effect"></span></div>
                 <div class="resource-link"><a href="https://wkwgroup-my.sharepoint.com/:x:/r/personal/houssine_trabelsi_wkw-group_com/Documents/App%20PDF/suivi%20mensuel%20Gemba%20et%205S.xlsx" target="_blank" rel="noopener" data-lang="suivi-mensuel-gemba-5s">Suivi Mensuel Gemba et 5S</a><span class="sparkle-effect"></span></div>
+            </div>
+            <div class="chart-container">
+                <h2 data-lang="monthly-audit-chart-title">Monthly Audit Results</h2>
+                <canvas id="audit-chart"></canvas>
             </div>
         </div>
 
@@ -812,6 +793,8 @@
                 toggle.setAttribute('aria-expanded', 'true');
                 if (targetId === 'performance-content' || targetId === 'results-content') {
                     animatePercentages(targetContent);
+                } else if (targetId === 'resource-content') {
+                    updateChart();
                 }
             }
         }
@@ -898,7 +881,6 @@
                 let startTime = null;
                 const duration = 1500;
 
-                // Determine color based on percentage
                 let colorClass;
                 if (target >= 85) {
                     colorClass = 'green';
@@ -908,7 +890,6 @@
                     colorClass = 'red';
                 }
 
-                // Remove existing color classes and add the correct one
                 p.classList.remove('red', 'orange', 'green');
                 p.classList.add(colorClass);
                 circle.classList.remove('red', 'orange', 'green');
@@ -1010,6 +991,139 @@
                 const label = key === 'taux_audit_5s_usine' ? translations[lang].score_label : '';
                 p.textContent = `${p.getAttribute('data-value')}% ${label}`;
             });
+            updateChart(); // Update chart labels on language change
+        }
+
+        function getColor(value) {
+            if (value >= 85) return '#2ecc71'; // green
+            if (value >= 75) return '#f39c12'; // orange
+            return '#e74c3c'; // red
+        }
+
+        let auditChart = null;
+
+        function updateChart() {
+            const canvas = document.getElementById('audit-chart');
+            if (!canvas) {
+                console.error('Canvas #audit-chart not found');
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            const lang = document.getElementById('language').value;
+            const months = ['january', 'february', 'march', 'april', 'may'];
+            const audit5sData = [];
+            const auditGembaData = [];
+            const backgroundColors5s = [];
+            const backgroundColorsGemba = [];
+
+            months.forEach(month => {
+                const monthContent = document.getElementById(`${month}-results`);
+                if (monthContent) {
+                    const percentages = monthContent.querySelectorAll('.percentage');
+                    percentages.forEach(p => {
+                        const value = parseInt(p.getAttribute('data-value')) || 0;
+                        const key = p.closest('p').querySelector('strong').getAttribute('data-lang');
+                        if (key === 'taux-audit-5s-usine') {
+                            audit5sData.push(value);
+                            backgroundColors5s.push(getColor(value));
+                        } else if (key === 'taux-audit-gemba-usine') {
+                            auditGembaData.push(value);
+                            backgroundColorsGemba.push(getColor(value));
+                        }
+                    });
+                }
+            });
+
+            if (auditChart) {
+                auditChart.destroy();
+            }
+
+            auditChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months.map(month => translations[lang][`month_${month}`] || month),
+                    datasets: [
+                        {
+                            label: translations[lang].taux_audit_5s_usine || 'Audit 5S Usine',
+                            data: audit5sData,
+                            backgroundColor: backgroundColors5s,
+                            borderColor: '#b22222',
+                            borderWidth: 2
+                        },
+                        {
+                            label: translations[lang].taux_audit_gemba_usine || 'Audit Gemba Usine',
+                            data: auditGembaData,
+                            backgroundColor: backgroundColorsGemba,
+                            borderColor: '#b22222',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: "'Inter', 'Arial', sans-serif",
+                                    size: 14
+                                },
+                                color: '#333333'
+                            }
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: translations[lang].month_label || 'Month',
+                                font: {
+                                    family: "'Inter', 'Arial', sans-serif",
+                                    size: 16,
+                                    weight: '600'
+                                },
+                                color: '#333333'
+                            },
+                            ticks: {
+                                font: {
+                                    family: "'Inter', 'Arial', sans-serif",
+                                    size: 12
+                                },
+                                color: '#333333'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: translations[lang].percentage_label || 'Percentage (%)',
+                                font: {
+                                    family: "'Inter', 'Arial', sans-serif",
+                                    size: 16,
+                                    weight: '600'
+                                },
+                                color: '#333333'
+                            },
+                            ticks: {
+                                font: {
+                                    family: "'Inter', 'Arial', sans-serif",
+                                    size: 12
+                                },
+                                color: '#333333'
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         async function loadMessages() {
@@ -1070,10 +1184,13 @@
                 planning_5s: "Planning 5S",
                 planning_gemba: "Planning Gemba",
                 suivi_mensuel_gemba_5s: "Monthly Gemba and 5S Follow-up",
+                monthly_audit_chart_title: "Monthly Audit Results",
                 results_title: "Results Monsueal",
                 results_desc: "Select a month to view Monsueal audit results:",
                 taux_audit_5s_usine: "Taux Audit 5S Usine",
                 taux_audit_gemba_usine: "Taux Audit Gemba Usine",
+                month_label: "Month",
+                percentage_label: "Percentage (%)",
                 contact_title: "Contact Us",
                 contact_desc: "Reach out to our team for inquiries or support with Automotive solutions.",
                 name_label: "Name",
@@ -1118,10 +1235,13 @@
                 planning_5s: "تخطيط 5S",
                 planning_gemba: "تخطيط جمبا",
                 suivi_mensuel_gemba_5s: "المتابعة الشهرية لجمبا و5S",
+                monthly_audit_chart_title: "نتائج التدقيق الشهرية",
                 results_title: "نتائج مونسويل",
                 results_desc: "اختر شهرًا لعرض نتائج تدقيق مونسويل:",
                 taux_audit_5s_usine: "نسبة تدقيق 5S المصنع",
                 taux_audit_gemba_usine: "نسبة تدقيق جمبا المصنع",
+                month_label: "الشهر",
+                percentage_label: "النسبة المئوية (%)",
                 contact_title: "اتصل بنا",
                 contact_desc: "تواصل مع فريقنا للاستفسارات أو الدعم مع حلول مونسويل للسيارات.",
                 name_label: "الاسم",
@@ -1166,10 +1286,13 @@
                 planning_5s: "Planification 5S",
                 planning_gemba: "Planification Gemba",
                 suivi_mensuel_gemba_5s: "Suivi Mensuel Gemba et 5S",
+                monthly_audit_chart_title: "Résultats d'Audit Mensuels",
                 results_title: "Résultats Monsueal",
                 results_desc: "Sélectionnez un mois pour voir les résultats d'audit Monsueal :",
                 taux_audit_5s_usine: "Taux Audit 5S Usine",
                 taux_audit_gemba_usine: "Taux Audit Gemba Usine",
+                month_label: "Mois",
+                percentage_label: "Pourcentage (%)",
                 contact_title: "Contactez-nous",
                 contact_desc: "Contactez notre équipe pour des questions ou un soutien avec les solutions Monsueal Automobile.",
                 name_label: "Nom",
@@ -1214,10 +1337,13 @@
                 planning_5s: "Planung 5S",
                 planning_gemba: "Planung Gemba",
                 suivi_mensuel_gemba_5s: "Monatliche Gemba- und 5S-Nachverfolgung",
+                monthly_audit_chart_title: "Monatliche Audit-Ergebnisse",
                 results_title: "Ergebnisse Monsueal",
                 results_desc: "Wählen Sie einen Monat, um die Audit-Ergebnisse von Monsueal anzuzeigen:",
                 taux_audit_5s_usine: "Quote Audit 5S Werk",
                 taux_audit_gemba_usine: "Quote Audit Gemba Werk",
+                month_label: "Monat",
+                percentage_label: "Prozentsatz (%)",
                 contact_title: "Kontaktieren Sie uns",
                 contact_desc: "Kontaktieren Sie unser Team für Anfragen oder Unterstützung mit Automotive-Lösungen.",
                 name_label: "Name",
@@ -1318,6 +1444,7 @@
                 initMonthToggles();
                 changeLanguage();
                 animateResourceLinks();
+                updateChart();
             } catch (e) {
                 console.error('Initialization error:', e);
             }
